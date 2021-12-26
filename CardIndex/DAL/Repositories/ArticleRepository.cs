@@ -61,7 +61,9 @@ namespace DAL.Respositories
 
         public Article Update(Article item)
         {
-            _articles.Update(item);
+            var res = _articles.Find(item.Id);
+            res.Title = item.Title;
+            res.Body = item.Body;
             _cardDbContext.SaveChanges();
             return item;
         }

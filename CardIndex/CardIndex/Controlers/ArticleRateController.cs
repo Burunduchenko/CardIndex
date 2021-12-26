@@ -26,23 +26,7 @@ namespace CardIndex.Controlers
             return Ok(_articleRateService.GetAllWithDetails());
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ArticleRateModel>> GetById(int id)
-        {
-            try
-            {
-                var articleRateModel = await _articleRateService.GetByIdAsync(id);
-                return Ok(articleRateModel);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
 
-
-        // POST api/<ArticleController>
-        ///
         [HttpPost]
         public async Task<ActionResult<ArticleRateModel>> Add([FromBody] ArticleRateModel articleModel)
         {
@@ -62,32 +46,12 @@ namespace CardIndex.Controlers
 
         }
 
-        // PUT api/<ArticleController>/5
-        [HttpPut]
-        public ActionResult<ArticleRateModel> Update([FromBody] ArticleRateModel value)
-        {
-            try
-            {
-                var result = _articleRateService.Update(value);
-                return Ok(result);
-            }
-            catch (InvalidArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
-
-        // DELETE api/<ArticleController>/5
         [HttpDelete("{id}")]
-        public ActionResult DeleteById(int id)
+        public async Task<ActionResult> DeleteById(int id)
         {
             try
             {
-                _articleRateService.Delete(id);
+                await _articleRateService.Delete(id);
                 return Ok();
 
             }

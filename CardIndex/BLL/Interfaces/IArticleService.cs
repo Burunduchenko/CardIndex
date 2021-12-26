@@ -12,7 +12,8 @@ namespace BLL.Interfaces
     {
         IEnumerable<ArticleModel> GetByTheme(string theme);
         IEnumerable<ArticleModel> GetByName(string name);
-        double GetAvgRate(string name);
+        IEnumerable<ArticleModel> GetByLength(int length);
+        IEnumerable<ArticleModel> GetByRangeOfRate(double max, double min);
 
     }
 }

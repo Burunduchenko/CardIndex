@@ -31,13 +31,7 @@ namespace CardIndex
                 .Build();
             Log.Logger = new LoggerConfiguration()
             .ReadFrom.Configuration(config)
-            //.Enrich.FromLogContext()
-            //.WriteTo.Console()
-            //.MinimumLevel.Information() // Default
-            //.WriteTo.File("logs_.txt",
-            //  rollingInterval: RollingInterval.Minute, // Default - Infinite
-            //  fileSizeLimitBytes: null, // Default - 1 GB
-            //  retainedFileCountLimit: null) // max amount of files in directory
+
             .CreateLogger();
             Configuration = configuration;
         }
@@ -63,14 +57,14 @@ namespace CardIndex
             services.AddScoped<IRepository<Theme>, ThemeRepository>();
             services.AddScoped<IRepository<User>, UserRepository>();
             services.AddScoped<IRepository<Article>, ArticleRepository>();
-            services.AddScoped<IRepository<ArticleRate>, ArticleRateRepository>();
+            services.AddScoped<IBaseRepository<ArticleRate>, ArticleRateRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<IService<UserModel>, UserService>();
             services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<IService<ThemeModel>, ThemeService>();
-            services.AddScoped<IService<ArticleRateModel>, ArticleRateService>();
+            services.AddScoped<IBaseService<ArticleRateModel>, ArticleRateService>();
 
 
             services.AddDbContext<ICardContext, CardDbContext>(options =>
@@ -83,7 +77,10 @@ namespace CardIndex
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

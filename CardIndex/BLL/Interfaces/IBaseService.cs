@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAL.Entities;
 
 namespace BLL.Interfaces
 {
-    public interface IService<T> : IBaseService<T> 
+    public interface IBaseService <T>
     {
-        Task<T> GetByIdWithDetailsAsync(int id);
-        Task<T> Update(T item);
-
+        Task<T> AddAsync(T item);
+        Task Delete(int id);
+        IEnumerable<T> GetAllWithDetails();
     }
 }
-

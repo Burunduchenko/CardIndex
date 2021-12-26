@@ -13,7 +13,6 @@ namespace DAL.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required(ErrorMessage = "You cant't create Theme without name")]
         public string Name { get; set; }
 
 

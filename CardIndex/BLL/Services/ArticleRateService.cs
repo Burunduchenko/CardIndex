@@ -13,7 +13,7 @@ using BLL.Exceptions;
 
 namespace BLL.Services
 {
-    public class ArticleRateService : IService<ArticleRateModel>
+    public class ArticleRateService : IBaseService<ArticleRateModel>
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -51,18 +51,13 @@ namespace BLL.Services
             return item;
         }
 
-        public async void Delete(int id)
+        public async Task Delete(int id)
         {
-            if (await _unitOfWork.ArticleRateRepo.GetByIdAsync(id) == null)
+            if (await _unitOfWork.ArticleRateRepo.GetByIdWithDetaileAsync(id) == null)
             {
                 throw new NotFoundException();
             }
             _unitOfWork.ArticleRateRepo.DeleteById(id);
-        }
-
-        public IEnumerable<ArticleRateModel> GetAll()
-        {
-            return _unitOfWork.ArticleRateRepo.GetAll().Select(x => _mapper.Map<ArticleRateModel>(x));
         }
 
         public IEnumerable<ArticleRateModel> GetAllWithDetails()
@@ -70,48 +65,6 @@ namespace BLL.Services
             return _unitOfWork.ArticleRateRepo.GetAllWithDetails().Select(x => _mapper.Map<ArticleRateModel>(x));
         }
 
-        public async Task<ArticleRateModel> GetByIdAsync(int id)
-        {
-            var result = _mapper.Map<ArticleRateModel>(await _unitOfWork.ArticleRateRepo.GetByIdAsync(id));
-            if (result == null)
-            {
-                throw new NotFoundException();
-            }
-            return result;
-        }
 
-        public async Task<ArticleRateModel> GetByIdWithDetailsAsync(int id)
-        {
-            var result = _mapper.Map<ArticleRateModel>(await _unitOfWork.ArticleRateRepo.GetByIdWithDetaileAsync(id));
-            if (result == null)
-            {
-                throw new NotFoundException();
-            }
-            return result;
-        }
-
-        public async Task<ArticleRateModel> Update(ArticleRateModel item)
-        {
-            if (item.Rate < 0)
-            {
-                item.Rate = 0;
-            }
-            else if (item.Rate > 10)
-            {
-                item.Rate = 10;
-            }
-
-            if (
-                await _unitOfWork.ArticleRepo.GetByIdAsync(item.ArticleId) == null ||
-                await _unitOfWork.UserRepo.GetByIdAsync(item.UserId) == null)
-            {
-                throw new InvalidArgumentException();
-            }
-
-            var mappedItem = _mapper.Map<ArticleRate>(item);
-            var resultesItem = _mapper.Map<ArticleRateModel>(_unitOfWork.ArticleRateRepo.Update(mappedItem));
-            return resultesItem;
-
-        }
     }
 }

@@ -15,7 +15,7 @@ namespace DAL
         private IRepository<Article> _ArticleRepo;
         private IRepository<Theme> _ThemeRepo;
         private IRepository<User> _UserRepo;
-        private IRepository<ArticleRate> _ArticleRateRepo;
+        private IBaseRepository<ArticleRate> _ArticleRateRepo;
         public UnitOfWork(ICardContext cardDbContext)
         {
             _cardDbContext = cardDbContext;
@@ -48,7 +48,7 @@ namespace DAL
                 return _UserRepo;
             }
         }
-        public IRepository<ArticleRate> ArticleRateRepo
+        public IBaseRepository<ArticleRate> ArticleRateRepo
         {
             get
             {

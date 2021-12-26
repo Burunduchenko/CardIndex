@@ -13,11 +13,15 @@ namespace BLL
             CreateMap<Article, ArticleModel>()
                 .ForMember(p => p.ThemeId, c => c.MapFrom(card => card.ThemeId))
                 .ForMember(p => p.ArticleRatesIds, c => c.MapFrom(card => card.ArticleRates.Select(x => x.Id)))
+                .ForMember(p => p.AvgRate, c => c.MapFrom(card => card.ArticleRates.Select(x => x.Rate).Average()))
                 .ReverseMap();
+                
 
             CreateMap<ArticleRate, ArticleRateModel>().ReverseMap();
 
-            CreateMap<User, UserModel>().ReverseMap();
+            CreateMap<User, UserModel>()
+                .ForMember(p=>p.ArticleRatesIds, c=>c.MapFrom(user => user.ArticleRates.Select(x=>x.Id)))
+                .ReverseMap();
 
             CreateMap<Theme, ThemeModel>().ReverseMap();
         }

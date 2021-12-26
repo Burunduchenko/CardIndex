@@ -34,18 +34,13 @@ namespace BLL.Services
             return item;
         }
 
-        public async void Delete(int id)
+        public async Task Delete(int id)
         {
-            //if (await _unitOfWork.ThemeRepo.GetByIdAsync(id) == null)
-            //{
-            //    throw new NotFoundException();
-            //}
+            if (await _unitOfWork.ThemeRepo.GetByIdAsync(id) == null)
+            {
+                throw new NotFoundException();
+            }
             _unitOfWork.ThemeRepo.DeleteById(id);
-        }
-
-        public IEnumerable<ThemeModel> GetAll()
-        {
-            return _unitOfWork.ThemeRepo.GetAll().Select(x => _mapper.Map<ThemeModel>(x));
         }
 
         public IEnumerable<ThemeModel> GetAllWithDetails()
@@ -53,29 +48,19 @@ namespace BLL.Services
             return _unitOfWork.ThemeRepo.GetAllWithDetails().Select(x => _mapper.Map<ThemeModel>(x));
         }
 
-        public async Task<ThemeModel> GetByIdAsync(int id)
-        {
-            var result = _mapper.Map<ThemeModel>(await _unitOfWork.ThemeRepo.GetByIdAsync(id));
-            if (result == null)
-            {
-                throw new InvalidArgumentException();
-            }
-            return result;
-        }
-
         public async Task<ThemeModel> GetByIdWithDetailsAsync(int id)
         {
             var result = _mapper.Map<ThemeModel>(await _unitOfWork.ThemeRepo.GetByIdWithDetaileAsync(id));
             if (result == null)
             {
-                throw new InvalidArgumentException();
+                throw new NotFoundException();
             }
             return result;
         }
 
         public async Task<ThemeModel> Update(ThemeModel item)
         {
-            if (_unitOfWork.ThemeRepo.GetAll().Select(x => x.Name == item.Name) == null)
+            if (!_unitOfWork.ThemeRepo.GetAll().Select(x => x.Id == item.Id).First())
             {
                 throw new NotFoundException();
             }

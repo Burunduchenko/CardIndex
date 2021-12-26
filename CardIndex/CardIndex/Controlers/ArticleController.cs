@@ -32,7 +32,7 @@ namespace CardIndex.Controlers
         {
             try
             {
-                var articleModel = await _articleService.GetByIdAsync(id);
+                var articleModel = await _articleService.GetByIdWithDetailsAsync(id);
                 return Ok(articleModel);
             }
             catch (NotFoundException ex)
@@ -41,7 +41,7 @@ namespace CardIndex.Controlers
             }
         }
 
-        [HttpGet("{theme}")]
+        [HttpGet("getByTheme{theme}")]
         public ActionResult<ArticleModel> GetByTheme(string theme)
         {
             try
@@ -59,7 +59,7 @@ namespace CardIndex.Controlers
             }
         }
 
-        [HttpGet("{name}")]
+        [HttpGet("getByName/{name}")]
         public ActionResult<ArticleModel> GetByName(string name)
         {
             try
@@ -73,22 +73,24 @@ namespace CardIndex.Controlers
             }
         }
 
-        [HttpGet("avgRate/{name}")]
-        public ActionResult<double> GetAvgRateByName(string name)
+        [HttpGet("getByLength/{length}")]
+        public ActionResult<IEnumerable<ArticleModel>> GetByLenght(int length)
         {
-            try
-            {
-                var Rate = _articleService.GetAvgRate(name);
-                return Ok(Rate);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
+            var articleModel = _articleService.GetByLength(length);
+            return Ok(articleModel);
         }
 
+
+        [HttpGet("getByRangeOfRate/{max}/{min}")]
+        public ActionResult<IEnumerable<ArticleModel>> GetByRangeOfRate(double max, double min)
+        {
+            var articleModel = _articleService.GetByRangeOfRate(max, min);
+            return Ok(articleModel);
+        }
+
+
         // POST api/<ArticleController>
-        ///
+        
         [HttpPost]
         public async Task<ActionResult<ArticleModel>> Add([FromBody] ArticleModel articleModel)
         {
@@ -129,11 +131,11 @@ namespace CardIndex.Controlers
 
         // DELETE api/<ArticleController>/5
         [HttpDelete("{id}")]
-        public ActionResult DeleteById(int id)
+        public async Task<ActionResult> DeleteById(int id)
         {
             try
             {
-                _articleService.Delete(id);
+                await _articleService.Delete(id);
                 return Ok();
 
             }

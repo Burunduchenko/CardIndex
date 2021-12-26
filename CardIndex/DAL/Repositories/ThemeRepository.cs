@@ -61,7 +61,8 @@ namespace DAL.Respositories
 
         public Theme Update(Theme item)
         {
-            _themes.Update(item);
+            var elem = _themes.Find(item.Id);
+            elem.Name = item.Name;
             _cardDbContext.SaveChanges();
             return item;
         }

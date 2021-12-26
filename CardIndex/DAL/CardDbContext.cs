@@ -14,6 +14,10 @@ namespace DAL
 
         }
 
+        public CardDbContext()
+        {
+        }
+
         public virtual DbSet<Article> articles { get; set; }
         public virtual DbSet<ArticleRate> articleRate { get; set; }
         public virtual DbSet<Theme> theme { get; set; }
@@ -25,10 +29,7 @@ namespace DAL
             base.OnModelCreating(modelBuilder);
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["CardDB"].ConnectionString);
-        //}
+
     }
 }
 

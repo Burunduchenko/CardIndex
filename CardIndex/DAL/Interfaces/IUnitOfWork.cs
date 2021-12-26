@@ -12,7 +12,7 @@ namespace DAL.Interfaces
         IRepository<Article> ArticleRepo { get; }
         IRepository<Theme> ThemeRepo { get; }
         IRepository<User> UserRepo { get; }
-        IRepository<ArticleRate> ArticleRateRepo { get; }
+        IBaseRepository<ArticleRate> ArticleRateRepo { get; }
 
         int SaveChanges();
     }

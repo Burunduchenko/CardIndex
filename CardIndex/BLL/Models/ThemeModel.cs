@@ -10,6 +10,8 @@ namespace BLL.Models
     public class ThemeModel
     {
         public int Id { get; set; }
+        [Required(ErrorMessage = "You cant't create Theme without name")]
+        [MaxLength(20, ErrorMessage = "Theme name is too large")]
         public string Name { get; set; }
     }
 }

@@ -14,10 +14,9 @@ namespace DAL.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required(ErrorMessage = "You can't create article without title")]
         public string Title { get; set; }
-        [Required(ErrorMessage = "You can't create emtpy article")]
         public string Body { get; set; }
+        public string AuthorFullName { get; set; }
         public DateTime Created { get; set; }
         [ForeignKey(nameof(Theme))]
         public int ThemeId { get; set; }

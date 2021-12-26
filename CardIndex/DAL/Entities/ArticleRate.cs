@@ -13,8 +13,10 @@ namespace DAL.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required(ErrorMessage = "Rate field is Required")]
+
         public int Rate { get; set; }
+        public string Comment { get; set; }
+
         public DateTime Date { get; set; }
         [ForeignKey(nameof(Article))]
         public int ArticleId { get; set; }

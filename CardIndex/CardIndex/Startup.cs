@@ -18,6 +18,13 @@ using AutoMapper;
 using BLL;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using Administration;
+using CardIndex.Jwt;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System;
+using Administration.Account;
 
 namespace CardIndex
 {
@@ -66,6 +73,7 @@ namespace CardIndex
             services.AddScoped<IService<ThemeModel>, ThemeService>();
             services.AddScoped<IBaseService<ArticleRateModel>, ArticleRateService>();
 
+            services.AddScoped<IUserService, UserServiceAdm>();
 
             services.AddDbContext<ICardContext, CardDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("CardDB")));
@@ -81,6 +89,40 @@ namespace CardIndex
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
 
+            services.AddDbContext<AdministrationDbContext>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString("AdministrationDB")));
+
+            services.AddIdentity<UserApp, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 5;
+            }).AddEntityFrameworkStores<AdministrationDbContext>();
+
+            services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
+
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+
+            var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
+            services
+                .AddAuthorization()
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidIssuer = jwtSettings.Issuer,
+                        ValidAudience = jwtSettings.Issuer,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -12,9 +12,9 @@ namespace CardIndex.Controlers
     [ApiController]
     public class ArticleRateController : ControllerBase
     {
-        private readonly IService<ArticleRateModel> _articleRateService;
+        private readonly IBaseService<ArticleRateModel> _articleRateService;
 
-        public ArticleRateController(IService<ArticleRateModel> articleRateService)
+        public ArticleRateController(IBaseService<ArticleRateModel> articleRateService)
         {
             _articleRateService = articleRateService;
         }

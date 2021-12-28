@@ -9,7 +9,7 @@ namespace DAL
     public class CardDbContext : DbContext, ICardContext
     {
 
-        public CardDbContext(DbContextOptions options) : base(options)
+        public CardDbContext(DbContextOptions<CardDbContext> options) : base(options)
         {
 
         }

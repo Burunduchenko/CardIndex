@@ -7,7 +7,7 @@ using DAL.Entities;
 
 namespace BLL.Interfaces
 {
-    public interface IService<T> : IBaseService<T> 
+    public interface IService<T> : IBaseService<T> where T : class
     {
         Task<T> GetByIdWithDetailsAsync(int id);
         Task<T> Update(T item);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface IBaseService <T>
+    public interface IBaseService <T> where T : class
     {
         Task<T> AddAsync(T item);
         Task Delete(int id);

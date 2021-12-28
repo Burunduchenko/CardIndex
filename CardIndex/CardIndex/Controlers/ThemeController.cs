@@ -31,7 +31,7 @@ namespace CardIndex.Controlers
         {
             try
             {
-                var articleRateModel = await _themeService.GetByIdAsync(id);
+                var articleRateModel = await _themeService.GetByIdWithDetailsAsync(id);
                 return Ok(articleRateModel);
             }
             catch (NotFoundException ex)
@@ -41,8 +41,7 @@ namespace CardIndex.Controlers
         }
 
 
-        // POST api/<ArticleController>
-        ///
+
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] ThemeModel articleModel)
         {
@@ -62,32 +61,12 @@ namespace CardIndex.Controlers
 
         }
 
-        // PUT api/<ArticleController>/5
-        [HttpPut]
-        public ActionResult<ThemeModel> Update([FromBody] ThemeModel value)
-        {
-            try
-            {
-                var result = _themeService.Update(value);
-                return Ok(result);
-            }
-            catch (InvalidArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
-
-        // DELETE api/<ArticleController>/5
         [HttpDelete("{id}")]
-        public ActionResult DeleteById(int id)
+        public async Task<ActionResult> DeleteById(int id)
         {
             try
             {
-                _themeService.Delete(id);
+                await _themeService.Delete(id);
                 return Ok();
 
             }

@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 
 namespace DAL.Interfaces
 {
-    public interface IRepository<T>
+    public interface IRepository<T> : IBaseRepository<T>
     {
+
         Task<T> GetByIdAsync(int id);
-        Task<T> GetByIdWithDetaileAsync(int id);
         IEnumerable<T> GetAll();
-        IEnumerable<T> GetAllWithDetails();
-        Task<T> AddAsync(T item);
         T Update(T item);
-        void DeleteById(int id);
     }
 }

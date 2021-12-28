@@ -32,7 +32,7 @@ namespace CardIndex.Controlers
         {
             try
             {
-                var articleRateModel = await _userService.GetByIdAsync(id);
+                var articleRateModel = await _userService.GetByIdWithDetailsAsync(id);
                 return Ok(articleRateModel);
             }
             catch (NotFoundException ex)
@@ -84,11 +84,11 @@ namespace CardIndex.Controlers
 
         // DELETE api/<ArticleController>/5
         [HttpDelete("{id}")]
-        public ActionResult DeleteById(int id)
+        public async Task<ActionResult> DeleteById(int id)
         {
             try
             {
-                _userService.Delete(id);
+                await _userService.Delete(id);
                 return Ok();
 
             }

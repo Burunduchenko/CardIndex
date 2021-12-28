@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Respositories
 {
-    public class ArticleRateRepository : IRepository<ArticleRate>
+    public class ArticleRateRepository : IBaseRepository<ArticleRate>
     {
 
         private readonly ICardContext _cardDbContext;
@@ -35,22 +35,11 @@ namespace DAL.Respositories
             _cardDbContext.SaveChanges();
         }
 
-        public IEnumerable<ArticleRate> GetAll()
-        {
-            var articleRates = _articlesRates;
-            return articleRates;
-        }
 
         public IEnumerable<ArticleRate> GetAllWithDetails()
         {
             var articlerates = _articlesRates.Include(x => x.Article).Include(x => x.User);
             return articlerates;
-        }
-
-        public async Task<ArticleRate> GetByIdAsync(int id)
-        {
-            var articleRate = await _articlesRates.FindAsync(id);
-            return articleRate;
         }
 
         public async Task<ArticleRate> GetByIdWithDetaileAsync(int id)

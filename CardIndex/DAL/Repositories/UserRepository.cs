@@ -30,11 +30,8 @@ namespace DAL.Respositories
         public void DeleteById(int id)
         {
             var result = _users.Find(id);
-            if(result!=null)
-            {
-                _users.Remove(result);
-                _cardDbContext.SaveChanges();
-            }
+            _users.Remove(result);
+            _cardDbContext.SaveChanges();
         }
 
         public IEnumerable<User> GetAll()
@@ -64,7 +61,14 @@ namespace DAL.Respositories
 
         public User Update(User item)
         {
-            _users.Update(item);
+            var element = _users.Where(x => x.Id == item.Id).First();
+            element.Email = item.Email;
+            element.FirstName = item.FirstName;
+            element.LastName = item.LastName;
+            element.Password = item.Password;
+            element.Login = item.Login;
+            element.PhoneNumber = item.PhoneNumber;
+
             _cardDbContext.SaveChanges();
             return item;
         }

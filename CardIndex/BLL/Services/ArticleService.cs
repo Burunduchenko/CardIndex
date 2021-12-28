@@ -25,7 +25,10 @@ namespace BLL.Services
 
         public async Task<ArticleModel> AddAsync(ArticleModel item)
         {
-            if (!Char.IsUpper(item.Body[0]) || !Char.IsUpper(item.Title[0]))
+            if (!Char.IsUpper(item.Body[0]) 
+                || !Char.IsUpper(item.Title[0])
+                || !item.AuthorFullName.Contains(" ")
+                || !Char.IsUpper(item.AuthorFullName[0]))
             {
                 throw new InvalidArgumentException();
             }
@@ -38,6 +41,10 @@ namespace BLL.Services
             {
                 throw new AlreadyExistException();
             }
+            if (await _unitOfWork.ThemeRepo.GetByIdAsync(item.ThemeId) == null)
+            {
+                throw new InvalidArgumentException();
+            }
 
             item.Created = DateTime.Now;
             var addingItem = _mapper.Map<Article>(item);
@@ -46,7 +53,7 @@ namespace BLL.Services
             return item;
         }
 
-        public async void Delete(int id)
+        public async Task Delete(int id)
         {
             if (await _unitOfWork.ArticleRepo.GetByIdAsync(id) == null)
             {
@@ -55,47 +62,10 @@ namespace BLL.Services
             _unitOfWork.ArticleRepo.DeleteById(id);
         }
 
-        public IEnumerable<ArticleModel> GetAll()
-        {
-            var articles = _unitOfWork.ArticleRepo.GetAll().Select(x => _mapper.Map<ArticleModel>(x));
-            return articles;
-        }
-
         public IEnumerable<ArticleModel> GetAllWithDetails()
         {
             var articles = _unitOfWork.ArticleRepo.GetAllWithDetails().Select(x => _mapper.Map<ArticleModel>(x));
             return articles;
-        }
-
-        public double GetAvgRate(string name)
-        {
-            var articleId = _unitOfWork.ArticleRepo
-                .GetAll()
-                .Where(x => x.Title == name)
-                .Select(x => x.Id)
-                .FirstOrDefault();
-            if (articleId == 0)
-            {
-                throw new NotFoundException();
-            }
-            var rates = _unitOfWork.ArticleRateRepo
-                .GetAll()
-                .Where(x => x.ArticleId == articleId)
-                .Select(x => x.Rate)
-                .AsEnumerable();
-            double Avgrate = rates.Sum() / rates.Count();
-
-            return Avgrate;
-        }
-
-        public async Task<ArticleModel> GetByIdAsync(int id)
-        {
-            var result = _mapper.Map<ArticleModel>(await _unitOfWork.ArticleRepo.GetByIdAsync(id));
-            if (result == null)
-            {
-                throw new NotFoundException();
-            }
-            return result;
         }
 
         public async Task<ArticleModel> GetByIdWithDetailsAsync(int id)
@@ -105,6 +75,20 @@ namespace BLL.Services
             {
                 throw new NotFoundException();
             }
+            return result;
+        }
+
+        public IEnumerable<ArticleModel> GetByLength(int length)
+        {
+            if(length<50)
+            {
+                length = 50;
+            }
+            var result = _unitOfWork.ArticleRepo
+                .GetAllWithDetails()
+                .Where(x => x.Body.Length <= length)
+                .Select(x => _mapper.Map<ArticleModel>(x))
+                .AsEnumerable();
             return result;
         }
 
@@ -119,6 +103,18 @@ namespace BLL.Services
                 throw new NotFoundException();
             }
             return result;
+        }
+
+        public IEnumerable<ArticleModel> GetByRangeOfRate(double max, double min)
+        {
+            if(max<min)
+            {
+                var buff = max;
+                max = min;
+                min = buff;
+            }
+            return GetAllWithDetails().Where(x => x.AvgRate <= max && x.AvgRate >= min);
+
         }
 
         public IEnumerable<ArticleModel> GetByTheme(string theme)
@@ -146,7 +142,10 @@ namespace BLL.Services
 
         public async Task<ArticleModel> Update(ArticleModel item)
         {
-            if (!Char.IsUpper(item.Body[0]) || !Char.IsUpper(item.Title[0]))
+            if (!Char.IsUpper(item.Body[0]) 
+                || !Char.IsUpper(item.Title[0])
+                || !item.AuthorFullName.Contains(" ")
+                || !Char.IsUpper(item.AuthorFullName[0]))
             {
                 throw new InvalidArgumentException();
             }

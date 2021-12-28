@@ -7,15 +7,10 @@ using DAL.Entities;
 
 namespace BLL.Interfaces
 {
-    public interface IService<T>
+    public interface IService<T> : IBaseService<T> 
     {
-        Task<T> GetByIdAsync(int id);
         Task<T> GetByIdWithDetailsAsync(int id);
-        IEnumerable<T> GetAll();
-        IEnumerable<T> GetAllWithDetails();
-        Task<T> AddAsync(T item);
         Task<T> Update(T item);
-        void Delete(int id);
 
     }
 }

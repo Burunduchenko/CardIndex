@@ -1,8 +1,6 @@
 ﻿using DAL.Entities;
 using DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Configuration;
 
 namespace DAL
 {

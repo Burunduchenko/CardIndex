@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using BLL.Interfaces;
-using BLL.Services;
-using BLL.Exceptions;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
-using BLL.VievModels;
+﻿using Administration.Exceptions;
 using BLL.AddModels;
+using BLL.Interfaces;
+using BLL.VievModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace CardIndex.Controlers
 {
@@ -15,51 +13,62 @@ namespace CardIndex.Controlers
     public class ArticleRateController : ControllerBase
     {
         private readonly IBaseService<ArticleRateAddModel, ArticleRateVievModel> _articleRateService;
+        private readonly ILogger<AdministrationController> _logger;
 
-        public ArticleRateController(IBaseService<ArticleRateAddModel, ArticleRateVievModel> articleRateService)
+        public ArticleRateController(IBaseService<ArticleRateAddModel, ArticleRateVievModel> articleRateService, 
+            ILogger<AdministrationController> logger)
         {
             _articleRateService = articleRateService;
+            _logger = logger;
+            _logger.LogInformation("Article Rate controller was created");
         }
-
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ArticleRateVievModel>>> GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
-            return Ok(await _articleRateService.GetAllWithDetails());
+            _logger.LogInformation("Was SUCCESSFULL called GetAllAsync method from Article Rate Controller");
+            return Ok(await _articleRateService.GetAllWithDetailsAsync());
         }
 
-
         [HttpPost]
-        public async Task<ActionResult<ArticleRateVievModel>> Add([FromBody] ArticleRateAddModel articleModel)
+        public async Task<IActionResult> AddAsync([FromBody] ArticleRateAddModel articleModel)
         {
+            _logger.LogInformation("Was called AddAsync method from Aricle Rate Controller");
             try
             {
-              
                 var result = await _articleRateService.AddAsync(articleModel);
+                _logger.LogInformation("Method AddAsync from Aricle Rate Controller was SUCCESSFULL finished");
                 return Ok(result);
             }
             catch (InvalidArgumentException ex)
             {
+                _logger.LogWarning("Method AddAsync from Aricle Rate Controller was FAILED: " +
+                " Entered article rate data is invalid");
                 return BadRequest(ex.Message);
             }
             catch (AlreadyExistException ex)
             {
+                _logger.LogWarning("Method AddAsync from Aricle Rate Controller was FAILED: " +
+                " article rate already exist in database");
                 return BadRequest(ex.Message);
             }
 
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteById(int id)
+        public async Task<IActionResult> DeleteByIdAsync(int id)
         {
+            _logger.LogInformation("Was called DeleteByIdAsync method from Aricle Rate Controller");
             try
             {
-                await _articleRateService.Delete(id);
+                await _articleRateService.DeleteAsync(id);
+                _logger.LogInformation("Method DeleteByIdAsync from Aricle Rate Controller was SUCCESSFULL finished");
                 return Ok();
-
             }
             catch (NotFoundException ex)
             {
+                _logger.LogWarning("Method DeleteByIdAsync from Aricle Rate Controller was FAILED: " +
+                " There is no article rate to delete in database with entered id");
                 return BadRequest(ex.Message);
             }
         }

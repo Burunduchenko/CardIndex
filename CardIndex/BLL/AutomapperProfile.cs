@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using DAL.Entities;
 using BLL.AddModels;
 using BLL.VievModels;
-using System;
-using System.Linq;
+using DAL.Entities;
 
 namespace BLL
 {

@@ -1,10 +1,7 @@
 ﻿using DAL.Entities;
 using DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DAL.Respositories
@@ -40,7 +37,7 @@ namespace DAL.Respositories
             return themes;
         }
 
-        public async Task <IEnumerable<Theme>> GetAllWithDetails()
+        public async Task<IEnumerable<Theme>> GetAllWithDetailsAsync()
         {
             var themes = await _themes.Include(x => x.Articles).ToListAsync();
             return themes;

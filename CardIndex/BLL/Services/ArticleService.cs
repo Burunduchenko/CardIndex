@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Administration.Exceptions;
 using AutoMapper;
+using BLL.AddModels;
 using BLL.Interfaces;
+using BLL.VievModels;
 using DAL.Entities;
 using DAL.Interfaces;
-using BLL.Exceptions;
-using BLL.AddModels;
-using BLL.VievModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BLL.Services
 {
@@ -24,11 +23,11 @@ namespace BLL.Services
                     .GetByIdAsync(id);
             return theme.Name;
         }
-        private async Task<double> GetArticleAvgRate(int id)
+        private async Task<double> GetArticleAvgRateAsync(int id)
         {
-            var res = await _unitOfWork.ArticleRateRepo.GetAllWithDetails();
+            var res = await _unitOfWork.ArticleRateRepo.GetAllWithDetailsAsync();
             res.ToList();
-            if(res.Count()==0)
+            if (res.Count() == 0)
             {
                 return 0;
             }
@@ -48,10 +47,9 @@ namespace BLL.Services
         {
             var theme = _unitOfWork.ThemeRepo
               .GetAll()
-              .Where(t => t.Name == item.ThemeName)
-              .FirstOrDefault();
+              .FirstOrDefault(t => t.Name == item.ThemeName);
 
-            if (!Char.IsUpper(item.Body[0]) 
+            if (!Char.IsUpper(item.Body[0])
                 || !Char.IsUpper(item.Title[0])
                 || !item.AuthorFullName.Contains(" ")
                 || !Char.IsUpper(item.AuthorFullName[0])
@@ -83,7 +81,7 @@ namespace BLL.Services
             return articelVievModel;
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {
             if (await _unitOfWork.ArticleRepo.GetByIdAsync(id) == null)
             {
@@ -93,16 +91,16 @@ namespace BLL.Services
             _unitOfWork.SaveChanges();
         }
 
-        public async Task<IEnumerable<ArticelVievModel>> GetAllWithDetails()
+        public async Task<IEnumerable<ArticelVievModel>> GetAllWithDetailsAsync()
         {
-            var dbArticles = await _unitOfWork.ArticleRepo.GetAllWithDetails();
+            var dbArticles = await _unitOfWork.ArticleRepo.GetAllWithDetailsAsync();
             dbArticles.ToList();
-            List<ArticelVievModel>  result = new List<ArticelVievModel>();
+            List<ArticelVievModel> result = new List<ArticelVievModel>();
             foreach (var item in dbArticles)
             {
                 ArticelVievModel articelVievModel = _mapper.Map<ArticelVievModel>(item);
                 articelVievModel.ThemeName = await GetThemeNameAsync(item.ThemeId);
-                articelVievModel.AvgRate = await GetArticleAvgRate(item.Id);
+                articelVievModel.AvgRate = await GetArticleAvgRateAsync(item.Id);
                 result.Add(articelVievModel);
             }
             return result;
@@ -117,75 +115,73 @@ namespace BLL.Services
             }
             ArticelVievModel articelVievModel = _mapper.Map<ArticelVievModel>(dbArticle);
             articelVievModel.ThemeName = await GetThemeNameAsync(dbArticle.ThemeId);
-            articelVievModel.AvgRate = await GetArticleAvgRate(dbArticle.Id);
+            articelVievModel.AvgRate = await GetArticleAvgRateAsync(dbArticle.Id);
 
             return articelVievModel;
         }
 
-        public async Task<IEnumerable<ArticelVievModel>> GetByLength(int length)
+        public async Task<IEnumerable<ArticelVievModel>> GetByLengthAsync(int length)
         {
-            if(length<50)
+            if (length < 50)
             {
                 length = 50;
             }
-            var dbArticles = await _unitOfWork.ArticleRepo
-                .GetAllWithDetails();
+            var dbArticles = await _unitOfWork.ArticleRepo.GetAllWithDetailsAsync();
             dbArticles.ToList();
             List<ArticelVievModel> result = new List<ArticelVievModel>();
             foreach (var item in dbArticles)
             {
-                if(item.Body.Length <= length)
+                if (item.Body.Length <= length)
                 {
                     ArticelVievModel articelVievModel = _mapper.Map<ArticelVievModel>(item);
                     articelVievModel.ThemeName = await GetThemeNameAsync(item.ThemeId);
-                    articelVievModel.AvgRate = await GetArticleAvgRate(item.Id);
+                    articelVievModel.AvgRate = await GetArticleAvgRateAsync(item.Id);
                     result.Add(articelVievModel);
                 }
             }
             return result;
         }
 
-        public async Task<ArticelVievModel> GetByName(string name)
+        public async Task<ArticelVievModel> GetByNameAsync(string name)
         {
-            var dbArticles = await _unitOfWork.ArticleRepo
-                .GetAllWithDetails();
+            var dbArticles = await _unitOfWork.ArticleRepo.GetAllWithDetailsAsync();
             dbArticles.ToList();
             Article dbArticle = null;
             foreach (var item in dbArticles)
             {
-                if(item.Title == name)
+                if (item.Title == name)
                 {
                     dbArticle = item;
                     break;
                 }
             }
- 
+
 
             if (dbArticle == null)
             {
                 throw new NotFoundException();
             }
-            
+
             ArticelVievModel articelVievModel = _mapper.Map<ArticelVievModel>(dbArticle);
             articelVievModel.ThemeName = await GetThemeNameAsync(dbArticle.ThemeId);
-            articelVievModel.AvgRate = await GetArticleAvgRate(dbArticle.Id);
+            articelVievModel.AvgRate = await GetArticleAvgRateAsync(dbArticle.Id);
             return articelVievModel;
         }
 
-        public async Task<IEnumerable<ArticelVievModel>> GetByRangeOfRate(double max, double min)
+        public async Task<IEnumerable<ArticelVievModel>> GetByRangeOfRateAsync(double max, double min)
         {
-            if(max<min)
+            if (max < min)
             {
                 var buff = max;
                 max = min;
                 min = buff;
             }
-            var res = await GetAllWithDetails();
+            var res = await GetAllWithDetailsAsync();
             return res.Where(x => x.AvgRate <= max && x.AvgRate >= min);
 
         }
 
-        public async Task<IEnumerable<ArticelVievModel>> GetByTheme(string themeName)
+        public async Task<IEnumerable<ArticelVievModel>> GetByThemeAsync(string themeName)
         {
             var theme = _unitOfWork.ThemeRepo
                 .GetAll()
@@ -195,8 +191,7 @@ namespace BLL.Services
             {
                 throw new InvalidArgumentException();
             }
-            var dbArticles = await _unitOfWork.ArticleRepo
-                .GetAllWithDetails();
+            var dbArticles = await _unitOfWork.ArticleRepo.GetAllWithDetailsAsync();
             dbArticles.ToList();
             if (dbArticles == null)
             {
@@ -205,18 +200,18 @@ namespace BLL.Services
             List<ArticelVievModel> result = new List<ArticelVievModel>();
             foreach (var item in dbArticles)
             {
-                if(item.ThemeId == theme.Id)
+                if (item.ThemeId == theme.Id)
                 {
                     ArticelVievModel articelVievModel = _mapper.Map<ArticelVievModel>(item);
                     articelVievModel.ThemeName = theme.Name;
-                    articelVievModel.AvgRate = await GetArticleAvgRate(item.Id);
+                    articelVievModel.AvgRate = await GetArticleAvgRateAsync(item.Id);
                     result.Add(articelVievModel);
                 }
             }
             return result;
         }
 
-        public async Task<ArticelVievModel> Update(ArticleAddmodel item)
+        public async Task<ArticelVievModel> UpdateAsync(ArticleAddmodel item)
         {
             var theme = _unitOfWork.ThemeRepo
               .GetAll()
@@ -249,7 +244,7 @@ namespace BLL.Services
 
             ArticelVievModel articelVievModel = _mapper.Map<ArticelVievModel>(article);
             articelVievModel.ThemeName = theme.Name;
-            articelVievModel.AvgRate = await GetArticleAvgRate(updatedArticle.Id);
+            articelVievModel.AvgRate = await GetArticleAvgRateAsync(updatedArticle.Id);
 
             return articelVievModel;
         }

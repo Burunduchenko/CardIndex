@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace Administration.Account
+namespace Administration.VievModels
 {
-    public class Register
+    public class UserViev
     {
         public string Email { get; set; }
-        public string Password { get; set; }
+        public string PasswordHash { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public string Login { get; set; }
+        public List<string> Roles { get; set; }
     }
 }

@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using BLL.Interfaces;
-using BLL.Services;
-using BLL.Exceptions;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
-using BLL.VievModels;
+﻿using Administration.Exceptions;
 using BLL.AddModels;
+using BLL.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace CardIndex.Controlers
 {
@@ -15,133 +12,162 @@ namespace CardIndex.Controlers
     public class ArticleController : ControllerBase
     {
         private readonly IArticleService _articleService;
+        private readonly ILogger<AdministrationController> _logger;
 
-        public ArticleController(IArticleService articleService)
+        public ArticleController(IArticleService articleService, ILogger<AdministrationController> logger)
         {
             _articleService = articleService;
+            _logger = logger;
+            _logger.LogInformation("Aricle controller was created");
         }
 
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
-            return Ok(await _articleService.GetAllWithDetails());
+            _logger.LogInformation("Was SUCCESSFULL called GetAllAsync method from Aricle Controller");
+            return Ok(await _articleService.GetAllWithDetailsAsync());
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
+            _logger.LogInformation("Was called GetByIdAsync method from Aricle Controller");
             try
             {
                 var articleModel = await _articleService.GetByIdWithDetailsAsync(id);
+                _logger.LogInformation("Method GetByIdAsync from Aricle Controller was SUCCESSFULL finished");
                 return Ok(articleModel);
             }
             catch (NotFoundException ex)
             {
+                _logger.LogWarning("Method GetByIdAsync from Aricle Controller was FAILED: " +
+                " There is no article in database with entered id");
                 return NotFound(ex.Message);
             }
         }
 
         [HttpGet("getByTheme{theme}")]
-        public async Task<ActionResult<IEnumerable<ArticelVievModel>>> GetByTheme(string theme)
+        public async Task<IActionResult> GetByThemeAsync(string theme)
         {
+            _logger.LogInformation("Was called GetByThemeAsync method from Aricle Controller");
             try
             {
-                var articleModel = await _articleService.GetByTheme(theme);
+                var articleModel = await _articleService.GetByThemeAsync(theme);
+                _logger.LogInformation("Method GetByThemeAsync from Aricle Controller was SUCCESSFULL finished");
                 return Ok(articleModel);
             }
             catch (NotFoundException ex)
             {
+                _logger.LogWarning("Method GetByThemeAsync from Aricle Controller was FAILED: " +
+                " There is no articles in database with entered theme");
                 return NotFound(ex.Message);
             }
             catch (InvalidArgumentException ex)
             {
+                _logger.LogWarning("Method GetByThemeAsync from Aricle Controller was FAILED: " +
+                " Entered theme doesn't exist");
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpGet("getByName/{name}")]
-        public async Task<ActionResult<ArticelVievModel>> GetByName(string name)
+        public async Task<IActionResult> GetByNameAsync(string name)
         {
+            _logger.LogInformation("Was called GetByNameAsync method from Aricle Controller");
             try
             {
-                var articleModel = await _articleService.GetByName(name);
+                var articleModel = await _articleService.GetByNameAsync(name);
+                _logger.LogInformation("Method GetByNameAsync from Aricle Controller was SUCCESSFULL finished");
                 return Ok(articleModel);
             }
             catch (NotFoundException ex)
             {
+                _logger.LogWarning("Method GetByNameAsync from Aricle Controller was FAILED: " +
+                " There is no article in database with entered name");
                 return NotFound(ex.Message);
             }
         }
 
         [HttpGet("getByLength/{length}")]
-        public async Task<ActionResult<IEnumerable<ArticelVievModel>>> GetByLenght(int length)
+        public async Task<IActionResult> GetByLenghtAsync(int length)
         {
-            var articleModel = await _articleService.GetByLength(length);
+            var articleModel = await _articleService.GetByLengthAsync(length);
+            _logger.LogInformation("Was SUCCESSFULL called GetByLenghtAsync method from Aricle Controller");
             return Ok(articleModel);
         }
-
 
         [HttpGet("getByRangeOfRate/{max}/{min}")]
-        public async Task<ActionResult<IEnumerable<ArticelVievModel>>> GetByRangeOfRate(double max, double min)
+        public async Task<IActionResult> GetByRangeOfRateAsync(double max, double min)
         {
-            var articleModel = await _articleService.GetByRangeOfRate(max, min);
+            var articleModel = await _articleService.GetByRangeOfRateAsync(max, min);
+            _logger.LogInformation("Was SUCCESSFULL called GetByRangeOfRateAsync method from Aricle Controller");
             return Ok(articleModel);
         }
 
-
-        // POST api/<ArticleController>
-        
-        [HttpPost]
-        public async Task<ActionResult<ArticelVievModel>> Add([FromBody] ArticleAddmodel articleModel)
+        [HttpPost("AddAricle")]
+        public async Task<IActionResult> AddAsync([FromBody] ArticleAddmodel articleModel)
         {
+            _logger.LogInformation("Was called AddAsync method from Aricle Controller");
             try
             {
                 var result = await _articleService.AddAsync(articleModel);
+                _logger.LogInformation("Method AddAsync from Aricle Controller was SUCCESSFULL finished");
                 return Ok(result);
             }
             catch (InvalidArgumentException ex)
             {
+                _logger.LogWarning("Method AddAsync from Aricle Controller was FAILED: " +
+                " TEntered article data is invalid");
                 return BadRequest(ex.Message);
             }
             catch (AlreadyExistException ex)
             {
+                _logger.LogWarning("Method AddAsync from Aricle Controller was FAILED: " +
+                " Entered article already exist in database");
                 return BadRequest(ex.Message);
             }
-
         }
 
-        // PUT api/<ArticleController>/5
-        [HttpPut]
-        public ActionResult<ArticelVievModel> Update([FromBody] ArticleAddmodel value)
+        [HttpPut("UpdateArticle")]
+        public async Task<IActionResult> UpdateAsync([FromBody] ArticleAddmodel value)
         {
+            _logger.LogInformation("Was called UpdateAsync method from Aricle Controller");
             try
             {
-                var result = _articleService.Update(value);
+                var result = await _articleService.UpdateAsync(value);
+                _logger.LogInformation("Method UpdateAsync from Aricle Controller was SUCCESSFULL finished");
                 return Ok(result);
             }
             catch (InvalidArgumentException ex)
             {
+                _logger.LogWarning("Method UpdateAsync from Aricle Controller was FAILED: " +
+                " Entered article data is invalid");
                 return BadRequest(ex.Message);
             }
             catch (NotFoundException ex)
             {
+                _logger.LogWarning("Method UpdateAsync from Aricle Controller was FAILED: " +
+                " There is no article to update in database with entered data");
                 return NotFound(ex.Message);
             }
         }
 
-        // DELETE api/<ArticleController>/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteById(int id)
+        public async Task<IActionResult> DeleteByIdAsync(int id)
         {
+            _logger.LogInformation("Was called DeleteByIdAsync method from Aricle Controller");
             try
             {
-                await _articleService.Delete(id);
+                await _articleService.DeleteAsync(id);
+                _logger.LogInformation("Method DeleteByIdAsync from Aricle Controller was SUCCESSFULL finished");
                 return Ok();
 
             }
             catch (NotFoundException ex)
             {
+                _logger.LogWarning("Method DeleteByIdAsync from Aricle Controller was FAILED: " +
+                " There is no article to delete in database with entered id");
                 return BadRequest(ex.Message);
             }
         }

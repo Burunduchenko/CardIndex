@@ -1,10 +1,7 @@
 ﻿using DAL.Entities;
 using DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DAL.Respositories
@@ -36,7 +33,7 @@ namespace DAL.Respositories
         }
 
 
-        public async Task<IEnumerable<ArticleRate>> GetAllWithDetails()
+        public async Task<IEnumerable<ArticleRate>> GetAllWithDetailsAsync()
         {
             var articlerates = await _articlesRates.Include(x => x.Article).ToListAsync();
             return articlerates;

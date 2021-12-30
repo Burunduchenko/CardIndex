@@ -1,11 +1,10 @@
-﻿using AutoMapper;
+﻿using Administration.Exceptions;
+using AutoMapper;
 using BLL.AddModels;
-using BLL.Exceptions;
 using BLL.Interfaces;
 using BLL.VievModels;
 using DAL.Entities;
 using DAL.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,10 +32,10 @@ namespace BLL.Services
             await _unitOfWork.ThemeRepo.AddAsync(_mapper.Map<Theme>(item));
             _unitOfWork.SaveChanges();
 
-            return new ThemeVievModel() { Name = item.Name};
+            return new ThemeVievModel() { Name = item.Name };
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {
             if (await _unitOfWork.ThemeRepo.GetByIdAsync(id) == null)
             {
@@ -45,9 +44,9 @@ namespace BLL.Services
             _unitOfWork.ThemeRepo.DeleteById(id);
         }
 
-        public async Task<IEnumerable<ThemeVievModel>> GetAllWithDetails()
+        public async Task<IEnumerable<ThemeVievModel>> GetAllWithDetailsAsync()
         {
-            var dbthemes = await _unitOfWork.ThemeRepo.GetAllWithDetails();
+            var dbthemes = await _unitOfWork.ThemeRepo.GetAllWithDetailsAsync();
             List<ThemeVievModel> result = new List<ThemeVievModel>();
             foreach (var item in dbthemes)
             {

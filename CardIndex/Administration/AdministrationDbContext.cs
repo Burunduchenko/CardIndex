@@ -1,15 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Administration
 {
-    public class AdministrationDbContext : IdentityDbContext<UserApp>
+    public class AdministrationDbContext : IdentityDbContext<User>
     {
         public AdministrationDbContext(DbContextOptions<AdministrationDbContext> options)
           : base(options)
@@ -24,7 +19,7 @@ namespace Administration
             {
                 new IdentityRole("user"),
                 new IdentityRole("admin")
-            }) ;
+            });
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Administration;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -7,11 +6,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
-namespace CardIndex.Jwt
+namespace Administration.Jwt
 {
     public static class JwtHelper
     {
-        public static string GenerateJwt(UserApp user, IEnumerable<string> roles, JwtSettings jwtSettings)
+        public static string GenerateJwt(User user, IEnumerable<string> roles, JwtSettings jwtSettings)
         {
             if (user is null) throw new Exception($"Jwt generation not proceeded - {nameof(user)} is null");
 

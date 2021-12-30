@@ -1,4 +1,4 @@
-﻿namespace CardIndex.Jwt
+﻿namespace Administration.Jwt
 {
     public class JwtSettings
     {

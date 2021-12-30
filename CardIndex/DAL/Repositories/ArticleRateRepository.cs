@@ -36,15 +36,15 @@ namespace DAL.Respositories
         }
 
 
-        public IEnumerable<ArticleRate> GetAllWithDetails()
+        public async Task<IEnumerable<ArticleRate>> GetAllWithDetails()
         {
-            var articlerates = _articlesRates.Include(x => x.Article).Include(x => x.User);
+            var articlerates = await _articlesRates.Include(x => x.Article).ToListAsync();
             return articlerates;
         }
 
         public async Task<ArticleRate> GetByIdWithDetaileAsync(int id)
         {
-            var articleRates = _articlesRates.Include(x => x.Article).Include(x => x.User);
+            var articleRates = _articlesRates.Include(x => x.Article);
             var result = await articleRates.FirstOrDefaultAsync(x => x.Id == id);
             return result;
         }

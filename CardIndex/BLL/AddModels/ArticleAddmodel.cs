@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace BLL.Models
+namespace BLL.AddModels
 {
-    public class ArticleModel
+    public class ArticleAddmodel
     {
-        public int Id { get; set; }
         [Required(ErrorMessage = "You can't create article without title")]
         [MinLength(5)]
         [MaxLength(70)]
@@ -22,10 +16,6 @@ namespace BLL.Models
         [MinLength(8)]
         [MaxLength(100)]
         public string AuthorFullName { get; set; }
-        public DateTime Created { get; set; }
-        public double AvgRate { get; set; }
-
-        public virtual int ThemeId { get; set; }
-        public virtual ICollection<int> ArticleRatesIds { get; set; }
+        public string ThemeName { get; set; }
     }
 }

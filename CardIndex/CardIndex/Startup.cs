@@ -1,5 +1,4 @@
 using BLL.Interfaces;
-using BLL.Models;
 using BLL.Services;
 using DAL;
 using DAL.Entities;
@@ -25,6 +24,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System;
 using Administration.Account;
+using BLL.AddModels;
+using BLL.VievModels;
 
 namespace CardIndex
 {
@@ -62,17 +63,14 @@ namespace CardIndex
             services.AddSingleton(mapper);
 
             services.AddScoped<IRepository<Theme>, ThemeRepository>();
-            services.AddScoped<IRepository<User>, UserRepository>();
             services.AddScoped<IRepository<Article>, ArticleRepository>();
             services.AddScoped<IBaseRepository<ArticleRate>, ArticleRateRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            services.AddScoped<IService<UserModel>, UserService>();
             services.AddScoped<IArticleService, ArticleService>();
-            services.AddScoped<IService<ThemeModel>, ThemeService>();
-            services.AddScoped<IBaseService<ArticleRateModel>, ArticleRateService>();
-
+            services.AddScoped<IBaseService<ThemeAddModel, ThemeVievModel>, ThemeService>();
+            services.AddScoped<IBaseService<ArticleRateAddModel, ArticleRateVievModel>, ArticleRateService>();
             services.AddScoped<IUserService, UserServiceAdm>();
 
             services.AddDbContext<ICardContext, CardDbContext>(options =>
@@ -152,7 +150,9 @@ namespace CardIndex
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
 
 
             app.UseEndpoints(endpoints =>

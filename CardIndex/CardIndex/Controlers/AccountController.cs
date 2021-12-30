@@ -1,9 +1,10 @@
 ﻿using Administration.Account;
 using CardIndex.AccountModels;
 using CardIndex.Jwt;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System;
 using System.Threading.Tasks;
 
 namespace CardIndex.Controlers
@@ -32,7 +33,8 @@ namespace CardIndex.Controlers
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Password = model.Password,
-                Year = model.Year
+                Login = model.Login,
+                PhoneNumber = model.PhoneNumber,
             });
 
             return Created(string.Empty, string.Empty);
@@ -77,6 +79,54 @@ namespace CardIndex.Controlers
             });
 
             return Ok();
+        }
+
+        [HttpDelete("DeleteUser/{email}/{password}")]
+        public async Task<IActionResult> DeleteUser(string email, string password)
+        {
+            try
+            {
+                var res = await _userService.DeleteUserByEmailAndPassword(email, password);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("GetUser/{email}/{password}")]
+        public async Task<IActionResult> GetUser( string email,  string password)
+        {
+            try
+            {
+                var res = await _userService.GetUserByEmailAndPassword(email, password);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpGet("GetAllUsers")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            return Ok(await _userService.GetAllUsers());
+        }
+
+        [HttpDelete("DeleteRole/{roleName}")]
+        public async Task<IActionResult> DeleteRole( string roleName)
+        {
+            try
+            {
+                var res = await _userService.DeleteRole(roleName);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
     }
 }

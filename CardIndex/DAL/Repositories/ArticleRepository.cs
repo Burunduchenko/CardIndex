@@ -40,9 +40,9 @@ namespace DAL.Respositories
             return articles;
         }
 
-        public IEnumerable<Article> GetAllWithDetails()
+        public async Task<IEnumerable<Article>> GetAllWithDetails()
         {
-            var articles = _articles.Include(x => x.ArticleRates);
+            var articles = await _articles.Include(x => x.ArticleRates).ToListAsync();
             return articles;
         }
 

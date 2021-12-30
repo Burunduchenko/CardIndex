@@ -8,7 +8,7 @@ namespace DAL.Interfaces
 {
     public interface IBaseRepository <T>
     {
-        IEnumerable<T> GetAllWithDetails();
+        Task<IEnumerable<T>> GetAllWithDetails();
         Task<T> GetByIdWithDetaileAsync(int id);
         Task<T> AddAsync(T item);
         void DeleteById(int id);

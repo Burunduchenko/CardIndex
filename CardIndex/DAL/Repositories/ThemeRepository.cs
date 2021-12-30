@@ -40,9 +40,9 @@ namespace DAL.Respositories
             return themes;
         }
 
-        public IEnumerable<Theme> GetAllWithDetails()
+        public async Task <IEnumerable<Theme>> GetAllWithDetails()
         {
-            var themes = _themes.Include(x => x.Articles);
+            var themes = await _themes.Include(x => x.Articles).ToListAsync();
             return themes;
         }
 

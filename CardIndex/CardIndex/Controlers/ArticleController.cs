@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BLL.Interfaces;
-using BLL.Models;
 using BLL.Services;
 using BLL.Exceptions;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-
+using Microsoft.AspNetCore.Authorization;
+using BLL.VievModels;
+using BLL.AddModels;
 
 namespace CardIndex.Controlers
 {
@@ -22,9 +23,9 @@ namespace CardIndex.Controlers
 
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return Ok(_articleService.GetAllWithDetails());
+            return Ok(await _articleService.GetAllWithDetails());
         }
 
         [HttpGet("{id}")]
@@ -42,11 +43,11 @@ namespace CardIndex.Controlers
         }
 
         [HttpGet("getByTheme{theme}")]
-        public ActionResult<ArticleModel> GetByTheme(string theme)
+        public async Task<ActionResult<IEnumerable<ArticelVievModel>>> GetByTheme(string theme)
         {
             try
             {
-                var articleModel = _articleService.GetByTheme(theme);
+                var articleModel = await _articleService.GetByTheme(theme);
                 return Ok(articleModel);
             }
             catch (NotFoundException ex)
@@ -60,11 +61,11 @@ namespace CardIndex.Controlers
         }
 
         [HttpGet("getByName/{name}")]
-        public ActionResult<ArticleModel> GetByName(string name)
+        public async Task<ActionResult<ArticelVievModel>> GetByName(string name)
         {
             try
             {
-                var articleModel = _articleService.GetByName(name);
+                var articleModel = await _articleService.GetByName(name);
                 return Ok(articleModel);
             }
             catch (NotFoundException ex)
@@ -74,17 +75,17 @@ namespace CardIndex.Controlers
         }
 
         [HttpGet("getByLength/{length}")]
-        public ActionResult<IEnumerable<ArticleModel>> GetByLenght(int length)
+        public async Task<ActionResult<IEnumerable<ArticelVievModel>>> GetByLenght(int length)
         {
-            var articleModel = _articleService.GetByLength(length);
+            var articleModel = await _articleService.GetByLength(length);
             return Ok(articleModel);
         }
 
 
         [HttpGet("getByRangeOfRate/{max}/{min}")]
-        public ActionResult<IEnumerable<ArticleModel>> GetByRangeOfRate(double max, double min)
+        public async Task<ActionResult<IEnumerable<ArticelVievModel>>> GetByRangeOfRate(double max, double min)
         {
-            var articleModel = _articleService.GetByRangeOfRate(max, min);
+            var articleModel = await _articleService.GetByRangeOfRate(max, min);
             return Ok(articleModel);
         }
 
@@ -92,7 +93,7 @@ namespace CardIndex.Controlers
         // POST api/<ArticleController>
         
         [HttpPost]
-        public async Task<ActionResult<ArticleModel>> Add([FromBody] ArticleModel articleModel)
+        public async Task<ActionResult<ArticelVievModel>> Add([FromBody] ArticleAddmodel articleModel)
         {
             try
             {
@@ -112,7 +113,7 @@ namespace CardIndex.Controlers
 
         // PUT api/<ArticleController>/5
         [HttpPut]
-        public ActionResult<ArticleModel> Update([FromBody] ArticleModel value)
+        public ActionResult<ArticelVievModel> Update([FromBody] ArticleAddmodel value)
         {
             try
             {

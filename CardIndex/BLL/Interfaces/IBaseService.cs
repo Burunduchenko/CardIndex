@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface IBaseService <T> where T : class
+    public interface IBaseService<Add, Viev> where Add : class
     {
-        Task<T> AddAsync(T item);
+        Task<Viev> AddAsync(Add item);
         Task Delete(int id);
-        IEnumerable<T> GetAllWithDetails();
+        Task<IEnumerable<Viev>> GetAllWithDetails();
+
     }
 }

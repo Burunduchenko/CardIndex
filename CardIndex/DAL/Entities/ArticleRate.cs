@@ -20,10 +20,8 @@ namespace DAL.Entities
         public DateTime Date { get; set; }
         [ForeignKey(nameof(Article))]
         public int ArticleId { get; set; }
-        [ForeignKey(nameof(User))]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         public virtual Article Article { get; set; }
-        public virtual User User { get; set; }
     }
 }

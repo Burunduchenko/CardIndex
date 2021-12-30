@@ -24,7 +24,7 @@ namespace Administration
             {
                 new IdentityRole("user"),
                 new IdentityRole("admin")
-            });
+            }) ;
         }
     }
 }

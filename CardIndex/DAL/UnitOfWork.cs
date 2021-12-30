@@ -14,7 +14,6 @@ namespace DAL
         private readonly ICardContext _cardDbContext;
         private IRepository<Article> _ArticleRepo;
         private IRepository<Theme> _ThemeRepo;
-        private IRepository<User> _UserRepo;
         private IBaseRepository<ArticleRate> _ArticleRateRepo;
         public UnitOfWork(ICardContext cardDbContext)
         {
@@ -37,15 +36,6 @@ namespace DAL
                 if (_ThemeRepo == null)
                     _ThemeRepo = new ThemeRepository(_cardDbContext);
                 return _ThemeRepo;
-            }
-        }
-        public IRepository<User> UserRepo
-        {
-            get
-            {
-                if (_UserRepo == null)
-                    _UserRepo = new UserRepository(_cardDbContext);
-                return _UserRepo;
             }
         }
         public IBaseRepository<ArticleRate> ArticleRateRepo

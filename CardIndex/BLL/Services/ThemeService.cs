@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
+using BLL.AddModels;
 using BLL.Exceptions;
 using BLL.Interfaces;
-using BLL.Models;
+using BLL.VievModels;
 using DAL.Entities;
 using DAL.Interfaces;
 using System;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Services
 {
-    public class ThemeService : IService<ThemeModel>
+    public class ThemeService : IBaseService<ThemeAddModel, ThemeVievModel>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -22,7 +23,7 @@ namespace BLL.Services
             _mapper = mapper;
         }
 
-        public async Task<ThemeModel> AddAsync(ThemeModel item)
+        public async Task<ThemeVievModel> AddAsync(ThemeAddModel item)
         {
             if (_unitOfWork.ThemeRepo.GetAll().Select(x => x.Name == item.Name).FirstOrDefault())
             {
@@ -31,7 +32,8 @@ namespace BLL.Services
 
             await _unitOfWork.ThemeRepo.AddAsync(_mapper.Map<Theme>(item));
             _unitOfWork.SaveChanges();
-            return item;
+
+            return new ThemeVievModel() { Name = item.Name};
         }
 
         public async Task Delete(int id)
@@ -43,32 +45,16 @@ namespace BLL.Services
             _unitOfWork.ThemeRepo.DeleteById(id);
         }
 
-        public IEnumerable<ThemeModel> GetAllWithDetails()
+        public async Task<IEnumerable<ThemeVievModel>> GetAllWithDetails()
         {
-            return _unitOfWork.ThemeRepo.GetAllWithDetails().Select(x => _mapper.Map<ThemeModel>(x));
-        }
-
-        public async Task<ThemeModel> GetByIdWithDetailsAsync(int id)
-        {
-            var result = _mapper.Map<ThemeModel>(await _unitOfWork.ThemeRepo.GetByIdWithDetaileAsync(id));
-            if (result == null)
+            var dbthemes = await _unitOfWork.ThemeRepo.GetAllWithDetails();
+            List<ThemeVievModel> result = new List<ThemeVievModel>();
+            foreach (var item in dbthemes)
             {
-                throw new NotFoundException();
+                result.Add(_mapper.Map<ThemeVievModel>(item));
             }
             return result;
         }
 
-        public async Task<ThemeModel> Update(ThemeModel item)
-        {
-            if (!_unitOfWork.ThemeRepo.GetAll().Select(x => x.Id == item.Id).First())
-            {
-                throw new NotFoundException();
-            }
-
-            var mappedItem = _mapper.Map<Theme>(item);
-            var resultesItem = _mapper.Map<ThemeModel>(_unitOfWork.ThemeRepo.Update(mappedItem));
-            return resultesItem;
-
-        }
     }
 }

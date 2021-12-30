@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DAL.Entities;
-using BLL.Models;
+using BLL.AddModels;
+using BLL.VievModels;
 using System;
 using System.Linq;
 
@@ -10,20 +11,12 @@ namespace BLL
     {
         public AutomapperProfile()
         {
-            CreateMap<Article, ArticleModel>()
-                .ForMember(p => p.ThemeId, c => c.MapFrom(card => card.ThemeId))
-                .ForMember(p => p.ArticleRatesIds, c => c.MapFrom(card => card.ArticleRates.Select(x => x.Id)))
-                .ForMember(p => p.AvgRate, c => c.MapFrom(card => card.ArticleRates.Select(x => x.Rate).Average()))
-                .ReverseMap();
-                
-
-            CreateMap<ArticleRate, ArticleRateModel>().ReverseMap();
-
-            CreateMap<User, UserModel>()
-                .ForMember(p=>p.ArticleRatesIds, c=>c.MapFrom(user => user.ArticleRates.Select(x=>x.Id)))
-                .ReverseMap();
-
-            CreateMap<Theme, ThemeModel>().ReverseMap();
+            CreateMap<Article, ArticelVievModel>().ReverseMap();
+            CreateMap<Article, ArticleAddmodel>().ReverseMap();
+            CreateMap<Theme, ThemeAddModel>().ReverseMap();
+            CreateMap<Theme, ThemeVievModel>().ReverseMap();
+            CreateMap<ArticleRate, ArticleRateAddModel>().ReverseMap();
+            CreateMap<ArticleRate, ArticleRateVievModel>().ReverseMap();
         }
     }
 }

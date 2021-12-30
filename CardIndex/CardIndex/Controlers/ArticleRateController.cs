@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BLL.Interfaces;
-using BLL.Models;
 using BLL.Services;
 using BLL.Exceptions;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
+using BLL.VievModels;
+using BLL.AddModels;
 
 namespace CardIndex.Controlers
 {
@@ -12,26 +14,27 @@ namespace CardIndex.Controlers
     [ApiController]
     public class ArticleRateController : ControllerBase
     {
-        private readonly IBaseService<ArticleRateModel> _articleRateService;
+        private readonly IBaseService<ArticleRateAddModel, ArticleRateVievModel> _articleRateService;
 
-        public ArticleRateController(IBaseService<ArticleRateModel> articleRateService)
+        public ArticleRateController(IBaseService<ArticleRateAddModel, ArticleRateVievModel> articleRateService)
         {
             _articleRateService = articleRateService;
         }
 
 
         [HttpGet]
-        public ActionResult<IEnumerable<ArticleRateModel>> GetAll()
+        public async Task<ActionResult<IEnumerable<ArticleRateVievModel>>> GetAll()
         {
-            return Ok(_articleRateService.GetAllWithDetails());
+            return Ok(await _articleRateService.GetAllWithDetails());
         }
 
 
         [HttpPost]
-        public async Task<ActionResult<ArticleRateModel>> Add([FromBody] ArticleRateModel articleModel)
+        public async Task<ActionResult<ArticleRateVievModel>> Add([FromBody] ArticleRateAddModel articleModel)
         {
             try
             {
+              
                 var result = await _articleRateService.AddAsync(articleModel);
                 return Ok(result);
             }

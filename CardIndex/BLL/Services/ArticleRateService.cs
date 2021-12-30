@@ -5,27 +5,29 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using BLL.Interfaces;
-using BLL.Models;
 using DAL.Entities;
 using DAL.Interfaces;
 using BLL.Exceptions;
-
+using Administration.Account;
+using BLL.AddModels;
+using BLL.VievModels;
 
 namespace BLL.Services
 {
-    public class ArticleRateService : IBaseService<ArticleRateModel>
+    public class ArticleRateService : IBaseService<ArticleRateAddModel, ArticleRateVievModel>
     {
-
+        private readonly IUserService _userServiceAdm;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public ArticleRateService(IUnitOfWork unitOfWork, IMapper mapper)
+        public ArticleRateService(IUnitOfWork unitOfWork, IMapper mapper, IUserService userServiceAdm)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _userServiceAdm = userServiceAdm;
         }
 
-        public async Task<ArticleRateModel> AddAsync(ArticleRateModel item)
+        public async Task<ArticleRateVievModel> AddAsync(ArticleRateAddModel item)
         {
             if (item.Rate < 0)
             {
@@ -35,20 +37,36 @@ namespace BLL.Services
             {
                 item.Rate = 10;
             }
+            var articlebuff = await _unitOfWork.ArticleRepo
+                .GetAllWithDetails();
 
-            if (
-                await _unitOfWork.ArticleRepo.GetByIdAsync(item.ArticleId) == null ||
-                await _unitOfWork.UserRepo.GetByIdAsync(item.UserId) == null)
+            var article = articlebuff.Where(a => a.Title == item.ArticleName)
+                .FirstOrDefault();
+
+            var dbuser = await _userServiceAdm
+                .GetAllUsers();
+
+            var user = dbuser.Where(u => u.UserName == item.UserLogin)
+                .FirstOrDefault()
+;
+            if (article == null || user == null)  
             {
                 throw new InvalidArgumentException();
             }
 
 
-            item.Date = DateTime.Now;
+            ArticleRate articleRateAdded = _mapper.Map<ArticleRate>(item);
+            articleRateAdded.ArticleId = article.Id;
+            articleRateAdded.UserId = user.Id;
+            articleRateAdded.Date = DateTime.Now;
 
-            await _unitOfWork.ArticleRateRepo.AddAsync(_mapper.Map<ArticleRate>(item));
+            await _unitOfWork.ArticleRateRepo.AddAsync(articleRateAdded);
             _unitOfWork.SaveChanges();
-            return item;
+
+            ArticleRateVievModel articleRateViev = _mapper.Map<ArticleRateVievModel>(articleRateAdded);
+            articleRateViev.ArticleName = article.Title;
+            articleRateViev.UserLogin = user.UserName;
+            return articleRateViev;
         }
 
         public async Task Delete(int id)
@@ -60,11 +78,28 @@ namespace BLL.Services
             _unitOfWork.ArticleRateRepo.DeleteById(id);
         }
 
-        public IEnumerable<ArticleRateModel> GetAllWithDetails()
+        public async Task<IEnumerable<ArticleRateVievModel>> GetAllWithDetails()
         {
-            return _unitOfWork.ArticleRateRepo.GetAllWithDetails().Select(x => _mapper.Map<ArticleRateModel>(x));
+            var dbArticleRates = await _unitOfWork.ArticleRateRepo.GetAllWithDetails();
+            List<ArticleRateVievModel> articelVievs = new List<ArticleRateVievModel>();
+            foreach (var item in dbArticleRates)
+            {
+                ArticleRateVievModel articelViev = _mapper.Map<ArticleRateVievModel>(item);
+                articelViev.ArticleName = _unitOfWork.ArticleRepo
+                    .GetAll()
+                    .Where(a => a.Id == item.ArticleId)
+                    .Select(a => a.Title)
+                    .FirstOrDefault();
+                var dbuser = await _userServiceAdm
+                    .GetAllUsers();
+                articelViev.UserLogin = dbuser
+                    .Where(u => u.Id == item.UserId)
+                    .Select(u => u.UserName)
+                    .FirstOrDefault();
+                articelVievs.Add(articelViev);
+            }
+            return articelVievs;
         }
-
 
     }
 }

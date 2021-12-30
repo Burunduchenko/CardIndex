@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BLL.Interfaces;
-using BLL.Models;
+using BLL.VievModels;
+using BLL.AddModels;
 using BLL.Services;
 using BLL.Exceptions;
 using System.Collections.Generic;
@@ -12,38 +13,24 @@ namespace CardIndex.Controlers
     [ApiController]
     public class ThemeController : ControllerBase
     {
-        private readonly IService<ThemeModel> _themeService;
+        private readonly IBaseService<ThemeAddModel, ThemeVievModel> _themeService;
 
-        public ThemeController(IService<ThemeModel> themeService)
+        public ThemeController(IBaseService<ThemeAddModel, ThemeVievModel> themeService)
         {
             _themeService = themeService;
         }
 
 
         [HttpGet]
-        public ActionResult<IEnumerable<ThemeModel>> GetAll()
+        public async Task<ActionResult<IEnumerable<ThemeVievModel>>> GetAll()
         {
-            return Ok(_themeService.GetAllWithDetails());
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ThemeModel>> GetById(int id)
-        {
-            try
-            {
-                var articleRateModel = await _themeService.GetByIdWithDetailsAsync(id);
-                return Ok(articleRateModel);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
+            return Ok(await _themeService.GetAllWithDetails());
         }
 
 
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] ThemeModel articleModel)
+        public async Task<IActionResult> Add([FromBody] ThemeAddModel articleModel)
         {
             try
             {

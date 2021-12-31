@@ -2,6 +2,10 @@
 
 namespace Administration.HelperModels
 {
+    /// <summary>
+    /// Model that includes the user's 
+    /// email and specified access rights
+    /// </summary>
     public class AssignUserToRolesModel
     {
         [Required(ErrorMessage = "Email field is required")]

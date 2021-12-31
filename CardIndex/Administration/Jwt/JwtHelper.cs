@@ -8,12 +8,17 @@ using System.Text;
 
 namespace Administration.Jwt
 {
+    /// <summary>
+    /// The class is designed to create an JWT token
+    /// </summary>
     public static class JwtHelper
     {
         public static string GenerateJwt(User user, IEnumerable<string> roles, JwtSettings jwtSettings)
         {
-            if (user is null) throw new Exception($"Jwt generation not proceeded - {nameof(user)} is null");
-
+            if (user is null)
+            {
+                throw new Exception($"Jwt generation not proceeded - {nameof(user)} is null");
+            }
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DAL.Respositories
 {
+    /// <summary>
+    /// A class that is designed to interact with the Entity Theme
+    /// </summary>
     public class ThemeRepository : IRepository<Theme>
     {
         private readonly ICardContext _cardDbContext;

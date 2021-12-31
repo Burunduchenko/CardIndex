@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DAL.Respositories
 {
+    /// <summary>
+    /// A class that is designed to interact with the Entity Article 
+    /// </summary>
     public class ArticleRepository : IRepository<Article>
     {
         private readonly ICardContext _cardDbContext;

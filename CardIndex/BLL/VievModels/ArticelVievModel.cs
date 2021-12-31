@@ -2,8 +2,13 @@
 
 namespace BLL.VievModels
 {
+    /// <summary>
+    /// A model for transmitting to the user the 
+    /// necessary information about Article Entity
+    /// </summary>
     public class ArticelVievModel
     {
+
         public string Title { get; set; }
         public string Body { get; set; }
         public string AuthorFullName { get; set; }

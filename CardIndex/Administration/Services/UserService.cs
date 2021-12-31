@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace Administration.Services
 {
+    /// <summary>
+    /// The class is designed to work with User and Role Identities
+    /// </summary>
     public sealed class UserService : IUserService
     {
         private readonly UserManager<User> _userManager;
@@ -35,7 +38,7 @@ namespace Administration.Services
 
         public async Task RegisterAsync(RegisterModel user)
         {
-            var result = await _userManager.CreateAsync(new User
+            var adduser = new User()
             {
                 Email = user.Email,
                 UserName = user.Login,
@@ -43,7 +46,14 @@ namespace Administration.Services
                 LastName = user.LastName,
                 PhoneNumber = user.PhoneNumber
 
-            }, user.Password);
+            };
+            var result = await _userManager.CreateAsync(adduser, user.Password);
+
+            await AssignUserToRolesAsync(new AssignUserToRolesModel()
+            {
+                Email = user.Email,
+                Roles = new string[] { "user" }
+            });
 
             if (!result.Succeeded)
             {
@@ -66,11 +76,19 @@ namespace Administration.Services
             return JwtToken;
         }
 
+        /// <summary>
+        /// The method is designed to give 
+        /// the user different access rights
+        /// </summary>
+        /// <param name="assignUserToRoles">Model that includes the user's 
+        /// email and specified access rights</param>
+        /// <returns></returns>
+        /// <exception cref="InvalidArgumentException">An error is thrown when the 
+        /// entered data is invalid</exception>
         public async Task AssignUserToRolesAsync(AssignUserToRolesModel assignUserToRoles)
         {
-            var user = _userManager.Users.SingleOrDefault(u => u.UserName == assignUserToRoles.Email);
-            var roles = _roleManager.Roles.ToList().Where(r => assignUserToRoles.Roles.Contains(r.Name, StringComparer.OrdinalIgnoreCase))
-                .Select(r => r.NormalizedName).ToList();
+            var user = _userManager.Users.SingleOrDefault(u => u.Email == assignUserToRoles.Email);
+            var roles = _roleManager.Roles.Where(r => assignUserToRoles.Roles.Contains(r.Name)).Select(r => r.Name.ToUpper()).ToList();
 
             var result = await _userManager.AddToRolesAsync(user, roles);
 
@@ -82,7 +100,8 @@ namespace Administration.Services
 
         public async Task CreateRoleAsync(string roleName)
         {
-            var result = await _roleManager.CreateAsync(new IdentityRole(roleName));
+            var result = await _roleManager.CreateAsync(
+                new IdentityRole() { Name = roleName, NormalizedName = roleName.ToUpper()});
 
             if (!result.Succeeded)
             {
@@ -96,8 +115,6 @@ namespace Administration.Services
             List<RoleViev> result = roles.Select(r => new RoleViev() { Name = r.Name }).ToList();
             return result;
         }
-
-
 
         public async Task<IdentityResult> DeleteUserByEmailAndPasswordAsync(string email, string password)
         {
@@ -184,6 +201,11 @@ namespace Administration.Services
             return result;
         }
 
+        /// <summary>
+        /// The method is designed to find all users in Article Rate Controller, method 
+        /// AddAsync 
+        /// </summary>
+        /// <returns>User Identity</returns>
         public async Task<IEnumerable<User>> GetUsersAsync()
         {
             return await _userManager.Users.ToListAsync();

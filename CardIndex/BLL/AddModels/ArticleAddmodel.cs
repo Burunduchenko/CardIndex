@@ -2,6 +2,10 @@
 
 namespace BLL.AddModels
 {
+    /// <summary>
+    /// A model for which contains fields and 
+    /// validation, for the user to enter data about Article 
+    /// </summary>
     public class ArticleAddmodel
     {
         [Required(ErrorMessage = "You can't create article without title")]

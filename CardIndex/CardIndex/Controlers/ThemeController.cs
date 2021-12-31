@@ -2,12 +2,18 @@
 using BLL.AddModels;
 using BLL.Interfaces;
 using BLL.VievModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace CardIndex.Controlers
 {
+    /// <summary> 
+    ///The controller is 
+    ///designed to implement REST functions 
+    ///over the entity Theme
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ThemeController : ControllerBase
@@ -23,6 +29,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> GetAllAsync()
         {
             _logger.LogInformation("Was SUCCESSFULL called GetAllAsync method from Theme Controller");
@@ -30,6 +37,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin,author")]
         public async Task<IActionResult> AddAsync([FromBody] ThemeAddModel articleModel)
         {
             _logger.LogInformation("Was called AddAsync method from Theme Controller");
@@ -54,6 +62,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin,author")]
         public async Task<IActionResult> DeleteByIdAsync(int id)
         {
             _logger.LogInformation("Was called DeleteByIdAsync method from Theme Controller");

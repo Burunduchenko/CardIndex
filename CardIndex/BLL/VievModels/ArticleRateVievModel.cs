@@ -2,6 +2,10 @@
 
 namespace BLL.VievModels
 {
+    /// <summary>
+    /// A model for transmitting to the user the 
+    /// necessary information about Article Rate Entity
+    /// </summary>
     public class ArticleRateVievModel
     {
         public int Rate { get; set; }

@@ -2,6 +2,10 @@
 
 namespace Administration.HelperModels
 {
+    /// <summary>
+    /// Validation class and fields to be 
+    /// filled in by the user to register
+    /// </summary>
     public class RegisterModel
     {
         [Required(ErrorMessage = "Email field is required")]

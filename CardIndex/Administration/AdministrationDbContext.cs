@@ -17,8 +17,8 @@ namespace Administration
             base.OnModelCreating(builder);
             builder.Entity<IdentityRole>().HasData(new[]
             {
-                new IdentityRole("user"),
-                new IdentityRole("admin")
+                new IdentityRole() {Name = "user", NormalizedName = "USER"},
+                new IdentityRole() {Name = "admin", NormalizedName = "ADMIN"}
             });
         }
     }

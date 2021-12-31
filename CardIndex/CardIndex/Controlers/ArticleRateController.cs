@@ -2,12 +2,18 @@
 using BLL.AddModels;
 using BLL.Interfaces;
 using BLL.VievModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace CardIndex.Controlers
 {
+    /// <summary>
+    ///The controller is 
+    ///designed to implement REST functions 
+    ///over the entity ArticleRate
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ArticleRateController : ControllerBase
@@ -24,6 +30,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAllAsync()
         {
             _logger.LogInformation("Was SUCCESSFULL called GetAllAsync method from Article Rate Controller");
@@ -31,6 +38,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddAsync([FromBody] ArticleRateAddModel articleModel)
         {
             _logger.LogInformation("Was called AddAsync method from Aricle Rate Controller");
@@ -56,6 +64,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteByIdAsync(int id)
         {
             _logger.LogInformation("Was called DeleteByIdAsync method from Aricle Rate Controller");

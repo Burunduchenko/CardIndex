@@ -1,6 +1,7 @@
 ﻿using Administration.Exceptions;
 using Administration.HelperModels;
 using Administration.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,6 +9,11 @@ using System.Threading.Tasks;
 
 namespace CardIndex.Controlers
 {
+    /// <summary>
+    ///The controller is 
+    ///designed to implement REST functions 
+    ///over the entities UserIdentity and RoleIdentity
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class AdministrationController : Controller
@@ -61,6 +67,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpPost("createRole")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateRoleAsync(CreateRoleModel model)
         {
             _logger.LogInformation("Was called CreateRoleAsync method from Administration Controller");
@@ -80,13 +87,20 @@ namespace CardIndex.Controlers
         }
 
         [HttpGet("getRoles")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> GetRolesAsync()
         {
             _logger.LogInformation("Was SUCCESSFULL called GetRolesAsync method from Administration Controller");
             return Ok(await _userService.GetRolesAsync());
         }
 
+        /// <summary>
+        /// The method is designed to give the user different access rights
+        /// </summary>
+        /// <param name="model">Model that includes the user's email and specified access rights</param>
+        /// <returns></returns>
         [HttpPost("assignUserToRoles")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> AssignUserToRoleAsync(AssignUserToRolesModel model)
         {
             _logger.LogInformation("Was called AssignUserToRoleAsync method from Administration Controller");
@@ -106,6 +120,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpDelete("DeleteUser/{email}/{password}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteUserAsync(string email, string password)
         {
             _logger.LogInformation("Was called DeleteUserAsync method from Administration Controller");
@@ -124,6 +139,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpGet("GetUser/{email}/{password}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> GetUserAsync(string email, string password)
         {
             _logger.LogInformation("Was called GetUserAsync method from Administration Controller");
@@ -142,6 +158,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpGet("GetAllUsers")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> GetAllUsersAsync()
         {
             _logger.LogInformation("Was SUCCESSFULL called GetAllUsersAsync method from Administration Controller");
@@ -149,6 +166,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpDelete("DeleteRole/{roleName}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteRoleAsync(string roleName)
         {
             _logger.LogInformation("Was called DeleteRoleAsync method from Administration Controller");

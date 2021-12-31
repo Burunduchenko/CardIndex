@@ -2,6 +2,10 @@
 
 namespace Administration.HelperModels
 {
+    /// <summary>
+    /// Validation class and fields that must be 
+    /// filled in by the administrator to create the role
+    /// </summary>
     public class CreateRoleModel
     {
         [Required(ErrorMessage = "Role name is required")]

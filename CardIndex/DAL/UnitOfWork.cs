@@ -4,6 +4,10 @@ using DAL.Respositories;
 
 namespace DAL
 {
+    /// <summary>
+    /// The class is designed to use a 
+    /// single database context in the program
+    /// </summary>
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ICardContext _cardDbContext;

@@ -2,6 +2,10 @@
 
 namespace BLL.AddModels
 {
+    /// <summary>
+    /// A model for which contains fields and 
+    /// validation, for the user to enter data about Article Rate
+    /// </summary>
     public class ArticleRateAddModel
     {
         [Required(ErrorMessage = "Rate field is Required")]

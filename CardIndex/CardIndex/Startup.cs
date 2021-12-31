@@ -45,7 +45,6 @@ namespace CardIndex
         }
 
         public IConfiguration Configuration { get; }
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
@@ -61,16 +60,11 @@ namespace CardIndex
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
 
-            services.AddScoped<IRepository<Theme>, ThemeRepository>();
-            services.AddScoped<IRepository<Article>, ArticleRepository>();
-            services.AddScoped<IBaseRepository<ArticleRate>, ArticleRateRepository>();
-
+            ConfigureSertviceMethods.ServicesDI(services);
+            ConfigureSertviceMethods.RepositoryDI(services);
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            services.AddScoped<IArticleService, ArticleService>();
-            services.AddScoped<IBaseService<ThemeAddModel, ThemeVievModel>, ThemeService>();
-            services.AddScoped<IBaseService<ArticleRateAddModel, ArticleRateVievModel>, ArticleRateService>();
-            services.AddScoped<IUserService, UserService>();
+
 
             services.AddDbContext<ICardContext, CardDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("CardDB")));
@@ -86,39 +80,62 @@ namespace CardIndex
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
 
-            services.AddDbContext<AdministrationDbContext>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("AdministrationDB")));
+            ConfigureSertviceMethods.AdministrationDI(services, Configuration);
 
-            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<AdministrationDbContext>();
-
-            services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
-
-            services.AddControllersWithViews().AddNewtonsoftJson(options =>
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            );
-
-            var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
-            services
-                .AddAuthorization()
-                .AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(options =>
-                {
-                    options.RequireHttpsMetadata = false;
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidIssuer = jwtSettings.Issuer,
-                        ValidAudience = jwtSettings.Issuer,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
-                        ClockSkew = TimeSpan.Zero
-                    };
-                });
         }
 
+        private static class ConfigureSertviceMethods
+        {
+            public static void ServicesDI(IServiceCollection services)
+            {
+                services.AddScoped<IRepository<Theme>, ThemeRepository>();
+                services.AddScoped<IRepository<Article>, ArticleRepository>();
+                services.AddScoped<IBaseRepository<ArticleRate>, ArticleRateRepository>();
+            }
+
+            public static void RepositoryDI(IServiceCollection services)
+            {
+                services.AddScoped<IArticleService, ArticleService>();
+                services.AddScoped<IBaseService<ThemeAddModel, ThemeVievModel>, ThemeService>();
+                services.AddScoped<IBaseService<ArticleRateAddModel, ArticleRateVievModel>, ArticleRateService>();
+                services.AddScoped<IUserService, UserService>();
+            }
+
+            public static void AdministrationDI(IServiceCollection services, IConfiguration Configuration)
+            {
+                services.AddDbContext<AdministrationDbContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("AdministrationDB")));
+
+                services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<AdministrationDbContext>();
+
+                services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
+
+                services.AddControllersWithViews().AddNewtonsoftJson(options =>
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );
+
+                var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
+                services
+                    .AddAuthorization()
+                    .AddAuthentication(options =>
+                    {
+                        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    })
+                    .AddJwtBearer(options =>
+                    {
+                        options.RequireHttpsMetadata = false;
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidIssuer = jwtSettings.Issuer,
+                            ValidAudience = jwtSettings.Issuer,
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
+                            ClockSkew = TimeSpan.Zero
+                        };
+                    });
+            }
+        }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

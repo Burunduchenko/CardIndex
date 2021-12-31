@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Administration.Interfaces
 {
+    /// <summary>
+    /// The interface is designed to describe 
+    /// functions of User Service
+    /// </summary>
     public interface IUserService
     {
         Task RegisterAsync(RegisterModel user);

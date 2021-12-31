@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DAL.Respositories
 {
+    /// <summary>
+    /// A class that is designed to interact with the Entity Article Rate
+    /// </summary>
     public class ArticleRateRepository : IBaseRepository<ArticleRate>
     {
 

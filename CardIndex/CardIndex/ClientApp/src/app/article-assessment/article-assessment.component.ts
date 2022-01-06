@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { AddArticleAssessment } from '../models/add-article-assessment';
+import { Article } from '../models/article';
+import { ArticleAssessment } from '../models/article-assessment';
+import { ArticleAssessmentService } from '../services/article-assessment.service';
+import { ArticleServiceService } from '../services/article-service.service';
 
 @Component({
   selector: 'app-article-assessment',
@@ -7,9 +12,44 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ArticleAssessmentComponent implements OnInit {
 
-  constructor() { }
+  private _allAssessments: ArticleAssessment[];
+  private _allArticles: Article[];
+  addMode: boolean;
+  addAssessmentModel: AddArticleAssessment = new AddArticleAssessment();
+
+  constructor(private _articleAssessmentService: ArticleAssessmentService,
+    private _articleService: ArticleServiceService) { }
 
   ngOnInit() {
+    this.getAllAssessment();
+    this._articleService.getArticles().subscribe(articles => this._allArticles = articles);
   }
 
+
+  getAllAssessment()
+  {
+    return this._articleAssessmentService.getAllAssessment().subscribe(assessments => this._allAssessments = assessments);
+  }
+
+
+  cancel() {
+    this.addAssessmentModel = new AddArticleAssessment();
+    this.addMode = false;
+  }
+
+  add() {
+    this.cancel();
+    this.addMode = true;
+  }
+
+  saveAssessmentAdd()
+  {
+    this._articleAssessmentService.addAssessment(this.addAssessmentModel).subscribe(res => this.getAllAssessment());
+    this.cancel();
+  }
+
+  deleteAssessment(assessment: ArticleAssessment)
+  {
+    this._articleAssessmentService.deleteAssessment(assessment.id).subscribe(res => this.getAllAssessment());
+  }
 }

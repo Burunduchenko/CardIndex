@@ -5,7 +5,7 @@ export class Article{
     authorFullName: string
     themeName: string
     Created: Date
-    AvgRate: number
+    avgRate: number
 
     constructor(id: number,
         title: string,
@@ -13,7 +13,7 @@ export class Article{
         authorFullName: string,
         themeName: string,
         Created: Date,
-        AvgRate: number)
+        avgRate: number)
         {
             this.id = id;
             this.title = title;
@@ -21,6 +21,6 @@ export class Article{
             this.authorFullName = authorFullName;
             this.themeName = themeName;
             this.Created = Created;
-            this.AvgRate = AvgRate;
+            this.avgRate = avgRate;
         }
 }

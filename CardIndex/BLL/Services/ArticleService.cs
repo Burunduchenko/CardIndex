@@ -26,12 +26,12 @@ namespace BLL.Services
         private async Task<double> GetArticleAvgRateAsync(int id)
         {
             var res = await _unitOfWork.ArticleRateRepo.GetAllWithDetailsAsync();
-            res.ToList();
-            if (res.Count() == 0)
+            var rates = res.Where(x => x.ArticleId == id).Select(x => x.Rate).ToList();
+            if (rates.Count()==0)
             {
                 return 0;
             }
-            return res.Select(x => x.Rate).Average(); ;
+            return rates.Average(); 
         }
 
 
@@ -179,7 +179,8 @@ namespace BLL.Services
                 min = buff;
             }
             var res = await GetAllWithDetailsAsync();
-            return res.Where(x => x.AvgRate <= max && x.AvgRate >= min);
+            var result = res.Where(x => x.AvgRate <= max && x.AvgRate >= min);
+            return result;
 
         }
 

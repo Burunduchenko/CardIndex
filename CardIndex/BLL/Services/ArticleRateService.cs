@@ -59,9 +59,9 @@ namespace BLL.Services
             articleRateAdded.ArticleId = article.Id;
             articleRateAdded.UserId = user.Id;
             articleRateAdded.Date = DateTime.Now;
+            articleRateAdded.Article = article;
 
             await _unitOfWork.ArticleRateRepo.AddAsync(articleRateAdded);
-            _unitOfWork.SaveChanges();
 
             ArticleRateVievModel articleRateViev = _mapper.Map<ArticleRateVievModel>(articleRateAdded);
             articleRateViev.ArticleName = article.Title;

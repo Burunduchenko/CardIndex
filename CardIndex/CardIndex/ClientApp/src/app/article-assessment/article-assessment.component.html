@@ -1,1 +1,57 @@
-<p>article-assessment works!</p>
+
+<div id="mySidenav" class="sidenav">
+    <a>
+         <h3>The list of Articles</h3>
+    </a>
+    <div *ngFor="let article of _allArticles">
+        <h5>{{article.title}}</h5>
+    </div>
+</div>
+
+
+<br>
+<button class = "btn btn-outline-primary" (click)="add()">Leave assessment</button>
+<br>
+<div *ngIf = "addMode">
+    <br>
+    <div class="form-group">
+        <input type="number" [(ngModel)]="addAssessmentModel.rate" class="form-control" placeholder="Assessment"/>
+    </div>
+    <div class="form-group">
+        <input type="text" [(ngModel)]="addAssessmentModel.comment" class="form-control" placeholder="Your comment" />
+    </div>
+    <div class="form-group">
+        <input type="text" [(ngModel)]="addAssessmentModel.articleTitle" class="form-control" placeholder="Article title" />
+    </div>
+    <div class="form-group">
+        <input type="text" [(ngModel)]="addAssessmentModel.userLogin" class="form-control" placeholder="Your login"/>
+    </div>
+    <div>
+        <button (click)="saveAssessmentAdd()" class="btn btn-success">Save</button>
+        <button (click)="cancel()" class="btn btn-warning">Cancel</button>
+    </div>
+</div>
+
+<br>
+<table class="table table-striped">
+    <thead class="thead-dark" >
+        <tr>
+            <td scope="col">Rate</td>
+            <td scope="col">Comment</td>
+            <td scope="col">Article</td>
+            <td scope="col">User login</td>
+            <td scope="col">Date</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let assessment of _allAssessments">
+                <td>{{assessment.rate}}</td>
+                <td>{{assessment.comment}}</td>
+                <td>{{assessment.articleName}}</td>
+                <td>{{assessment.userLogin}}</td>
+                <td>{{assessment.date}}</td>
+                <td><button class = "btn  btn-danger" (click) = "deleteAssessment(assessment)">delete</button></td>
+        </tr>
+    </tbody>
+</table>

@@ -12,9 +12,12 @@ h1:hover {
     font-size: 20px;
 }
 
-summary::-webkit-details-marker {
-    display: none;
-  }
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
 
   button{
       margin-left: 1ex;
@@ -49,12 +52,7 @@ summary::-webkit-details-marker {
   .sidenav a:hover {
     color: #f1f1f1;
   }
-  
-  /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-  #main {
-    transition: margin-left .5s;
-    padding: 20px;
-  }
+
 
   .sidenav div{
       margin-left: 1ex;

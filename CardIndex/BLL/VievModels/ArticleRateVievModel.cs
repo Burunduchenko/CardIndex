@@ -13,6 +13,6 @@ namespace BLL.VievModels
         public string Comment { get; set; }
         public string ArticleName { get; set; }
         public string UserLogin { get; set; }
-        public DateTime Created { get; set; }
+        public DateTime Date { get; set; }
     }
 }

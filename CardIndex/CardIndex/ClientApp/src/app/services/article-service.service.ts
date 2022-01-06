@@ -43,4 +43,9 @@ export class ArticleServiceService {
   {
     return this.Http.get<Article>(this.base_article_url + "/getByName/" + title);
   }
+
+  getByRangeOfRate(max: number, min: number): Observable<Article[]>
+  {
+    return this.Http.get<Article[]>(this.base_article_url + "/getByRangeOfRate/" + max + "/" + min);
+  }
 }

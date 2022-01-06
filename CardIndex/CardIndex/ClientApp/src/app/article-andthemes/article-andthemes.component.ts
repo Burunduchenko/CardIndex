@@ -141,4 +141,14 @@ export class ArticleAndthemesComponent implements OnInit {
     this._articleService.getArtilceByTitle(this.searchTitle)
     .subscribe(articles => this._allArticles.push(articles));
   }
+
+  searchByRate()
+  {
+    if(!this.maxRate || !this.minRate)
+    {
+      this.getAllArticles();
+      return;
+    }
+    this._articleService.getByRangeOfRate(this.maxRate, this.minRate).subscribe(res => this._allArticles = res);
+  }
 }

@@ -26,7 +26,7 @@ import { ArticleAssessmentComponent } from './article-assessment/article-assessm
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'articles', component: ArticleAndthemesComponent },
-      { path: 'article-assessment', component: ArticleAndthemesComponent },
+      { path: 'article-assessment', component: ArticleAssessmentComponent },
     ])
   ],
   providers: [],

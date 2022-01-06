@@ -55,7 +55,7 @@ namespace CardIndex.Controlers
             }
         }
 
-        [HttpGet("getByTheme{theme}")]
+        [HttpGet("getByTheme/{theme}")]
         //[Authorize]
         public async Task<IActionResult> GetByThemeAsync(string theme)
         {

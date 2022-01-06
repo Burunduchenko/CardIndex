@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { ArticleAndthemesComponent } from './article-andthemes/article-andthemes.component';
+import { ArticleAssessmentComponent } from './article-assessment/article-assessment.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { ArticleAndthemesComponent } from './article-andthemes/article-andthemes
     NavMenuComponent,
     HomeComponent,
     ArticleAndthemesComponent,
+    ArticleAssessmentComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -24,6 +26,7 @@ import { ArticleAndthemesComponent } from './article-andthemes/article-andthemes
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'articles', component: ArticleAndthemesComponent },
+      { path: 'article-assessment', component: ArticleAndthemesComponent },
     ])
   ],
   providers: [],

@@ -16,10 +16,6 @@ export class ArticleServiceService {
     return this.Http.get<Article[]>(this.base_article_url);
   }
 
-  getByThemeArticles(theme: string): Observable<Article[]>{
-    return this.Http.get<Article[]>(this.base_article_url+"/getByTheme/" + theme);
-  }
-
   deleteArticle(id: number){
     return this.Http.delete(this.base_article_url + '/delete/'+id);
   }
@@ -32,5 +28,19 @@ export class ArticleServiceService {
   updateArticle(article: BuffArticle)
   {
     return this.Http.put(this.base_article_url + "/UpdateArticle", article)
+  }
+
+  getByThemeArticles(theme: string): Observable<Article[]>{
+    return this.Http.get<Article[]>(this.base_article_url+"/getByTheme/" + theme);
+  }
+
+  getArticleByLenght(lenght: number): Observable<Article[]>
+  {
+    return this.Http.get<Article[]>(this.base_article_url + "/getByLength/" + lenght);
+  }
+  
+  getArtilceByTitle(title: string): Observable<Article>
+  {
+    return this.Http.get<Article>(this.base_article_url + "/getByName/" + title);
   }
 }

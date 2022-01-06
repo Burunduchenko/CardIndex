@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DAL.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace BLL.AddModels
 {
@@ -24,5 +25,7 @@ namespace BLL.AddModels
         [MinLength(2, ErrorMessage = "The name of theme is too short")]
         [MaxLength(20, ErrorMessage = "The name of theme is too large")]
         public string ThemeName { get; set; }
+
+        public Theme theme { get; set; }
     }
 }

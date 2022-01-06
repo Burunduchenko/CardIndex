@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { createFalse } from 'typescript';
 import { Article } from '../models/article';
 import { BuffArticle } from '../models/buff-article';
 import { Theme } from '../models/theme';
@@ -17,8 +18,8 @@ export class ArticleAndthemesComponent implements OnInit {
   private _allArticles: Article[];
   articles: Article[];
   searchTheme: string;
-  searchName: string;
-  Lenght: number;
+  searchTitle: string;
+  lenght: number;
 
   minRate: number;
   maxRate: number;
@@ -28,6 +29,8 @@ export class ArticleAndthemesComponent implements OnInit {
 
 
   private _allThemes: Theme[];
+  buffTheme: Theme;
+  addThemeMode: boolean = false;
   
   constructor(private _articleService: ArticleServiceService,
     private _themeService: ThemeServiceService) { }
@@ -48,6 +51,26 @@ export class ArticleAndthemesComponent implements OnInit {
   {
     this._themeService.deleteTheme(theme.id).subscribe(res => this.getAllThemes());
   }
+
+
+  cancelTheme()
+  {
+    this.buffTheme = new Theme();
+    this.addThemeMode = false;
+  }
+
+  addTheme(theme: Theme )
+  {
+    this.cancelTheme()
+    this.addThemeMode = true;
+  }
+
+  saveThemeAdd()
+  {
+    this._themeService.addTheme(this.buffTheme).subscribe(res => this.getAllThemes());
+    this.cancelTheme();
+  }
+
 
   cancel() {
     this.buffArticle = new BuffArticle();
@@ -88,12 +111,34 @@ export class ArticleAndthemesComponent implements OnInit {
     this._articleService.deleteArticle(article.id).subscribe(res => this.getAllArticles());
   }
 
-  searchbyTheme() {
+  searchByTheme() {
     if(!this.searchTheme)
     {
       this.getAllArticles()
       return;
     }
     this._articleService.getByThemeArticles(this.searchTheme).subscribe(articles => this._allArticles = articles);
+  }
+
+  searchByLenght()
+  {
+    if(!this.lenght)
+    {
+      this.getAllArticles()
+      return;
+    }
+    this._articleService.getArticleByLenght(this.lenght).subscribe(articles => this._allArticles = articles);
+  }
+
+  searchByTitle()
+  {
+    if(!this.searchTitle)
+    {
+      this.getAllArticles()
+      return;
+    }
+    this._allArticles = [];
+    this._articleService.getArtilceByTitle(this.searchTitle)
+    .subscribe(articles => this._allArticles.push(articles));
   }
 }

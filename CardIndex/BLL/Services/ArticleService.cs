@@ -67,6 +67,8 @@ namespace BLL.Services
                 throw new AlreadyExistException();
             }
 
+            item.theme = theme;
+
             Article article = _mapper.Map<Article>(item);
             article.ThemeId = theme.Id;
             article.Created = DateTime.Now;

@@ -2,17 +2,20 @@
 
 <!-- Right Sidebar with the list of all themes-->
 <ul class="sidebar-nav">
-    <a>
-        <div>
-            <h2>The list of themes</h2>
-        </div>
-    </a>
-    <hr>
-    <div *ngFor="let theme of _allThemes">
-        <a> 
-            <button class="btn  btn-danger" (click) = "deleteTheme(theme)">delete</button>
-            {{theme.name}}   
+    <div *ngIf = "!addThemeMode else createTheme">
+        <button class="btn btn-success" (click) = "addTheme()">Add Theme</button>
+        <a>
+            <div>
+                <h2>The list of themes</h2>
+            </div>
         </a>
+        <hr>
+        <div *ngFor="let theme of _allThemes">
+            <a> 
+                <button class="btn  btn-danger" (click) = "deleteTheme(theme)">delete</button>
+                {{theme.name}}   
+            </a>
+        </div>
     </div>
 </ul>
 
@@ -29,11 +32,11 @@
             <button class = "btn btn-outline-light" (click) = "searchByTheme()">search by theme</button>
         </div>
         <div>
-            <input class="form-group" [(ngModel)] = "searchName" type="text" placeholder="Name">
-            <button class = "btn btn-outline-light" (click) = "searchByName()">search by name</button>
+            <input class="form-group" [(ngModel)] = "searchTitle" type="text" placeholder="Title">
+            <button class = "btn btn-outline-light" (click) = "searchByTitle()">search by title</button>
         </div>
         <div>
-            <input class="form-group" [(ngModel)] = "Lenght" type="number" placeholder="Lenght(>50)">
+            <input class="form-group" [(ngModel)] = "lenght" type="number" placeholder="Lenght(>50)">
             <button class = "btn btn-outline-light" (click) = "searchByLenght()">serach by lenght</button>
         </div>
         <div>
@@ -55,18 +58,30 @@
             <details> 
                 <summary><h1>{{article.title}}</h1></summary>
                 <h3 class="artilce-body">{{article.body}}</h3>
-            </details>
+            
             <p class="article-desc"> <strong>Was posted</strong>  - {{article.created}}</p>
             <p class="article-desc"> <strong>Author </strong> - {{article.authorFullName}}</p>
             <p class="article-desc"> <strong>Rate</strong> - {{article.avgRate}}</p>
             <p class="article-desc"> <strong>Theme</strong> - {{article.themeName}}</p>
             <button class="btn  btn-primary"(click) = "update(article)" >update</button>
             <button class="btn  btn-danger" (click) = "delete(article)">delete</button>
+            </details>
             <hr>
         </ng-template>
     </div>
 </div>
 
+
+<ng-template #createTheme>
+    <div class="form-group">
+        <label>Name</label>
+        <input type="text" [(ngModel)]="buffTheme.name" class="form-control" />
+    </div>
+    <div>
+        <button (click)="saveThemeAdd()" class="btn btn-success">Save</button>
+        <button (click)="cancelTheme()" class="btn btn-warning">Cancel</button>
+    </div>
+</ng-template>
 
 
 <!--Templates for update and create Article-->

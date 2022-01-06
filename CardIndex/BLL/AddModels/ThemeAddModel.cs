@@ -8,6 +8,7 @@ namespace BLL.AddModels
     /// </summary>
     public class ThemeAddModel
     {
+        public int Id { get; set; }
         [Required]
         [MinLength(2, ErrorMessage = "Theme name is too short")]
         [MaxLength(20, ErrorMessage = "Theme name is too large")]

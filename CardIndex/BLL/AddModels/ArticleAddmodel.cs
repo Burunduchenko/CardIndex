@@ -8,6 +8,7 @@ namespace BLL.AddModels
     /// </summary>
     public class ArticleAddmodel
     {
+        public int Id { get; set; }
         [Required(ErrorMessage = "You can't create article without title")]
         [MinLength(5, ErrorMessage = "Title is too short")]
         [MaxLength(70, ErrorMessage = "Title is too large")]

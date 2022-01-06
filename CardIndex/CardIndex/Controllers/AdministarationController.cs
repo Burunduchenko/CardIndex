@@ -67,7 +67,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpPost("createRole")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateRoleAsync(CreateRoleModel model)
         {
             _logger.LogInformation("Was called CreateRoleAsync method from Administration Controller");
@@ -87,7 +87,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpGet("getRoles")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> GetRolesAsync()
         {
             _logger.LogInformation("Was SUCCESSFULL called GetRolesAsync method from Administration Controller");
@@ -100,7 +100,7 @@ namespace CardIndex.Controlers
         /// <param name="model">Model that includes the user's email and specified access rights</param>
         /// <returns></returns>
         [HttpPost("assignUserToRoles")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> AssignUserToRoleAsync(AssignUserToRolesModel model)
         {
             _logger.LogInformation("Was called AssignUserToRoleAsync method from Administration Controller");
@@ -120,7 +120,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpDelete("DeleteUser/{email}/{password}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteUserAsync(string email, string password)
         {
             _logger.LogInformation("Was called DeleteUserAsync method from Administration Controller");
@@ -139,7 +139,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpGet("GetUser/{email}/{password}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> GetUserAsync(string email, string password)
         {
             _logger.LogInformation("Was called GetUserAsync method from Administration Controller");
@@ -158,7 +158,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpGet("GetAllUsers")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> GetAllUsersAsync()
         {
             _logger.LogInformation("Was SUCCESSFULL called GetAllUsersAsync method from Administration Controller");

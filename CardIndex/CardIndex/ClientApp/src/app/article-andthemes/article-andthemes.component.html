@@ -1,0 +1,104 @@
+
+
+<!-- Right Sidebar with the list of all themes-->
+<ul class="sidebar-nav">
+    <a>
+        <div>
+            <h2>The list of themes</h2>
+        </div>
+    </a>
+    <hr>
+    <div *ngFor="let theme of _allThemes">
+        <a> 
+            <button class="btn  btn-danger" (click) = "deleteTheme(theme)">delete</button>
+            {{theme.name}}   
+        </a>
+    </div>
+</ul>
+
+ <div *ngIf = "!addMode else createArticle">
+    <!--Left navbar for serching articles-->
+    <div id="mySidenav" class="sidenav">
+        <a>
+            <div>
+                <h2>Search Bar</h2>
+            </div>
+        </a>
+        <div>
+            <input class="form-group" [(ngModel)] = "searchTheme" type="text" placeholder="Theme">
+            <button class = "btn btn-outline-light" (click) = "searchByTheme()">search by theme</button>
+        </div>
+        <div>
+            <input class="form-group" [(ngModel)] = "searchName" type="text" placeholder="Name">
+            <button class = "btn btn-outline-light" (click) = "searchByName()">search by name</button>
+        </div>
+        <div>
+            <input class="form-group" [(ngModel)] = "Lenght" type="number" placeholder="Lenght(>50)">
+            <button class = "btn btn-outline-light" (click) = "searchByLenght()">serach by lenght</button>
+        </div>
+        <div>
+            <input class = "number" [(ngModel)] = "minRate" type="number" placeholder="min rate">
+            <input class = "number"  [(ngModel)] = "maxRate" type="number" placeholder="max rate">
+            <button class = "btn btn-outline-light" (click) = "searchByRate()">search by rate</button>
+        </div>
+    </div>
+
+    <br>
+
+
+
+    <button class="btn btn-outline-primary" (click)="add()">Add Article</button>
+    <hr> 
+    <!--Rendering the list of articles-->
+    <div *ngFor="let article of _allArticles">
+        <ng-template [ngIf]="buffArticle?.id != article.id" [ngIfElse]="updateArticel">
+            <details> 
+                <summary><h1>{{article.title}}</h1></summary>
+                <h3 class="artilce-body">{{article.body}}</h3>
+            </details>
+            <p class="article-desc"> <strong>Was posted</strong>  - {{article.created}}</p>
+            <p class="article-desc"> <strong>Author </strong> - {{article.authorFullName}}</p>
+            <p class="article-desc"> <strong>Rate</strong> - {{article.avgRate}}</p>
+            <p class="article-desc"> <strong>Theme</strong> - {{article.themeName}}</p>
+            <button class="btn  btn-primary"(click) = "update(article)" >update</button>
+            <button class="btn  btn-danger" (click) = "delete(article)">delete</button>
+            <hr>
+        </ng-template>
+    </div>
+</div>
+
+
+
+<!--Templates for update and create Article-->
+<ng-template #createArticle>
+    <div class="form-group">
+        <label>Title</label>
+        <input type="text" [(ngModel)]="buffArticle.title" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Body</label>
+        <input type="text" [(ngModel)]="buffArticle.body" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Author full name</label>
+        <input type="text" [(ngModel)]="buffArticle.authorFullName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Theme </label>
+        <input type="text" [(ngModel)]="buffArticle.themeName" class="form-control" placeholder="Take theme from list"/>
+    </div>
+    <div>
+        <button (click)="saveAdd()" class="btn btn-success">Save</button>
+        <button (click)="cancel()" class="btn btn-warning">Cancel</button>
+    </div>
+</ng-template>
+
+
+<ng-template #updateArticel>
+    <input type="text" [(ngModel)]="buffArticle.title" class="form-control" />
+    <input type="text" [(ngModel)]="buffArticle.body" class="form-control" />
+    <input type="text" [(ngModel)]="buffArticle.authorFullName" class="form-control" />
+    <input type="text" [(ngModel)]="buffArticle.themeName" class="form-control" />
+        <button (click)="saveUpdate()" class="btn btn-success">Save</button>
+        <button (click)="cancel()" class="btn btn-warning">Cancel</button>
+</ng-template>

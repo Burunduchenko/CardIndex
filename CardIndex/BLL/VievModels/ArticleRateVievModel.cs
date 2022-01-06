@@ -8,6 +8,7 @@ namespace BLL.VievModels
     /// </summary>
     public class ArticleRateVievModel
     {
+        public int Id { get; set; }
         public int Rate { get; set; }
         public string Comment { get; set; }
         public string ArticleName { get; set; }

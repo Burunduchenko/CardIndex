@@ -6,7 +6,7 @@
     /// </summary>
     public class ThemeVievModel
     {
-
+        public int Id { get; set; }
         public string Name { get; set; }
     }
 }

@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -134,6 +135,10 @@ namespace CardIndex
                             ClockSkew = TimeSpan.Zero
                         };
                     });
+                services.AddSpaStaticFiles(configuration =>
+                {
+                    configuration.RootPath = "ClientApp/dist";
+                });
             }
         }
 
@@ -150,16 +155,16 @@ namespace CardIndex
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
                 });
             }
-            else
-            {
-                app.UseExceptionHandler("/Error");
 
-                app.UseHsts();
-            }
 
 
             app.UseHttpsRedirection();
 
+            app.UseStaticFiles();
+            if (!env.IsDevelopment())
+            {
+                app.UseSpaStaticFiles();
+            }
 
             app.UseRouting();
 
@@ -171,16 +176,22 @@ namespace CardIndex
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Welcome to our great API!");
-                });
+                    //name: "default",
+                    //pattern: "{controller}/{action=Index}/{id?}");
             });
 
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapRazorPages();
-            //});
+
+
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseAngularCliServer(npmScript: "start");
+                }
+            });
+
         }
     }
 }

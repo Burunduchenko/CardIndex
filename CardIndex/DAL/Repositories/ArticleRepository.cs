@@ -64,6 +64,7 @@ namespace DAL.Respositories
             var res = _articles.Find(item.Id);
             res.Title = item.Title;
             res.Body = item.Body;
+            res.ThemeId = item.ThemeId;
             _cardDbContext.SaveChanges();
             return item;
         }

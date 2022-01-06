@@ -229,8 +229,8 @@ namespace BLL.Services
 
             if (_unitOfWork.ArticleRepo
                 .GetAll()
-                .Select(x => x.Title)
-                .FirstOrDefault() != item.Title
+                .Select(x => x.Id)
+                .FirstOrDefault() != item.Id
                 )
             {
                 throw new NotFoundException();

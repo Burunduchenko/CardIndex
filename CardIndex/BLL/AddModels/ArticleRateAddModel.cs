@@ -8,6 +8,7 @@ namespace BLL.AddModels
     /// </summary>
     public class ArticleRateAddModel
     {
+        public int Id { get; set; }
         [Required(ErrorMessage = "Rate field is Required")]
         public int Rate { get; set; }
         [MinLength(10, ErrorMessage = "Comment is too short")]

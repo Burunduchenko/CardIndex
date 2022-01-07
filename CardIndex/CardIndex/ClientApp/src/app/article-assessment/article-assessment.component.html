@@ -8,10 +8,10 @@
     </div>
 </div>
 
-
 <br>
 <button class = "btn btn-outline-primary" (click)="add()">Leave assessment</button>
 <br>
+
 <div *ngIf = "addMode">
     <br>
     <div class="form-group">
@@ -27,8 +27,8 @@
         <input type="text" [(ngModel)]="addAssessmentModel.userLogin" class="form-control" placeholder="Your login"/>
     </div>
     <div>
-        <button (click)="saveAssessmentAdd()" class="btn btn-success">Save</button>
-        <button (click)="cancel()" class="btn btn-warning">Cancel</button>
+        <button (click)="saveAssessmentAdd()" class="btn btn-success"><i class="bi bi-bookmark-check"></i></button>
+        <button (click)="cancel()" class="btn btn-warning leftbutton"><i class="bi bi-bookmark-x"></i></button>
     </div>
 </div>
 
@@ -51,7 +51,7 @@
                 <td>{{assessment.articleName}}</td>
                 <td>{{assessment.userLogin}}</td>
                 <td>{{assessment.date}}</td>
-                <td><button class = "btn  btn-danger" (click) = "deleteAssessment(assessment)">delete</button></td>
+                <td><button class = "btn  btn-danger" (click) = "deleteAssessment(assessment)"><i class="bi bi-trash"></i></button></td>
         </tr>
     </tbody>
 </table>

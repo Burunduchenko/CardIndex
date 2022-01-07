@@ -19,10 +19,13 @@ details > summary::-webkit-details-marker {
   display: none;
 }
 
-  button{
+  .leftbutton{
       margin-left: 1ex;
   }
 
+  .upd-article-inp{
+    margin-bottom: 1ex;
+  }
 
   /* The side navigation menu */
 .sidenav {

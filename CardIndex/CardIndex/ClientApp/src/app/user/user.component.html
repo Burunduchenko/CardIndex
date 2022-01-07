@@ -22,8 +22,8 @@
             <td>{{user.phoneNumber}}</td>
             <td>{{user.roles}}</td>
             <td>
-                <button class="btn  btn-primary" (click) = "updateUser(user)">update</button>
-                <button class="btn  btn-danger" (click) = "deleteUser(user)">delete</button>
+                <button class="btn  btn-primary" (click) = "updateUser(user)"><i class="bi bi-vector-pen"></i></button>
+                <button class="btn  btn-danger" (click) = "deleteUser(user)"><i class="bi bi-trash"></i></button>
             </td>
         </ng-template>
       </tr>
@@ -40,7 +40,7 @@
         <td><input type="text" [(ngModel)]="update_User.email" class="form-control" /></td>
         <td></td>
         <td>
-            <button (click)="saveUpdate()" class="btn btn-success">Save</button>
-            <button (click)="cancel()" class="btn btn-warning">Cancel</button>
+            <button (click)="saveUpdate()" class="btn btn-success"><i class="bi bi-bookmark-check"></i></button>
+            <button (click)="cancel()" class="btn btn-warning"><i class="bi bi-bookmark-x"></i></button>
         </td>   
 </ng-template>

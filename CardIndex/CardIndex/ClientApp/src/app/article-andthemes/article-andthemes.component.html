@@ -3,7 +3,7 @@
 <!-- Right Sidebar with the list of all themes-->
 <ul class="sidebar-nav">
     <div *ngIf = "!addThemeMode else createTheme">
-        <button class="btn btn-success" (click) = "addTheme()">Add Theme</button>
+        <button class="btn btn-success" (click) = "addTheme()"><strong><i class="bi bi-plus-lg"></i></strong> Add</button>
         <a>
             <div>
                 <h2>The list of themes</h2>
@@ -12,7 +12,7 @@
         <hr>
         <div *ngFor="let theme of _allThemes">
             <a> 
-                <button class="btn  btn-danger" (click) = "deleteTheme(theme)">delete</button>
+                <button class="btn  btn-danger" (click) = "deleteTheme(theme)"><i class="bi bi-trash"></i></button>
                 {{theme.name}}   
             </a>
         </div>
@@ -29,20 +29,20 @@
         </a>
         <div>
             <input class="form-group" [(ngModel)] = "searchTheme" type="text" placeholder="Theme">
-            <button class = "btn btn-outline-light" (click) = "searchByTheme()">search by theme</button>
+            <button class = "btn btn-outline-light" (click) = "searchByTheme()"><i class="bi bi-search"></i> by theme</button>
         </div>
         <div>
             <input class="form-group" [(ngModel)] = "searchTitle" type="text" placeholder="Title">
-            <button class = "btn btn-outline-light" (click) = "searchByTitle()">search by title</button>
+            <button class = "btn btn-outline-light" (click) = "searchByTitle()"><i class="bi bi-search"></i> by title</button>
         </div>
         <div>
             <input class="form-group" [(ngModel)] = "lenght" type="number" placeholder="Lenght(>50)">
-            <button class = "btn btn-outline-light" (click) = "searchByLenght()">serach by lenght</button>
+            <button class = "btn btn-outline-light" (click) = "searchByLenght()"><i class="bi bi-search"></i> by lenght</button>
         </div>
         <div>
             <input class = "number" [(ngModel)] = "minRate" type="number" placeholder="min rate">
             <input class = "number"  [(ngModel)] = "maxRate" type="number" placeholder="max rate">
-            <button class = "btn btn-outline-light" (click) = "searchByRate()">search by rate</button>
+            <button class = "btn btn-outline-light" (click) = "searchByRate()"><i class="bi bi-search"></i> by rate</button>
         </div>
     </div>
 
@@ -50,7 +50,7 @@
 
 
 
-    <button class="btn btn-outline-primary" (click)="add()">Add Article</button>
+    <button class="btn btn-outline-primary" (click)="add()"><strong><i class="bi bi-plus-lg"></i></strong> Add</button>
     <hr> 
     <!--Rendering the list of articles-->
     <div *ngFor="let article of _allArticles">
@@ -63,8 +63,8 @@
             <p class="article-desc"> <strong>Author </strong> - {{article.authorFullName}}</p>
             <p class="article-desc"> <strong>Rate</strong> - {{article.avgRate}}</p>
             <p class="article-desc"> <strong>Theme</strong> - {{article.themeName}}</p>
-            <button class="btn  btn-primary"(click) = "update(article)" >update</button>
-            <button class="btn  btn-danger" (click) = "delete(article)">delete</button>
+            <button class="btn  btn-primary"(click) = "update(article)" ><i class="bi bi-vector-pen"></i></button>
+            <button class="btn  btn-danger leftbutton" (click) = "delete(article)"><i class="bi bi-trash"></i></button>
             </details>
             <hr>
         </ng-template>
@@ -77,8 +77,8 @@
         <input type="text" [(ngModel)]="buffTheme.name" class="form-control" placeholder="Name"/>
     </div>
     <div>
-        <button (click)="saveThemeAdd()" class="btn btn-success">Save</button>
-        <button (click)="cancelTheme()" class="btn btn-warning">Cancel</button>
+        <button (click)="saveThemeAdd()" class="btn btn-success " ><i class="bi bi-bookmark-check"></i></button>
+        <button (click)="cancelTheme()" class="btn btn-warning leftbutton"><i class="bi bi-bookmark-x"></i></button>
     </div>
 </ng-template>
 
@@ -102,17 +102,17 @@
         <input type="text" [(ngModel)]="buffArticle.themeName" class="form-control" placeholder="Take theme from list"/>
     </div>
     <div>
-        <button (click)="saveAdd()" class="btn btn-success">Save</button>
-        <button (click)="cancel()" class="btn btn-warning">Cancel</button>
+        <button (click)="saveAdd()" class="btn btn-success"><i class="bi bi-bookmark-check"></i></button>
+        <button (click)="cancel()" class="btn btn-warning leftbutton"><i class="bi bi-bookmark-x"></i></button>
     </div>
 </ng-template>
 
 
 <ng-template #updateArticel>
-    <input type="text" [(ngModel)]="buffArticle.title" class="form-control" />
-    <input type="text" [(ngModel)]="buffArticle.body" class="form-control" />
-    <input type="text" [(ngModel)]="buffArticle.authorFullName" class="form-control" />
-    <input type="text" [(ngModel)]="buffArticle.themeName" class="form-control" />
-        <button (click)="saveUpdate()" class="btn btn-success">Save</button>
-        <button (click)="cancel()" class="btn btn-warning">Cancel</button>
+    <input type="text" [(ngModel)]="buffArticle.title" class="form-control upd-article-inp" />
+    <input type="text" [(ngModel)]="buffArticle.body" class="form-control upd-article-inp" />
+    <input type="text" [(ngModel)]="buffArticle.authorFullName" class="form-control upd-article-inp" />
+    <input type="text" [(ngModel)]="buffArticle.themeName" class="form-control upd-article-inp" />
+        <button (click)="saveUpdate()" class="btn btn-success"><i class="bi bi-bookmark-check"></i></button>
+        <button (click)="cancel()" class="btn btn-warning leftbutton"><i class="bi bi-bookmark-x"></i></button>
 </ng-template>

@@ -44,3 +44,64 @@
             <button (click)="cancel()" class="btn btn-warning"><i class="bi bi-bookmark-x"></i></button>
         </td>   
 </ng-template>
+
+
+<div id="mySidenav" class="sidenav">
+  <button class="btn btn-primary" (click) = "takeUserFromRole()">Take user from role</button>
+
+  <div *ngIf = "takeAwayMode">
+    <br>
+    <div class="form-group">
+        <input type="text" [(ngModel)]="asignUserToRole.email" class="form-control" placeholder="user email"/>
+    </div>
+    <div class="form-group">
+        <input type="text" [(ngModel)]="asignUserToRole.role" class="form-control" placeholder="roles"/>
+    </div> 
+    <div>
+        <button (click)="saveTakeAway()" class="btn btn-success " ><i class="bi bi-bookmark-check"></i></button>
+        <button (click)="cancelTakeAway()" class="btn btn-warning leftbutton"><i class="bi bi-bookmark-x"></i></button>
+    </div>
+  </div>
+  <br>
+  <br>
+  <button class="btn btn-primary" (click) = "provideUserToRole()">Provide user to role</button>
+  <br>
+  <div *ngIf = "provideMode">
+    <div class="form-group">
+        <input type="text" [(ngModel)]="asignUserToRole.email" class="form-control" placeholder="user email"/>
+    </div>
+    <div class="form-group">
+        <input type="text" [(ngModel)]="asignUserToRole.role" class="form-control" placeholder="roles"/>
+    </div> 
+    <div>
+        <button (click)="saveProvide()" class="btn btn-success " ><i class="bi bi-bookmark-check"></i></button>
+        <button (click)="cancelProvide()" class="btn btn-warning leftbutton"><i class="bi bi-bookmark-x"></i></button>
+    </div>
+  </div>
+  <div *ngIf = "!addRoleMode else createRole">
+    <a>
+      <strong>The list of roles </strong>
+      <button class="btn btn-success" (click) = "addRole()"><strong><i class="bi bi-plus-lg"></i></strong> Add</button>
+    </a>
+    <div *ngFor = "let role of _allRoles">
+      <a>
+        <button class="btn  btn-danger leftbutton" (click) = "deleteRole(role)"><i class="bi bi-trash"></i></button>
+        {{role.name}}
+      </a>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #createRole>
+  <div class="form-group">
+      <input type="text" [(ngModel)]="createdRole.name" class="form-control" placeholder="Name"/>
+  </div>
+  <div>
+      <button (click)="saveAddRole()" class="btn btn-success " ><i class="bi bi-bookmark-check"></i></button>
+      <button (click)="cancel()" class="btn btn-warning leftbutton"><i class="bi bi-bookmark-x"></i></button>
+  </div>
+</ng-template>
+
+
+

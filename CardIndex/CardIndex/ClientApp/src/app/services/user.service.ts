@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ManipWithUserRole } from '../models/manipWithUserRole';
+import { Role } from '../models/role';
 import { UpdateUser } from '../models/update-user';
 import { User } from '../models/user';
 
@@ -12,19 +14,24 @@ export class UserService {
   constructor(private Http: HttpClient) { }
 
 
-  createRole()
+  createRole(role: Role)
   {
-
+    return this.Http.post(this.base_Administartion_url + "/createRole", role);
   }
 
-  getRoles()
+  getRoles(): Observable<Role[]>
   {
-
+    return this.Http.get<Role[]>(this.base_Administartion_url + "/getRoles");
   }
 
-  assignUserToRoles()
+  probideUserToRole(provideUserToRoles: ManipWithUserRole)
   {
+    return this.Http.post(this.base_Administartion_url + "/provideUserToRole", provideUserToRoles);
+  }
 
+  takeUserFromRole(takeUserFromRoleModel: ManipWithUserRole)
+  {
+    return this.Http.post(this.base_Administartion_url + "/takeUserFromRole", takeUserFromRoleModel);
   }
 
   getAllUsers(): Observable<User[]>
@@ -37,9 +44,9 @@ export class UserService {
     return this.Http.delete(this.base_Administartion_url + "/DeleteUser/" + id);
   }
 
-  deleteRole()
+  deleteRole(id: string)
   {
-
+      return this.Http.delete(this.base_Administartion_url + "/DeleteRole/" + id)
   }
 
   updateUser(user: UpdateUser)

@@ -6,13 +6,13 @@ namespace Administration.HelperModels
     /// Model that includes the user's 
     /// email and specified access rights
     /// </summary>
-    public class AssignUserToRolesModel
+    public class ManipWithUserRole
     {
         [Required(ErrorMessage = "Email field is required")]
         [EmailAddress]
         public string Email { get; set; }
-        [Required(ErrorMessage = "Role field is empty")]
-        [MinLength(1, ErrorMessage = "There is no entered roles")]
-        public string[] Roles { get; set; }
+        [MinLength(2, ErrorMessage = "The name of theme is too short")]
+        [MaxLength(20, ErrorMessage = "The name of theme is too large")]
+        public string Role { get; set; }
     }
 }

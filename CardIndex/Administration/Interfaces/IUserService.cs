@@ -18,10 +18,11 @@ namespace Administration.Interfaces
         Task<IEnumerable<UserViev>> GetAllUsersAsync();
         Task<User> UpdateUserAsync(UpdateUser userApp);
         Task<string> LogonAsync(LogonModel logon);
-        Task AssignUserToRolesAsync(AssignUserToRolesModel assignUserToRoles);
+        Task ProvideUserToRoleAsync(ManipWithUserRole assignUserToRoles);
         Task CreateRoleAsync(string roleName);
         Task<IdentityResult> DeleteRoleAsync(string roleName);
         Task<IEnumerable<RoleViev>> GetRolesAsync();
         Task<IEnumerable<User>> GetUsersAsync();
+        Task TakeUserFromRoleAsync(ManipWithUserRole assignUserToRoles);
     }
 }

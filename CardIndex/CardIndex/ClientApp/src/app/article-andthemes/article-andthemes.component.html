@@ -2,12 +2,10 @@
 
 <!-- Right Sidebar with the list of all themes-->
 <ul class="sidebar-nav">
-    <div *ngIf = "!addThemeMode else createTheme">
-        <button class="btn btn-success" (click) = "addTheme()"><strong><i class="bi bi-plus-lg"></i></strong> Add</button>
+    <div *ngIf = "!addThemeMode else createTheme">  
         <a>
-            <div>
-                <h2>The list of themes</h2>
-            </div>
+            <strong>The list of themes</strong>
+            <button class="btn btn-success" (click) = "addTheme()"><strong><i class="bi bi-plus-lg"></i></strong> Add</button>
         </a>
         <hr>
         <div *ngFor="let theme of _allThemes">
@@ -29,25 +27,24 @@
         </a>
         <div>
             <input class="form-group" [(ngModel)] = "searchTheme" type="text" placeholder="Theme">
-            <button class = "btn btn-outline-light" (click) = "searchByTheme()"><i class="bi bi-search"></i> by theme</button>
+            <button class = "btn btn-outline-light leftbutton btn-size" (click) = "searchByTheme()"><i class="bi bi-search"></i> by theme</button>
         </div>
         <div>
             <input class="form-group" [(ngModel)] = "searchTitle" type="text" placeholder="Title">
-            <button class = "btn btn-outline-light" (click) = "searchByTitle()"><i class="bi bi-search"></i> by title</button>
+            <button class = "btn btn-outline-light leftbutton btn-size" (click) = "searchByTitle()"><i class="bi bi-search"></i> by title</button>
         </div>
         <div>
             <input class="form-group" [(ngModel)] = "lenght" type="number" placeholder="Lenght(>50)">
-            <button class = "btn btn-outline-light" (click) = "searchByLenght()"><i class="bi bi-search"></i> by lenght</button>
+            <button class = "btn btn-outline-light leftbutton btn-size" (click) = "searchByLenght()"><i class="bi bi-search"></i> by lenght</button>
         </div>
         <div>
             <input class = "number" [(ngModel)] = "minRate" type="number" placeholder="min rate">
             <input class = "number"  [(ngModel)] = "maxRate" type="number" placeholder="max rate">
-            <button class = "btn btn-outline-light" (click) = "searchByRate()"><i class="bi bi-search"></i> by rate</button>
+            <button class = "btn btn-outline-light leftbutton btn-size" (click) = "searchByRate()"><i class="bi bi-search"></i> by rate</button>
         </div>
     </div>
 
     <br>
-
 
 
     <button class="btn btn-outline-primary" (click)="add()"><strong><i class="bi bi-plus-lg"></i></strong> Add</button>

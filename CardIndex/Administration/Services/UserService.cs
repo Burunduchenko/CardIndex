@@ -55,10 +55,10 @@ namespace Administration.Services
                 throw new InvalidArgumentException();
             }
 
-            await AssignUserToRolesAsync(new AssignUserToRolesModel()
+            await ProvideUserToRoleAsync(new ManipWithUserRole()
             {
                 Email = user.Email,
-                Roles = new string[] { "user" }
+                Role =  "user" 
             });
 
         }
@@ -79,7 +79,7 @@ namespace Administration.Services
         }
 
         /// <summary>
-        /// The method is designed to give 
+        /// The method is designed to GIVE 
         /// the user different access rights
         /// </summary>
         /// <param name="assignUserToRoles">Model that includes the user's 
@@ -87,12 +87,34 @@ namespace Administration.Services
         /// <returns></returns>
         /// <exception cref="InvalidArgumentException">An error is thrown when the 
         /// entered data is invalid</exception>
-        public async Task AssignUserToRolesAsync(AssignUserToRolesModel assignUserToRoles)
+        public async Task ProvideUserToRoleAsync(ManipWithUserRole assignUserToRoles)
         {
             var user = _userManager.Users.SingleOrDefault(u => u.Email == assignUserToRoles.Email);
-            var roles = _roleManager.Roles.Where(r => assignUserToRoles.Roles.Contains(r.Name)).Select(r => r.Name.ToUpper()).ToList();
+            var role = _roleManager.Roles.Where(r => assignUserToRoles.Role == r.Name).Select(r => r.Name.ToUpper()).FirstOrDefault();
 
-            var result = await _userManager.AddToRolesAsync(user, roles);
+            var result = await _userManager.AddToRoleAsync(user, role);
+
+            if (!result.Succeeded)
+            {
+                throw new InvalidArgumentException();
+            }
+        }
+
+        /// <summary>
+        /// The method is designed to TAKE AWAY 
+        /// the user different access rights
+        /// </summary>
+        /// <param name="assignUserToRoles">Model that includes the user's 
+        /// email and specified access rights</param>
+        /// <returns></returns>
+        /// <exception cref="InvalidArgumentException">An error is thrown when the 
+        /// entered data is invalid</exception>
+        public async Task TakeUserFromRoleAsync(ManipWithUserRole assignUserToRoles)
+        {
+            var user = _userManager.Users.SingleOrDefault(u => u.Email == assignUserToRoles.Email);
+            var role = _roleManager.Roles.Where(r => assignUserToRoles.Role == r.Name).Select(r => r.Name.ToUpper()).FirstOrDefault();
+
+            var result = await _userManager.RemoveFromRoleAsync(user, role);
 
             if (!result.Succeeded)
             {
@@ -114,7 +136,7 @@ namespace Administration.Services
         public async Task<IEnumerable<RoleViev>> GetRolesAsync()
         {
             var roles = await _roleManager.Roles.ToListAsync();
-            List<RoleViev> result = roles.Select(r => new RoleViev() { Name = r.Name }).ToList();
+            List<RoleViev> result = roles.Select(r => new RoleViev() { Name = r.Name, Id = r.Id}).ToList();
             return result;
         }
 
@@ -192,15 +214,13 @@ namespace Administration.Services
             updateUser.PhoneNumber = userApp.PhoneNumber;
             updateUser.Email = userApp.Email;
             await _userManager.UpdateAsync(updateUser);
-            //await _userManager.SetPhoneNumberAsync(dbuser, userApp.PhoneNumber);
-            //await _userManager.SetEmailAsync(dbuser, userApp.PhoneNumber);
             
             return dbuser;
         }
 
-        public async Task<IdentityResult> DeleteRoleAsync(string roleName)
+        public async Task<IdentityResult> DeleteRoleAsync(string id)
         {
-            var role = _roleManager.Roles.SingleOrDefault(r => r.Name == roleName);
+            var role = _roleManager.Roles.SingleOrDefault(r => r.Id == id);
             if (role == null)
             {
                 throw new NotFoundException();
@@ -219,5 +239,7 @@ namespace Administration.Services
         {
             return await _userManager.Users.ToListAsync();
         }
+
+
     }
 }

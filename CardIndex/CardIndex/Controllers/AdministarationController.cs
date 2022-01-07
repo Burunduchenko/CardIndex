@@ -70,12 +70,12 @@ namespace CardIndex.Controlers
 
         [HttpPost("createRole")]
         //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> CreateRoleAsync(CreateRoleModel model)
+        public async Task<IActionResult> CreateRoleAsync(RoleViev model)
         {
             _logger.LogInformation("Was called CreateRoleAsync method from Administration Controller");
             try
             {
-                await _userService.CreateRoleAsync(model.RoleName);
+                await _userService.CreateRoleAsync(model.Name);
                 _logger.LogInformation("Method CreateRoleAsync from Administration Controller was SUCCESSFULL finished");
                 return Ok();
             }
@@ -97,18 +97,44 @@ namespace CardIndex.Controlers
         }
 
         /// <summary>
-        /// The method is designed to give the user different access rights
+        /// The method is designed to GIVE the user different access rights
         /// </summary>
         /// <param name="model">Model that includes the user's email and specified access rights</param>
         /// <returns></returns>
-        [HttpPost("assignUserToRoles")]
+        [HttpPost("provideUserToRole")]
         //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> AssignUserToRoleAsync(AssignUserToRolesModel model)
+        public async Task<IActionResult> ProvideUserToRoleAsync(ManipWithUserRole model)
+        {
+            _logger.LogInformation("Was called ProvideUserToRoleAsync method from Administration Controller");
+            try
+            {
+                await _userService.ProvideUserToRoleAsync(model);
+                _logger.LogInformation("Method ProvideUserToRoleAsync from Administration Controller was SUCCESSFULL finished");
+                return Ok();
+            }
+            catch (InvalidArgumentException ex)
+            {
+                _logger.LogWarning("Method ProvideUserToRoleAsync from Administration Controller was FAILED: " +
+                " Entered data about user or role is invalid");
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+
+        /// <summary>
+        /// The method is designed to TAKE AWAY the user different access rights
+        /// </summary>
+        /// <param name="model">Model that includes the user's email and specified access rights</param>
+        /// <returns></returns>
+        [HttpPost("takeUserFromRole")]
+        //[Authorize(Roles = "admin")]
+        public async Task<IActionResult> TakeUserFromRoleAsync(ManipWithUserRole model)
         {
             _logger.LogInformation("Was called AssignUserToRoleAsync method from Administration Controller");
             try
             {
-                await _userService.AssignUserToRolesAsync(model);
+                await _userService.TakeUserFromRoleAsync(model);
                 _logger.LogInformation("Method AssignUserToRoleAsync from Administration Controller was SUCCESSFULL finished");
                 return Ok();
             }
@@ -167,14 +193,14 @@ namespace CardIndex.Controlers
             return Ok(await _userService.GetAllUsersAsync());
         }
 
-        [HttpDelete("DeleteRole/{roleName}")]
+        [HttpDelete("DeleteRole/{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> DeleteRoleAsync(string roleName)
+        public async Task<IActionResult> DeleteRoleAsync(string id)
         {
             _logger.LogInformation("Was called DeleteRoleAsync method from Administration Controller");
             try
             {
-                var res = await _userService.DeleteRoleAsync(roleName);
+                var res = await _userService.DeleteRoleAsync(id);
                 _logger.LogInformation("Method DeleteRoleAsync from Administration Controller was SUCCESSFULL finished");
                 return Ok(res);
             }

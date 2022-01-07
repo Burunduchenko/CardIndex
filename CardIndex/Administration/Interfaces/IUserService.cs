@@ -13,10 +13,10 @@ namespace Administration.Interfaces
     public interface IUserService
     {
         Task RegisterAsync(RegisterModel user);
-        Task<IdentityResult> DeleteUserByEmailAndPasswordAsync(string email, string password);
+        Task<IdentityResult> DeleteUserByIdAsync(string id);
         Task<UserViev> GetUserByEmailAndPasswordAsync(string email, string password);
         Task<IEnumerable<UserViev>> GetAllUsersAsync();
-        Task<IdentityResult> UpdateUserAsync(User userApp);
+        Task<User> UpdateUserAsync(UpdateUser userApp);
         Task<string> LogonAsync(LogonModel logon);
         Task AssignUserToRolesAsync(AssignUserToRolesModel assignUserToRoles);
         Task CreateRoleAsync(string roleName);

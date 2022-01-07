@@ -1,6 +1,8 @@
-﻿using Administration.Exceptions;
+﻿using Administration;
+using Administration.Exceptions;
 using Administration.HelperModels;
 using Administration.Interfaces;
+using Administration.VievModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -119,16 +121,16 @@ namespace CardIndex.Controlers
 
         }
 
-        [HttpDelete("DeleteUser/{email}/{password}")]
+        [HttpDelete("DeleteUser/{id}")]
         //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> DeleteUserAsync(string email, string password)
+        public async Task<IActionResult> DeleteUserAsync(string id)
         {
             _logger.LogInformation("Was called DeleteUserAsync method from Administration Controller");
             try
             {
-                var res = await _userService.DeleteUserByEmailAndPasswordAsync(email, password);
+                var res = await _userService.DeleteUserByIdAsync(id);
                 _logger.LogInformation("Method DeleteUserAsync from Administration Controller was SUCCESSFULL finished");
-                return Ok();
+                return Ok(res);
             }
             catch (NotFoundException ex)
             {
@@ -166,7 +168,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpDelete("DeleteRole/{roleName}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteRoleAsync(string roleName)
         {
             _logger.LogInformation("Was called DeleteRoleAsync method from Administration Controller");
@@ -181,6 +183,21 @@ namespace CardIndex.Controlers
                 _logger.LogWarning("Method DeleteRoleAsync from Administration Controller was FAILED: " +
                 " There is no role in database with entered data");
                 return NotFound(ex.Message);
+            }
+        }
+
+        [HttpPut("Update")]
+        //[Authorize]
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUser user)
+        {
+            try
+            {
+                var result = await _userService.UpdateUserAsync(user);
+                return Ok(result);
+            }
+            catch (InvalidArgumentException ex)
+            {
+                return BadRequest(ex.Massege);
             }
         }
     }

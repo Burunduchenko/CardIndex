@@ -49,16 +49,18 @@ namespace Administration.Services
             };
             var result = await _userManager.CreateAsync(adduser, user.Password);
 
+
+            if (!result.Succeeded)
+            {
+                throw new InvalidArgumentException();
+            }
+
             await AssignUserToRolesAsync(new AssignUserToRolesModel()
             {
                 Email = user.Email,
                 Roles = new string[] { "user" }
             });
 
-            if (!result.Succeeded)
-            {
-                throw new InvalidArgumentException();
-            }
         }
 
         public async Task<string> LogonAsync(LogonModel logon)
@@ -116,11 +118,11 @@ namespace Administration.Services
             return result;
         }
 
-        public async Task<IdentityResult> DeleteUserByEmailAndPasswordAsync(string email, string password)
+        public async Task<IdentityResult> DeleteUserByIdAsync(string id)
         {
-            var user = _userManager.Users.SingleOrDefault(u => u.Email == email);
-            var validuser = await _userManager.CheckPasswordAsync(user, password);
-            if (!validuser)
+            var user = _userManager.Users.SingleOrDefault(u => u.Id == id);
+            
+            if (user == null)
             {
                 throw new NotFoundException();
             }
@@ -147,7 +149,7 @@ namespace Administration.Services
                 LastName = user.LastName,
                 PhoneNumber = user.PhoneNumber,
                 Login = user.UserName,
-                PasswordHash = user.PasswordHash
+                Id = user.Id
             };
 
             var roles = await _userManager.GetRolesAsync(user);
@@ -168,7 +170,7 @@ namespace Administration.Services
                     LastName = item.LastName,
                     PhoneNumber = item.PhoneNumber,
                     Login = item.UserName,
-                    PasswordHash = item.PasswordHash
+                    Id = item.Id
                 };
                 var roles = await _userManager.GetRolesAsync(item);
                 buff.Roles = roles.ToList();
@@ -177,16 +179,23 @@ namespace Administration.Services
             return result;
         }
 
-        public async Task<IdentityResult> UpdateUserAsync(User userApp)
+        public async Task<User> UpdateUserAsync(UpdateUser userApp)
         {
-            var result = await _userManager.UpdateAsync(userApp);
-
-            if (!result.Succeeded)
+            var dbuser = await _userManager.FindByIdAsync(userApp.Id);
+            if (dbuser == null)
             {
                 throw new InvalidArgumentException();
             }
-
-            return result;
+            User updateUser = dbuser;
+            updateUser.FirstName = userApp.FirstName;
+            updateUser.LastName = userApp.LastName;
+            updateUser.PhoneNumber = userApp.PhoneNumber;
+            updateUser.Email = userApp.Email;
+            await _userManager.UpdateAsync(updateUser);
+            //await _userManager.SetPhoneNumberAsync(dbuser, userApp.PhoneNumber);
+            //await _userManager.SetEmailAsync(dbuser, userApp.PhoneNumber);
+            
+            return dbuser;
         }
 
         public async Task<IdentityResult> DeleteRoleAsync(string roleName)

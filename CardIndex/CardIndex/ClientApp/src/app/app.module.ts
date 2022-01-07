@@ -9,6 +9,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { ArticleAndthemesComponent } from './article-andthemes/article-andthemes.component';
 import { ArticleAssessmentComponent } from './article-assessment/article-assessment.component';
+import { UserComponent } from './user/user.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { ArticleAssessmentComponent } from './article-assessment/article-assessm
     HomeComponent,
     ArticleAndthemesComponent,
     ArticleAssessmentComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -27,6 +29,7 @@ import { ArticleAssessmentComponent } from './article-assessment/article-assessm
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'articles', component: ArticleAndthemesComponent },
       { path: 'article-assessment', component: ArticleAssessmentComponent },
+      { path: 'users', component: UserComponent },
     ])
   ],
   providers: [],

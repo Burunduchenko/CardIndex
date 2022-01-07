@@ -1,0 +1,46 @@
+<table class="table table-striped table-dark">
+    <thead>
+      <tr>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Login</th>
+        <th scope="col">Email</th>
+        <th scope="col">Phone Number</th>
+        <th scope="col">Roles</th>
+        <th></th>
+
+      </tr>
+    </thead>
+    <tbody *ngFor = "let user of _allUsers">
+
+      <tr>
+        <ng-template [ngIf]="update_User?.id != user.id" [ngIfElse]="UpdateUser">
+            <td>{{user.firstName}}</td>
+            <td>{{user.lastName}}</td>
+            <td>{{user.login}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.phoneNumber}}</td>
+            <td>{{user.roles}}</td>
+            <td>
+                <button class="btn  btn-primary" (click) = "updateUser(user)">update</button>
+                <button class="btn  btn-danger" (click) = "deleteUser(user)">delete</button>
+            </td>
+        </ng-template>
+      </tr>
+    </tbody>
+  </table>
+
+
+  
+<ng-template #UpdateUser>
+        <td><input type="text" [(ngModel)]="update_User.firstName" class="form-control" /></td>
+        <td><input type="text" [(ngModel)]="update_User.lastName" class="form-control" /></td>
+        <td></td>
+        <td><input type="text" [(ngModel)]="update_User.phoneNumber" class="form-control" /></td>
+        <td><input type="text" [(ngModel)]="update_User.email" class="form-control" /></td>
+        <td></td>
+        <td>
+            <button (click)="saveUpdate()" class="btn btn-success">Save</button>
+            <button (click)="cancel()" class="btn btn-warning">Cancel</button>
+        </td>   
+</ng-template>

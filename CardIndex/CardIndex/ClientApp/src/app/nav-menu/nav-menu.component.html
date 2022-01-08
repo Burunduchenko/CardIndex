@@ -5,7 +5,10 @@
 
     >
       <div class="container">
+        <button class="btn btn-secondary" (click)="SingOut();">SingOut</button>
+        <div></div>
         <a class="navbar-brand" [routerLink]="['/']">Home</a>
+       
         <button
           class="navbar-toggler"
           type="button"
@@ -22,11 +25,11 @@
           [ngClass]="{ show: isExpanded }"
         >
           <ul class="navbar-nav flex-grow">
-            <li class="nav-item" [routerLinkActive]="['link-active']">
-              <a class="nav-link text-dark" [routerLink]="['/users']"
-                >Users</a
-              >
-            </li>
+              <li class="nav-item" [routerLinkActive]="['link-active']">
+                <a class="nav-link text-dark" [routerLink]="['/users']"
+                  >Users</a
+                >
+              </li>
             <li class="nav-item" [routerLinkActive]="['link-active']">
               <a class="nav-link text-dark" [routerLink]="['/article-assessment']"
                 >Article assessment</a

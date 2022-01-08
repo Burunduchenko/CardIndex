@@ -10,6 +10,8 @@ import { HomeComponent } from './home/home.component';
 import { ArticleAndthemesComponent } from './article-andthemes/article-andthemes.component';
 import { ArticleAssessmentComponent } from './article-assessment/article-assessment.component';
 import { UserComponent } from './user/user.component';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './guard/auth.guard';
 
 
 @NgModule({
@@ -20,16 +22,18 @@ import { UserComponent } from './user/user.component';
     ArticleAndthemesComponent,
     ArticleAssessmentComponent,
     UserComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'articles', component: ArticleAndthemesComponent },
-      { path: 'article-assessment', component: ArticleAssessmentComponent },
-      { path: 'users', component: UserComponent },
+      { path: '', component: HomeComponent, pathMatch: 'full' , canActivate: [AuthGuard]},
+      { path: 'login', component: LoginComponent },
+      { path: 'articles', component: ArticleAndthemesComponent, canActivate: [AuthGuard] },
+      { path: 'article-assessment', component: ArticleAssessmentComponent, canActivate: [AuthGuard] },
+      { path: 'users', component: UserComponent, canActivate: [AuthGuard] },
     ])
   ],
   providers: [],

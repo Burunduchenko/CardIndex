@@ -30,7 +30,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetAllAsync()
         {
             _logger.LogInformation("Was SUCCESSFULL called GetAllAsync method from Article Rate Controller");
@@ -38,7 +38,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> AddAsync([FromBody] ArticleRateAddModel articleModel)
         {
             _logger.LogInformation("Was called AddAsync method from Aricle Rate Controller");
@@ -64,7 +64,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpDelete("delete/{id}")]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteByIdAsync(int id)
         {
             _logger.LogInformation("Was called DeleteByIdAsync method from Aricle Rate Controller");

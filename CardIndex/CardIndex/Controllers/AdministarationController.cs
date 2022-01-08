@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace CardIndex.Controlers
@@ -56,8 +57,9 @@ namespace CardIndex.Controlers
             try
             {
                 var JwtToken = await _userService.LogonAsync(model);
+                var result = JsonSerializer.Serialize(JwtToken);
                 _logger.LogInformation("Method LogonAsync from Administration Controller was SUCCESSFULL finished");
-                return Ok(JwtToken);
+                return Ok(result);
             }
             catch (NotFoundException ex)
             {
@@ -69,7 +71,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpPost("createRole")]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateRoleAsync(RoleViev model)
         {
             _logger.LogInformation("Was called CreateRoleAsync method from Administration Controller");
@@ -89,7 +91,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpGet("getRoles")]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> GetRolesAsync()
         {
             _logger.LogInformation("Was SUCCESSFULL called GetRolesAsync method from Administration Controller");
@@ -102,7 +104,7 @@ namespace CardIndex.Controlers
         /// <param name="model">Model that includes the user's email and specified access rights</param>
         /// <returns></returns>
         [HttpPost("provideUserToRole")]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> ProvideUserToRoleAsync(ManipWithUserRole model)
         {
             _logger.LogInformation("Was called ProvideUserToRoleAsync method from Administration Controller");
@@ -128,7 +130,7 @@ namespace CardIndex.Controlers
         /// <param name="model">Model that includes the user's email and specified access rights</param>
         /// <returns></returns>
         [HttpPost("takeUserFromRole")]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> TakeUserFromRoleAsync(ManipWithUserRole model)
         {
             _logger.LogInformation("Was called AssignUserToRoleAsync method from Administration Controller");
@@ -148,7 +150,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpDelete("DeleteUser/{id}")]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteUserAsync(string id)
         {
             _logger.LogInformation("Was called DeleteUserAsync method from Administration Controller");
@@ -167,7 +169,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpGet("GetUser/{email}/{password}")]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> GetUserAsync(string email, string password)
         {
             _logger.LogInformation("Was called GetUserAsync method from Administration Controller");
@@ -186,7 +188,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpGet("GetAllUsers")]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> GetAllUsersAsync()
         {
             _logger.LogInformation("Was SUCCESSFULL called GetAllUsersAsync method from Administration Controller");
@@ -194,7 +196,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpDelete("DeleteRole/{id}")]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteRoleAsync(string id)
         {
             _logger.LogInformation("Was called DeleteRoleAsync method from Administration Controller");
@@ -213,7 +215,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpPut("Update")]
-        //[Authorize]
+        [Authorize(Roles ="admin")]
         public async Task<IActionResult> UpdateUser([FromBody] UpdateUser user)
         {
             try

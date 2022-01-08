@@ -29,7 +29,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpGet]
-        //[Authorize(Roles = "admin")]
+        [Authorize]
         public async Task<IActionResult> GetAllAsync()
         {
             _logger.LogInformation("Was SUCCESSFULL called GetAllAsync method from Theme Controller");
@@ -37,7 +37,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "admin,author")]
+        [Authorize(Roles = "admin,author")]
         public async Task<IActionResult> AddAsync([FromBody] ThemeAddModel articleModel)
         {
             _logger.LogInformation("Was called AddAsync method from Theme Controller");
@@ -62,7 +62,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpDelete("delete/{id}")]
-        //[Authorize(Roles = "admin,author")]
+        [Authorize(Roles = "admin,author")]
         public async Task<IActionResult> DeleteByIdAsync(int id)
         {
             _logger.LogInformation("Was called DeleteByIdAsync method from Theme Controller");

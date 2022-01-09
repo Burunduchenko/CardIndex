@@ -24,6 +24,7 @@ namespace BLL.Services
 
         public async Task<ThemeVievModel> AddAsync(ThemeAddModel item)
         {
+            char.ToUpper(item.Name[0]);
             if (_unitOfWork.ThemeRepo.GetAll().Select(x => x.Name == item.Name).FirstOrDefault())
             {
                 throw new AlreadyExistException();

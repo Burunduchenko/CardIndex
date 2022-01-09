@@ -1,13 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Article } from '../models/article';
-import { BuffArticle } from '../models/buff-article';
+import { Article } from '../../models/article-models/article';
+import { BuffArticle } from '../../models/article-models/buff-article';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ArticleServiceService {
+export class ArticleService {
   private base_article_url = "https://localhost:44336/api/Article";
   private headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("AUTH_TOKEN")}`);
 

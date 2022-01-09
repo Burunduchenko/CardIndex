@@ -1,18 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { ArticleAndthemesComponent } from './article-andthemes/article-andthemes.component';
-import { ArticleAssessmentComponent } from './article-assessment/article-assessment.component';
-import { UserComponent } from './user/user.component';
-import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './components/home/home.component';
+import { ArticleAndthemesComponent } from './components/article-andthemes/article-and-themes.component';
+import { ArticleAssessmentComponent } from './components/article-assessment/article-assessment.component';
+import { UserComponent } from './components/user/user.component';
+import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guard/auth.guard';
-import { RegisterComponent } from './register/register.component';
+import { RegisterComponent } from './components/register/register.component';
 
 
 @NgModule({

@@ -1,11 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ManipWithUserRole } from '../models/manipWithUserRole';
-import { RegisterModel } from '../models/register-model';
-import { Role } from '../models/role';
-import { UpdateUser } from '../models/update-user';
-import { User } from '../models/user';
+import { ManipWithUserRole } from '../../models/user-models/manipWithUserRole';
+import { RegisterModel } from '../../models/user-models/register-model';
+import { Role } from '../../models/user-models/role';
+import { UpdateUser } from '../../models/user-models/update-user';
+import { User } from '../../models/user-models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +27,7 @@ export class UserService {
 
   probideUserToRole(provideUserToRoles: ManipWithUserRole)
   {
+
     return this.Http.post(this.base_Administartion_url + "/provideUserToRole", provideUserToRoles, {headers: this.headers});
   }
 
@@ -64,13 +65,6 @@ export class UserService {
 
   registerUser(registerModel: RegisterModel): Observable<void>
   {
-    console.log(registerModel.Email);
-    console.log(registerModel.Password);
-    console.log(registerModel.PasswordConfirm);
-    console.log(registerModel.FirstName);
-    console.log(registerModel.LastName);
-    console.log(registerModel.PhoneNumber);
-    console.log(registerModel.Login);
     return this.Http.post<void>(this.base_Administartion_url + "/register",  registerModel);
   }
 

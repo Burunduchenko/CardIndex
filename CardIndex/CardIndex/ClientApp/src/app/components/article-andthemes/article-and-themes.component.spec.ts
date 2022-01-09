@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ArticleAndthemesComponent } from './article-andthemes.component';
+import { ArticleAndthemesComponent } from './article-and-themes.component';
 
 describe('ArticleAndthemesComponent', () => {
   let component: ArticleAndthemesComponent;

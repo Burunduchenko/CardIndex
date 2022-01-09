@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AddArticleAssessment } from '../models/add-article-assessment';
-import { Article } from '../models/article';
-import { ArticleAssessment } from '../models/article-assessment';
-import { ArticleAssessmentService } from '../services/article-assessment.service';
-import { ArticleServiceService } from '../services/article-service.service';
-import { UserService } from '../services/user.service';
+import { AddArticleAssessment } from '../../models/article-models/add-article-assessment';
+import { Article } from '../../models/article-models/article';
+import { ArticleAssessment } from '../../models/article-asessment-models/article-assessment';
+import { ArticleAssessmentService } from '../../services/article-assessment/article-assessment.service';
+import { ArticleService } from '../../services/article/article.service';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-article-assessment',
@@ -21,7 +21,7 @@ export class ArticleAssessmentComponent implements OnInit {
   is_admin: boolean = false;
 
   constructor(private _articleAssessmentService: ArticleAssessmentService,
-    private _articleService: ArticleServiceService,
+    private _articleService: ArticleService,
     private _userService: UserService) { }
 
   ngOnInit() {

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ManipWithUserRole } from '../models/manipWithUserRole';
-import { Role } from '../models/role';
-import { UpdateUser } from '../models/update-user';
-import { User } from '../models/user';
-import { UserService } from '../services/user.service';
+import { ManipWithUserRole } from '../../models/user-models/manipWithUserRole';
+import { Role } from '../../models/user-models/role';
+import { UpdateUser } from '../../models/user-models/update-user';
+import { User } from '../../models/user-models/user';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-user',

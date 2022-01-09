@@ -176,8 +176,6 @@ namespace CardIndex
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                    //name: "default",
-                    //pattern: "{controller}/{action=Index}/{id?}");
             });
 
 
@@ -191,6 +189,7 @@ namespace CardIndex
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
 
         }
     }

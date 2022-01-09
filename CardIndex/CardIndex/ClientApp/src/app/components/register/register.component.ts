@@ -1,8 +1,8 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { RegisterModel } from '../models/register-model';
-import { UserService } from '../services/user.service';
+import { RegisterModel } from '../../models/user-models/register-model';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-register',

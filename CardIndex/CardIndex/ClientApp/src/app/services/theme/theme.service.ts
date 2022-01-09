@@ -1,12 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Theme } from '../models/theme';
+import { Theme } from '../../models/theme-models/theme';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ThemeServiceService {
+export class ThemeService {
   private base_theme_url = "https://localhost:44336/api/Theme"
   private headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("AUTH_TOKEN")}`) 
   constructor(private Http: HttpClient) { }

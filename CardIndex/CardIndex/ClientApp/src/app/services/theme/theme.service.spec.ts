@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ThemeServiceService } from './theme-service.service';
+import { ThemeService } from './theme.service';
 
 describe('ThemeServiceService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ThemeServiceService = TestBed.get(ThemeServiceService);
+    const service: ThemeService = TestBed.get(ThemeService);
     expect(service).toBeTruthy();
   });
 });

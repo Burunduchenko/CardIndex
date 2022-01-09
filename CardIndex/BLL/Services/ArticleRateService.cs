@@ -29,6 +29,8 @@ namespace BLL.Services
 
         public async Task<ArticleRateVievModel> AddAsync(ArticleRateAddModel item)
         {
+            char.ToUpper(item.ArticleTitle[0]);
+
             if (item.Rate < 0)
             {
                 item.Rate = 0;

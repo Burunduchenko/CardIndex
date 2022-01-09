@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { createFalse } from 'typescript';
-import { Article } from '../models/article';
-import { BuffArticle } from '../models/buff-article';
-import { Theme } from '../models/theme';
-import { ArticleServiceService } from '../services/article-service.service';
-import { ThemeServiceService } from '../services/theme-service.service';
-import { UserService } from '../services/user.service';
+import { Article } from '../../models/article-models/article';
+import { BuffArticle } from '../../models/article-models/buff-article';
+import { Theme } from '../../models/theme-models/theme';
+import { ArticleService } from '../../services/article/article.service';
+import { ThemeService } from '../../services/theme/theme.service';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
-  selector: 'app-article-andthemes',
-  templateUrl: './article-andthemes.component.html',
-  styleUrls: ['./article-andthemes.component.css'],
+  selector: 'app-article-and-themes',
+  templateUrl: './article-and-themes.component.html',
+  styleUrls: ['./article-and-themes.component.css'],
   
 })
 export class ArticleAndthemesComponent implements OnInit {
@@ -36,8 +36,8 @@ export class ArticleAndthemesComponent implements OnInit {
   buffTheme: Theme;
   addThemeMode: boolean = false;
   
-  constructor(private _articleService: ArticleServiceService,
-    private _themeService: ThemeServiceService,
+  constructor(private _articleService: ArticleService,
+    private _themeService: ThemeService,
     private _userService: UserService) { }
 
   ngOnInit() {

@@ -45,14 +45,18 @@ namespace BLL.Services
 
         public async Task<ArticelVievModel> AddAsync(ArticleAddmodel item)
         {
+            Char.ToUpper(item.ThemeName[0]);
+            Char.ToUpper(item.Body[0]);
+            Char.ToUpper(item.Title[0]);
+            Char.ToUpper(item.AuthorFullName[0]);
+
             var theme = _unitOfWork.ThemeRepo
               .GetAll()
               .FirstOrDefault(t => t.Name == item.ThemeName);
 
-            if (!Char.IsUpper(item.Body[0])
-                || !Char.IsUpper(item.Title[0])
-                || !item.AuthorFullName.Contains(" ")
-                || !Char.IsUpper(item.AuthorFullName[0])
+
+            if (
+                !item.AuthorFullName.Contains(" ")
                 || theme == null)
             {
                 throw new InvalidArgumentException();
@@ -146,6 +150,7 @@ namespace BLL.Services
 
         public async Task<ArticelVievModel> GetByNameAsync(string name)
         {
+            Char.ToUpper(name[0]);
             var dbArticles = await _unitOfWork.ArticleRepo.GetAllWithDetailsAsync();
             dbArticles.ToList();
             Article dbArticle = null;
@@ -186,6 +191,7 @@ namespace BLL.Services
 
         public async Task<IEnumerable<ArticelVievModel>> GetByThemeAsync(string themeName)
         {
+            Char.ToUpper(themeName[0]);
             var theme = _unitOfWork.ThemeRepo
                 .GetAll()
                 .Where(x => x.Name == themeName)
@@ -216,15 +222,18 @@ namespace BLL.Services
 
         public async Task<ArticelVievModel> UpdateAsync(ArticleAddmodel item)
         {
+            Char.ToUpper(item.ThemeName[0]);
+            Char.ToUpper(item.Body[0]);
+            Char.ToUpper(item.Title[0]);
+            Char.ToUpper(item.AuthorFullName[0]);
+
             var theme = _unitOfWork.ThemeRepo
               .GetAll()
-              .Where(t => t.Name == item.ThemeName)
-              .FirstOrDefault();
+              .FirstOrDefault(t => t.Name == item.ThemeName);
 
-            if (!Char.IsUpper(item.Body[0])
-                || !Char.IsUpper(item.Title[0])
-                || !item.AuthorFullName.Contains(" ")
-                || !Char.IsUpper(item.AuthorFullName[0])
+
+            if (
+                !item.AuthorFullName.Contains(" ")
                 || theme == null)
             {
                 throw new InvalidArgumentException();

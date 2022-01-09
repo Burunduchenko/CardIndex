@@ -39,7 +39,7 @@ namespace CardIndex.Controlers
             {
                 await _userService.RegisterAsync(model);
                 _logger.LogInformation("Method RegisterAsync from Administration Controller was SUCCESSFULL finished");
-                return Created(string.Empty, string.Empty);
+                return Ok();
             }
             catch (InvalidArgumentException ex)
             {

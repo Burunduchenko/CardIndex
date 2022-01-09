@@ -1,0 +1,25 @@
+<div class="form-group">
+    <input type="email" [(ngModel)]="registerModel.Email" class="form-control" placeholder="email" />
+</div>
+<div class="form-group">
+    <input type="password" [(ngModel)]="registerModel.Password" class="form-control" placeholder="password" />
+</div>
+<div class="form-group">
+    <input type="password" [(ngModel)]="registerModel.PasswordConfirm" class="form-control" placeholder="passwordConfirm" />
+</div>
+<div class="form-group">
+    <input type="text" [(ngModel)]="registerModel.FirstName" class="form-control" placeholder="fisrtName" />
+</div>
+<div class="form-group">
+    <input type="text" [(ngModel)]="registerModel.LastName" class="form-control" placeholder="lastName" />
+</div>
+<div class="form-group">
+    <input type="text" [(ngModel)]="registerModel.PhoneNumber" class="form-control" placeholder="phoneNumber" />
+</div>
+<div class="form-group">
+    <input type="text" [(ngModel)]="registerModel.Login" class="form-control" placeholder="login" />
+</div>
+<div>
+    <button class = "btn btn-outline-primary" (click) ="register();"><i class="bi bi-check2-circle"></i></button>
+    <button class = "btn btn-outline-primary btn-outline-danger leftbutton" (click) ="cancel();"><i class="bi bi-x-circle"></i></button>
+</div>

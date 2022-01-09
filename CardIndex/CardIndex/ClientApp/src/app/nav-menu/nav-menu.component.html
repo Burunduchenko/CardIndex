@@ -8,7 +8,7 @@
         <button *ngIf = "!is_authorize" class="btn btn-secondary admn-btn" (click)="register();">Register</button>
         <button *ngIf = "is_authorize" class="btn btn-secondary admn-btn" (click)="SingOut();">SingOut</button>
         <div></div>
-        <a class="navbar-brand" [routerLink]="['/']">Home</a>
+        <a *ngIf = "is_authorize" class="navbar-brand" [routerLink]="['/']">Home</a>
        
         <button
           class="navbar-toggler"

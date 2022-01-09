@@ -51,7 +51,7 @@
                 <td>{{assessment.articleName}}</td>
                 <td>{{assessment.userLogin}}</td>
                 <td>{{assessment.date}}</td>
-                <td><button class = "btn  btn-danger" (click) = "deleteAssessment(assessment)"><i class="bi bi-trash"></i></button></td>
+                <td><button *ngIf = "is_admin"  class = "btn  btn-danger" (click) = "deleteAssessment(assessment)"><i class="bi bi-trash"></i></button></td>
         </tr>
     </tbody>
 </table>

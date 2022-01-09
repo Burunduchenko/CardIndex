@@ -17,7 +17,7 @@ namespace Administration.HelperModels
         public string Password { get; set; }
         [Compare(nameof(Password))]
         public string PasswordConfirm { get; set; }
-        [Required(ErrorMessage = "First name is required")]
+        [Required(ErrorMessage = "First name is is required")]
         [MinLength(1, ErrorMessage = "Provided first name is too short")]
         [MaxLength(40, ErrorMessage = "Provided first name is too large")]
         public string FirstName { get; set; }

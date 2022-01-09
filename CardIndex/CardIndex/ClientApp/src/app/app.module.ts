@@ -12,6 +12,7 @@ import { ArticleAssessmentComponent } from './article-assessment/article-assessm
 import { UserComponent } from './user/user.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './guard/auth.guard';
+import { RegisterComponent } from './register/register.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { AuthGuard } from './guard/auth.guard';
     ArticleAssessmentComponent,
     UserComponent,
     LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -31,6 +33,7 @@ import { AuthGuard } from './guard/auth.guard';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' , canActivate: [AuthGuard]},
       { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent },
       { path: 'articles', component: ArticleAndthemesComponent, canActivate: [AuthGuard] },
       { path: 'article-assessment', component: ArticleAssessmentComponent, canActivate: [AuthGuard] },
       { path: 'users', component: UserComponent, canActivate: [AuthGuard] },

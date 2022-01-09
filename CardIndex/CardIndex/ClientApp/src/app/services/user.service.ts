@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ManipWithUserRole } from '../models/manipWithUserRole';
+import { RegisterModel } from '../models/register-model';
 import { Role } from '../models/role';
 import { UpdateUser } from '../models/update-user';
 import { User } from '../models/user';
@@ -60,6 +61,18 @@ export class UserService {
     return this.Http.post<string>(this.base_Administartion_url + "/logon",  {email: email, password: password});
   }
 
+
+  registerUser(registerModel: RegisterModel): Observable<void>
+  {
+    console.log(registerModel.Email);
+    console.log(registerModel.Password);
+    console.log(registerModel.PasswordConfirm);
+    console.log(registerModel.FirstName);
+    console.log(registerModel.LastName);
+    console.log(registerModel.PhoneNumber);
+    console.log(registerModel.Login);
+    return this.Http.post<void>(this.base_Administartion_url + "/register",  registerModel);
+  }
 
   isInRole(roles: string[]): boolean
   {

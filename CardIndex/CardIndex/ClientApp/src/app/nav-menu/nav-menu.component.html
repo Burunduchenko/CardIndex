@@ -5,7 +5,8 @@
 
     >
       <div class="container">
-        <button class="btn btn-secondary" (click)="SingOut();">SingOut</button>
+        <button *ngIf = "!is_authorize" class="btn btn-secondary admn-btn" (click)="register();">Register</button>
+        <button *ngIf = "is_authorize" class="btn btn-secondary admn-btn" (click)="SingOut();">SingOut</button>
         <div></div>
         <a class="navbar-brand" [routerLink]="['/']">Home</a>
        
@@ -25,17 +26,17 @@
           [ngClass]="{ show: isExpanded }"
         >
           <ul class="navbar-nav flex-grow">
-              <li class="nav-item" [routerLinkActive]="['link-active']">
+              <li *ngIf = "is_admin" class="nav-item" [routerLinkActive]="['link-active']">
                 <a class="nav-link text-dark" [routerLink]="['/users']"
                   >Users</a
                 >
               </li>
-            <li class="nav-item" [routerLinkActive]="['link-active']">
+            <li *ngIf = "is_authorize" class="nav-item" [routerLinkActive]="['link-active']">
               <a class="nav-link text-dark" [routerLink]="['/article-assessment']"
                 >Article assessment</a
               >
             </li>
-            <li class="nav-item" [routerLinkActive]="['link-active']">
+            <li *ngIf = "is_authorize" class="nav-item" [routerLinkActive]="['link-active']">
               <a class="nav-link text-dark" [routerLink]="['/articles']"
                 >Articles</a
               >

@@ -1,5 +1,4 @@
 import { HttpClient } from '@angular/common/http';
-import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
@@ -42,6 +41,10 @@ export class LoginComponent implements OnInit {
     let roles = decodedJwtData['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
 
     localStorage.setItem("USER_ROLES", roles);
+    
+    this.router.navigate(['']).then(() => {
+      window.location.reload();
+    });
   }
 
 

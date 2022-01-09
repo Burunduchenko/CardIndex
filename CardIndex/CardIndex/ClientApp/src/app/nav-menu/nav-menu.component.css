@@ -24,3 +24,7 @@ a:hover {
 #fix-navbar{
   position: fixed; 
 }
+
+.admn-btn{
+  margin-right: 1em;
+}

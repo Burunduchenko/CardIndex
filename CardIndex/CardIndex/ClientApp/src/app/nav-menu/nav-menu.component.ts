@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 
@@ -7,12 +7,19 @@ import { UserService } from '../services/user.service';
   templateUrl: './nav-menu.component.html',
   styleUrls: ['./nav-menu.component.css']
 })
-export class NavMenuComponent {
+export class NavMenuComponent  implements OnInit {
+
+  private is_admin: boolean = false;
+  private is_authorize: boolean = false;
 
   constructor(private router: Router,
     private _userService: UserService)
   {
 
+  }
+  ngOnInit(): void {
+    this.is_admin = this._userService.isInRole(['admin']);
+    this.is_authorize = this._userService.isAuthorize();
   }
   isExpanded = false;
 
@@ -28,11 +35,13 @@ export class NavMenuComponent {
   {
     localStorage.removeItem("AUTH_TOKEN");
     localStorage.removeItem("USER_ROLES");
-    this.router.navigate(["login"]);
+    this.router.navigate(["login"]).then(() => {
+      window.location.reload();
+    });
   }
 
-  isInRoles(roles: string[]): boolean
+  register()
   {
-    return this._userService.isInRole(roles);
+    this.router.navigate(["/register"]);
   }
 }

@@ -7,14 +7,14 @@
 </ul>
 <p>Actions</p>
 <ul>
-  <li><button class="btn  btn-primary"><i class="bi bi-vector-pen"></i></button> - update</li>
+  <li *ngIf = "is_admin || is_author" ><button class="btn  btn-primary"><i class="bi bi-vector-pen"></i></button> - update</li>
   <br>
-  <li><button class="btn  btn-danger leftbutton"><i class="bi bi-trash"></i></button> - delete</li>
+  <li *ngIf = "is_admin || is_author"><button class="btn  btn-danger leftbutton"><i class="bi bi-trash"></i></button> - delete</li>
   <br>
   <li><button class="btn btn-success " ><i class="bi bi-bookmark-check"></i></button> - save</li>
   <br>
   <li><button class="btn btn-warning leftbutton"><i class="bi bi-bookmark-x"></i></button> - cencel</li>
   <br>
-  <li><button class = "btn btn-outline-light leftbutton"><i class="bi bi-search"></i></button> - search</li>
+  <li><button class = "btn btn-outline-primary  leftbutton"><i class="bi bi-search"></i></button> - search</li>
 </ul>
 

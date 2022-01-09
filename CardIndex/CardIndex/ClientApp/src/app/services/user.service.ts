@@ -16,7 +16,7 @@ export class UserService {
 
   createRole(role: Role)
   {
-    return this.Http.post(this.base_Administartion_url + "/createRole", role);
+    return this.Http.post(this.base_Administartion_url + "/createRole", role, {headers: this.headers});
   }
 
   getRoles(): Observable<Role[]>
@@ -63,21 +63,28 @@ export class UserService {
 
   isInRole(roles: string[]): boolean
   {
-    let userRoles = localStorage.getItem("USER_ROLES");
+    let userRoles = localStorage.getItem("USER_ROLES").split(",");
     for(let role of roles)
     {
       for(let userRole of userRoles)
       {
         if(role == userRole)
         {
-          console.log('is in role: true');
           return true;
         }
       }
     }
-    console.log('is in role:  fasle');
     return false;
   }
 
+  
+  isAuthorize():boolean
+  {
+    if(localStorage.getItem("AUTH_TOKEN"))
+    {
+      return true;
+    }
+    return false;
+  }
 
 }

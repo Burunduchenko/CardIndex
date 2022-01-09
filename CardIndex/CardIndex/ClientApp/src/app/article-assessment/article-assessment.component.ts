@@ -4,6 +4,7 @@ import { Article } from '../models/article';
 import { ArticleAssessment } from '../models/article-assessment';
 import { ArticleAssessmentService } from '../services/article-assessment.service';
 import { ArticleServiceService } from '../services/article-service.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-article-assessment',
@@ -17,12 +18,16 @@ export class ArticleAssessmentComponent implements OnInit {
   addMode: boolean;
   addAssessmentModel: AddArticleAssessment = new AddArticleAssessment();
 
+  is_admin: boolean = false;
+
   constructor(private _articleAssessmentService: ArticleAssessmentService,
-    private _articleService: ArticleServiceService) { }
+    private _articleService: ArticleServiceService,
+    private _userService: UserService) { }
 
   ngOnInit() {
     this.getAllAssessment();
     this._articleService.getArticles().subscribe(articles => this._allArticles = articles);
+    this.is_admin = this._userService.isInRole(['admin']);
   }
 
 

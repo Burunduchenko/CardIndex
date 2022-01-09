@@ -5,6 +5,7 @@ import { BuffArticle } from '../models/buff-article';
 import { Theme } from '../models/theme';
 import { ArticleServiceService } from '../services/article-service.service';
 import { ThemeServiceService } from '../services/theme-service.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-article-andthemes',
@@ -27,18 +28,24 @@ export class ArticleAndthemesComponent implements OnInit {
   buffArticle: BuffArticle = new BuffArticle()
   addMode: boolean = false;
 
+  is_admin: boolean = false;
+  is_author: boolean = false;
+
 
   private _allThemes: Theme[];
   buffTheme: Theme;
   addThemeMode: boolean = false;
   
   constructor(private _articleService: ArticleServiceService,
-    private _themeService: ThemeServiceService) { }
+    private _themeService: ThemeServiceService,
+    private _userService: UserService) { }
 
   ngOnInit() {
     this.getAllArticles();
     this.getAllThemes();
     this.articles = this._allArticles;
+    this.is_admin = this._userService.isInRole(['admin']);
+    this.is_author = this._userService.isInRole(['author']);
   }
 
 

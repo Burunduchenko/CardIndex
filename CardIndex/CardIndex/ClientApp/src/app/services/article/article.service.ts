@@ -18,7 +18,7 @@ export class ArticleService {
   }
 
   deleteArticle(id: number){
-    return this.Http.delete(this.base_article_url + '/delete/'+id, {headers: this.headers});
+    return this.Http.delete(this.base_article_url + '/delete?id='+id, {headers: this.headers});
   }
 
   addArticle(article: BuffArticle)
@@ -32,21 +32,21 @@ export class ArticleService {
   }
 
   getByThemeArticles(theme: string): Observable<Article[]>{
-    return this.Http.get<Article[]>(this.base_article_url+"/getByTheme/" + theme, {headers: this.headers});
+    return this.Http.get<Article[]>(this.base_article_url+"/getByTheme?theme" + theme, {headers: this.headers});
   }
 
   getArticleByLenght(lenght: number): Observable<Article[]>
   {
-    return this.Http.get<Article[]>(this.base_article_url + "/getByLength/" + lenght, {headers: this.headers});
+    return this.Http.get<Article[]>(this.base_article_url + "/getByLength?length=" + lenght, {headers: this.headers});
   }
   
   getArtilceByTitle(title: string): Observable<Article>
   {
-    return this.Http.get<Article>(this.base_article_url + "/getByName/" + title, {headers: this.headers});
+    return this.Http.get<Article>(this.base_article_url + "/getByName?name=" + title, {headers: this.headers});
   }
 
   getByRangeOfRate(max: number, min: number): Observable<Article[]>
   {
-    return this.Http.get<Article[]>(this.base_article_url + "/getByRangeOfRate/" + max + "/" + min, {headers: this.headers});
+    return this.Http.get<Article[]>(this.base_article_url + "/getByRangeOfRate?max="+ max+"&min="  + min, {headers: this.headers});
   }
 }

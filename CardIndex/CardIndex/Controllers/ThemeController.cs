@@ -61,9 +61,9 @@ namespace CardIndex.Controlers
             }
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("delete")]
         [Authorize(Roles = "admin,author")]
-        public async Task<IActionResult> DeleteByIdAsync(int id)
+        public async Task<IActionResult> DeleteByIdAsync([FromQuery]int id)
         {
             _logger.LogInformation("Was called DeleteByIdAsync method from Theme Controller");
             try

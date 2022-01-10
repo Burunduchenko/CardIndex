@@ -44,12 +44,12 @@ export class UserService {
 
   deleteUser(id: string)
   {
-    return this.Http.delete(this.base_Administartion_url + "/DeleteUser/" + id, {headers: this.headers});
+    return this.Http.delete(this.base_Administartion_url + "/DeleteUser?id=" + id, {headers: this.headers});
   }
 
   deleteRole(id: string)
   {
-      return this.Http.delete(this.base_Administartion_url + "/DeleteRole/" + id, {headers: this.headers})
+      return this.Http.delete(this.base_Administartion_url + "/DeleteRole?id=" + id, {headers: this.headers})
   }
 
   updateUser(user: UpdateUser)

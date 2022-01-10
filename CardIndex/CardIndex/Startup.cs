@@ -144,6 +144,8 @@ namespace CardIndex
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseRouting();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -166,7 +168,7 @@ namespace CardIndex
                 app.UseSpaStaticFiles();
             }
 
-            app.UseRouting();
+
 
             app.UseAuthentication();
             app.UseAuthorization();

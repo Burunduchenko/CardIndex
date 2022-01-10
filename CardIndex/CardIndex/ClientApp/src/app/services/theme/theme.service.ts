@@ -18,7 +18,7 @@ export class ThemeService {
 
   deleteTheme(id: number)
   {
-    return this.Http.delete(this.base_theme_url + "/delete/" + id, {headers: this.headers});
+    return this.Http.delete(this.base_theme_url + "/delete?id=" + id, {headers: this.headers});
   }
 
   addTheme(theme: Theme)

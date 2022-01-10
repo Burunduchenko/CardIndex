@@ -36,9 +36,9 @@ namespace CardIndex.Controlers
             return Ok(await _articleService.GetAllWithDetailsAsync());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetById")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> GetByIdAsync(int id)
+        public async Task<IActionResult> GetByIdAsync([FromQuery] int id)
         {
             _logger.LogInformation("Was called GetByIdAsync method from Aricle Controller");
             try
@@ -55,9 +55,9 @@ namespace CardIndex.Controlers
             }
         }
 
-        [HttpGet("getByTheme/{theme}")]
+        [HttpGet("getByTheme")]
         [Authorize]
-        public async Task<IActionResult> GetByThemeAsync(string theme)
+        public async Task<IActionResult> GetByThemeAsync([FromQuery] string theme)
         {
             _logger.LogInformation("Was called GetByThemeAsync method from Aricle Controller");
             try
@@ -80,9 +80,9 @@ namespace CardIndex.Controlers
             }
         }
 
-        [HttpGet("getByName/{name}")]
+        [HttpGet("getByName")]
         [Authorize]
-        public async Task<IActionResult> GetByTitleAsync(string name)
+        public async Task<IActionResult> GetByTitleAsync([FromQuery] string name)
         {
             _logger.LogInformation("Was called GetByNameAsync method from Aricle Controller");
             try
@@ -107,9 +107,9 @@ namespace CardIndex.Controlers
         /// </summary>
         /// <param name="length">limit lenght of article</param>
         /// <returns></returns>
-        [HttpGet("getByLength/{length}")]
+        [HttpGet("getByLength")]
         [Authorize]
-        public async Task<IActionResult> GetByLenghtAsync(int length)
+        public async Task<IActionResult> GetByLenghtAsync([FromQuery] int length)
         {
             var articleModel = await _articleService.GetByLengthAsync(length);
             _logger.LogInformation("Was SUCCESSFULL called GetByLenghtAsync method from Aricle Controller");
@@ -124,9 +124,9 @@ namespace CardIndex.Controlers
         /// <param name="max">max value of rating</param>
         /// <param name="min">min value of rating</param>
         /// <returns></returns>
-        [HttpGet("getByRangeOfRate/{max}/{min}")]
+        [HttpGet("getByRangeOfRate")]
         [Authorize]
-        public async Task<IActionResult> GetByRangeOfRateAsync(double max, double min)
+        public async Task<IActionResult> GetByRangeOfRateAsync([FromQuery]double max, [FromQuery] double min)
         {
             var articleModel = await _articleService.GetByRangeOfRateAsync(max, min);
             _logger.LogInformation("Was SUCCESSFULL called GetByRangeOfRateAsync method from Aricle Controller");
@@ -183,9 +183,9 @@ namespace CardIndex.Controlers
             }
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("delete")]
         [Authorize(Roles = "author,admin")]
-        public async Task<IActionResult> DeleteByIdAsync(int id)
+        public async Task<IActionResult> DeleteByIdAsync([FromQuery]int id)
         {
             _logger.LogInformation("Was called DeleteByIdAsync method from Aricle Controller");
             try

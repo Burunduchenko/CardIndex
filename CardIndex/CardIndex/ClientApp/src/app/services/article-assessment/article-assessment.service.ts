@@ -21,7 +21,7 @@ export class ArticleAssessmentService {
 
   deleteAssessment(id: number)
   {
-    return this.Http.delete(this.base_article_assessment_url + "/delete/" + id, {headers: this.headers});
+    return this.Http.delete(this.base_article_assessment_url + "/delete?id=" + id, {headers: this.headers});
   }
 
   addAssessment(assessment: AddArticleAssessment)

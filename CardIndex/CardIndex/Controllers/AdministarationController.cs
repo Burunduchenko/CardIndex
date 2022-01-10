@@ -32,7 +32,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterAsync(RegisterModel model)
+        public async Task<IActionResult> RegisterAsync([FromBody]RegisterModel model)
         {
             _logger.LogInformation("Was called RegisterAsync method from Administration Controller");
             try
@@ -51,7 +51,7 @@ namespace CardIndex.Controlers
         }
 
         [HttpPost("logon")]
-        public async Task<IActionResult> LogonAsync(LogonModel model)
+        public async Task<IActionResult> LogonAsync([FromBody]LogonModel model)
         {
             _logger.LogInformation("Was called LogonAsync method from Administration Controller");
             try
@@ -72,7 +72,7 @@ namespace CardIndex.Controlers
 
         [HttpPost("createRole")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> CreateRoleAsync(RoleViev model)
+        public async Task<IActionResult> CreateRoleAsync([FromBody] RoleViev model)
         {
             _logger.LogInformation("Was called CreateRoleAsync method from Administration Controller");
             try
@@ -105,7 +105,7 @@ namespace CardIndex.Controlers
         /// <returns></returns>
         [HttpPost("provideUserToRole")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> ProvideUserToRoleAsync(ManipWithUserRole model)
+        public async Task<IActionResult> ProvideUserToRoleAsync([FromBody] ManipWithUserRole model)
         {
             _logger.LogInformation("Was called ProvideUserToRoleAsync method from Administration Controller");
             try
@@ -131,7 +131,7 @@ namespace CardIndex.Controlers
         /// <returns></returns>
         [HttpPost("takeUserFromRole")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> TakeUserFromRoleAsync(ManipWithUserRole model)
+        public async Task<IActionResult> TakeUserFromRoleAsync([FromBody] ManipWithUserRole model)
         {
             _logger.LogInformation("Was called AssignUserToRoleAsync method from Administration Controller");
             try
@@ -149,9 +149,9 @@ namespace CardIndex.Controlers
 
         }
 
-        [HttpDelete("DeleteUser/{id}")]
+        [HttpDelete("DeleteUser")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> DeleteUserAsync(string id)
+        public async Task<IActionResult> DeleteUserAsync([FromQuery]string id)
         {
             _logger.LogInformation("Was called DeleteUserAsync method from Administration Controller");
             try
@@ -168,9 +168,9 @@ namespace CardIndex.Controlers
             }
         }
 
-        [HttpGet("GetUser/{email}/{password}")]
+        [HttpGet("GetUser")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> GetUserAsync(string email, string password)
+        public async Task<IActionResult> GetUserAsync([FromQuery]string email, [FromQuery]string password)
         {
             _logger.LogInformation("Was called GetUserAsync method from Administration Controller");
             try
@@ -195,9 +195,9 @@ namespace CardIndex.Controlers
             return Ok(await _userService.GetAllUsersAsync());
         }
 
-        [HttpDelete("DeleteRole/{id}")]
+        [HttpDelete("DeleteRole")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> DeleteRoleAsync(string id)
+        public async Task<IActionResult> DeleteRoleAsync([FromQuery]string id)
         {
             _logger.LogInformation("Was called DeleteRoleAsync method from Administration Controller");
             try

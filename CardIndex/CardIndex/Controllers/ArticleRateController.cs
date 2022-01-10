@@ -63,9 +63,9 @@ namespace CardIndex.Controlers
 
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("delete")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> DeleteByIdAsync(int id)
+        public async Task<IActionResult> DeleteByIdAsync([FromQuery] int id)
         {
             _logger.LogInformation("Was called DeleteByIdAsync method from Aricle Rate Controller");
             try

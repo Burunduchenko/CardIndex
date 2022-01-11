@@ -4,6 +4,7 @@ using BLL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace CardIndex.Controlers
@@ -53,6 +54,12 @@ namespace CardIndex.Controlers
                 " There is no article in database with entered id");
                 return NotFound(ex.Message);
             }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Was throwed unexpected Exception from GetByIdAsync method, Article Controller: " +
+                    $"{ex.Message}");
+                return StatusCode(500);
+            }
         }
 
         [HttpGet("getByTheme")]
@@ -78,6 +85,12 @@ namespace CardIndex.Controlers
                 " Entered theme doesn't exist");
                 return BadRequest(ex.Message);
             }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Was throwed unexpected Exception from GetByThemeAsync method, Article Controller: " +
+                    $"{ex.Message}");
+                return StatusCode(500);
+            }
         }
 
         [HttpGet("getByName")]
@@ -96,6 +109,12 @@ namespace CardIndex.Controlers
                 _logger.LogWarning("Method GetByNameAsync from Aricle Controller was FAILED: " +
                 " There is no article in database with entered name");
                 return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Was throwed unexpected Exception from GetByTitleAsync method, Article Controller: " +
+                    $"{ex.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -156,6 +175,12 @@ namespace CardIndex.Controlers
                 " Entered article already exist in database");
                 return BadRequest(ex.Message);
             }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Was throwed unexpected Exception from AddAsync method, Article Controller: " +
+                    $"{ex.Message}");
+                return StatusCode(500);
+            }
         }
 
         [HttpPut("UpdateArticle")]
@@ -181,6 +206,12 @@ namespace CardIndex.Controlers
                 " There is no article to update in database with entered data");
                 return NotFound(ex.Message);
             }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Was throwed unexpected Exception from UpdateAsync method, Article Controller: " +
+                    $"{ex.Message}");
+                return StatusCode(500);
+            }
         }
 
         [HttpDelete("delete")]
@@ -200,6 +231,12 @@ namespace CardIndex.Controlers
                 _logger.LogWarning("Method DeleteByIdAsync from Aricle Controller was FAILED: " +
                 " There is no article to delete in database with entered id");
                 return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Was throwed unexpected Exception from DeleteByIdAsync method, Article Controller: " +
+                    $"{ex.Message}");
+                return StatusCode(500);
             }
         }
     }

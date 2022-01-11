@@ -5,6 +5,7 @@ using BLL.VievModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace CardIndex.Controlers
@@ -59,6 +60,12 @@ namespace CardIndex.Controlers
                 " Entered theme already exist in database");
                 return BadRequest(ex.Message);
             }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Was throwed unexpected Exception from AddAsync method, Theme Controller: " +
+                    $"{ex.Message}");
+                return StatusCode(500);
+            }
         }
 
         [HttpDelete("delete")]
@@ -77,6 +84,12 @@ namespace CardIndex.Controlers
                 _logger.LogWarning("Method DeleteByIdAsync from Theme Controller was FAILED: " +
                 " There is no theme to delete in database with entered id");
                 return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Was throwed unexpected Exception from DeleteByIdAsync method, Theme Controller: " +
+                    $"{ex.Message}");
+                return StatusCode(500);
             }
         }
     }

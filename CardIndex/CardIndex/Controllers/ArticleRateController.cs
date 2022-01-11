@@ -5,6 +5,7 @@ using BLL.VievModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace CardIndex.Controlers
@@ -60,6 +61,12 @@ namespace CardIndex.Controlers
                 " article rate already exist in database");
                 return BadRequest(ex.Message);
             }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Was throwed unexpected Exception from AddAsync method, Article Rate Controller: " +
+                    $"{ex.Message}");
+                return StatusCode(500);
+            }
 
         }
 
@@ -79,6 +86,12 @@ namespace CardIndex.Controlers
                 _logger.LogWarning("Method DeleteByIdAsync from Aricle Rate Controller was FAILED: " +
                 " There is no article rate to delete in database with entered id");
                 return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Was throwed unexpected Exception from DeleteByIdAsync method, Article Rate Controller: " +
+                    $"{ex.Message}");
+                return StatusCode(500);
             }
         }
     }

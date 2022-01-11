@@ -47,6 +47,12 @@ namespace CardIndex.Controlers
                     " Entered user data is invalid");
                 return BadRequest(ex.Message);
             }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Was throwed unexpected Exception from RegisterAsync method, Administration Controller: " +
+                    $"{ex.Message}");
+                return StatusCode(500);
+            }
 
         }
 
@@ -67,6 +73,12 @@ namespace CardIndex.Controlers
                  " There is no user in database with entered data");
                 return NotFound(ex.Message);
             }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Was throwed unexpected Exception from LogonAsync method, Administration Controller: " +
+                    $"{ex.Message}");
+                return StatusCode(500);
+            }
 
         }
 
@@ -86,6 +98,12 @@ namespace CardIndex.Controlers
                 _logger.LogWarning("Method CreateRoleAsync from Administration Controller was FAILED: " +
                  " Entered role data is invalid");
                 return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Was throwed unexpected Exception from CreateRoleAsync method, Administration Controller: " +
+                    $"{ex.Message}");
+                return StatusCode(500);
             }
 
         }
@@ -120,6 +138,12 @@ namespace CardIndex.Controlers
                 " Entered data about user or role is invalid");
                 return BadRequest(ex.Message);
             }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Was throwed unexpected Exception from ProvideUserToRoleAsync method, Administration Controller: " +
+                    $"{ex.Message}");
+                return StatusCode(500);
+            }
 
         }
 
@@ -146,6 +170,12 @@ namespace CardIndex.Controlers
                 " Entered data about user or role is invalid");
                 return BadRequest(ex.Message);
             }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Was throwed unexpected Exception from TakeUserFromRoleAsync method, Administration Controller: " +
+                    $"{ex.Message}");
+                return StatusCode(500);
+            }
 
         }
 
@@ -166,6 +196,12 @@ namespace CardIndex.Controlers
                  " There is no user in database with entered data");
                 return BadRequest(ex.Message);
             }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Was throwed unexpected Exception from DeleteUserAsync method, Administration Controller: " +
+                    $"{ex.Message}");
+                return StatusCode(500);
+            }
         }
 
         [HttpGet("GetUser")]
@@ -184,6 +220,12 @@ namespace CardIndex.Controlers
                 _logger.LogWarning("Method GetUserAsync from Administration Controller was FAILED: " +
                 " There is no user in database with entered data");
                 return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Was throwed unexpected Exception from GetUserAsync method, Administration Controller: " +
+                    $"{ex.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -212,20 +254,36 @@ namespace CardIndex.Controlers
                 " There is no role in database with entered data");
                 return NotFound(ex.Message);
             }
+            catch(Exception ex)
+            {
+                _logger.LogError($"Was throwed unexpected Exception from DeleteRoleAsync method, Administration Controller: " +
+                    $"{ex.Message}");
+                return StatusCode(500);
+            }
         }
 
         [HttpPut("Update")]
         [Authorize(Roles ="admin")]
         public async Task<IActionResult> UpdateUser([FromBody] UpdateUser user)
         {
+            _logger.LogInformation("Was called UpdateUser method from Administration Controller");
             try
             {
                 var result = await _userService.UpdateUserAsync(user);
+                _logger.LogInformation("Method UpdateUser from Administration Controller was SUCCESSFULL finished");
                 return Ok(result);
             }
             catch (InvalidArgumentException ex)
             {
+                _logger.LogWarning("Method UpdateUser from Administration Controller was FAILED: " +
+                " There is no role in database with entered data");
                 return BadRequest(ex.Massege);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Was throwed unexpected Exception from UpdateUser method, Administration Controller: " +
+                    $"{ex.Message}");
+                return StatusCode(500);
             }
         }
     }

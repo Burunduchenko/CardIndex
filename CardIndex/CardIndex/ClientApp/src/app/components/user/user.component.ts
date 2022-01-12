@@ -58,7 +58,7 @@ export class UserComponent implements OnInit {
 
   getAllRoles()
   {
-    this._userService.getRoles().subscribe(res => this._allRoles = res);
+    this._userService.getAllRoles().subscribe(res => this._allRoles = res);
   }
 
   provideUserToRole()

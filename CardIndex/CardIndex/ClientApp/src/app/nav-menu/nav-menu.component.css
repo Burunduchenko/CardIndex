@@ -21,7 +21,8 @@ a:hover {
   color:#000000;
 }
 
-#fix-navbar{
+.fix-navbar{
+  width: 100%;
   position: fixed; 
 }
 

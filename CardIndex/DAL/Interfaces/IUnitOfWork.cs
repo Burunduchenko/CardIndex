@@ -7,9 +7,9 @@ namespace DAL.Interfaces
     /// </summary>
     public interface IUnitOfWork
     {
-        IRepository<Article> ArticleRepo { get; }
-        IRepository<Theme> ThemeRepo { get; }
-        IBaseRepository<ArticleRate> ArticleRateRepo { get; }
+        IRepository<Card> CardRepository { get; }
+        IRepository<Theme> ThemeRepository { get; }
+        IBaseRepository<CardAssessment> CardAssessmentRepository { get; }
 
         int SaveChanges();
     }

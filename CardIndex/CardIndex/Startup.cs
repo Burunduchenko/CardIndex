@@ -90,15 +90,15 @@ namespace CardIndex
             public static void ServicesDI(IServiceCollection services)
             {
                 services.AddScoped<IRepository<Theme>, ThemeRepository>();
-                services.AddScoped<IRepository<Article>, ArticleRepository>();
-                services.AddScoped<IBaseRepository<ArticleRate>, ArticleRateRepository>();
+                services.AddScoped<IRepository<Card>, CardRepository>();
+                services.AddScoped<IBaseRepository<CardAssessment>, CardAssessmentRepository>();
             }
 
             public static void RepositoryDI(IServiceCollection services)
             {
-                services.AddScoped<IArticleService, ArticleService>();
+                services.AddScoped<ICardService, CardService>();
                 services.AddScoped<IBaseService<ThemeAddModel, ThemeVievModel>, ThemeService>();
-                services.AddScoped<IBaseService<ArticleRateAddModel, ArticleRateVievModel>, ArticleRateService>();
+                services.AddScoped<IBaseService<CardAssessmentAddModel, CardAssementVievModel>, CardAssessmentService>();
                 services.AddScoped<IUserService, UserService>();
             }
 

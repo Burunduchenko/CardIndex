@@ -6,12 +6,12 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './components/home/home.component';
-import { ArticleAndthemesComponent } from './components/article-andthemes/article-and-themes.component';
-import { ArticleAssessmentComponent } from './components/article-assessment/article-assessment.component';
 import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guard/auth.guard';
 import { RegisterComponent } from './components/register/register.component';
+import { CardAndThemesComponent } from './components/card-and-theme/card-and-theme.component';
+import { CardAssessmentComponent } from './components/card-assessment/card-assessment.component';
 
 
 @NgModule({
@@ -19,8 +19,8 @@ import { RegisterComponent } from './components/register/register.component';
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    ArticleAndthemesComponent,
-    ArticleAssessmentComponent,
+    CardAndThemesComponent,
+    CardAssessmentComponent,
     UserComponent,
     LoginComponent,
     RegisterComponent,
@@ -33,8 +33,8 @@ import { RegisterComponent } from './components/register/register.component';
       { path: '', component: HomeComponent, pathMatch: 'full' , canActivate: [AuthGuard]},
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
-      { path: 'articles', component: ArticleAndthemesComponent, canActivate: [AuthGuard] },
-      { path: 'article-assessment', component: ArticleAssessmentComponent, canActivate: [AuthGuard] },
+      { path: 'cards', component: CardAndThemesComponent, canActivate: [AuthGuard] },
+      { path: 'card-assessments', component: CardAssessmentComponent, canActivate: [AuthGuard] },
       { path: 'users', component: UserComponent, canActivate: [AuthGuard] },
     ])
   ],

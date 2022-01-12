@@ -9,12 +9,12 @@ namespace BLL
     {
         public AutomapperProfile()
         {
-            CreateMap<Article, ArticelVievModel>().ReverseMap();
-            CreateMap<Article, ArticleAddmodel>().ReverseMap();
+            CreateMap<Card, CardVievModel>().ReverseMap();
+            CreateMap<Card, CardAddmodel>().ReverseMap();
             CreateMap<Theme, ThemeAddModel>().ReverseMap();
             CreateMap<Theme, ThemeVievModel>().ReverseMap();
-            CreateMap<ArticleRate, ArticleRateAddModel>().ReverseMap();
-            CreateMap<ArticleRate, ArticleRateVievModel>().ReverseMap();
+            CreateMap<CardAssessment, CardAssessmentAddModel>().ReverseMap();
+            CreateMap<CardAssessment, CardAssementVievModel>().ReverseMap();
         }
     }
 }

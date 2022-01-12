@@ -7,7 +7,7 @@ namespace BLL.Interfaces
     /// The interface is designed 
     /// for basic functions of Article Rate Service and Theme Service
     /// </summary>
-    /// <typeparam name="Add">Model for user add</typeparam>
+    /// <typeparam name="Add">Model for adding</typeparam>
     /// <typeparam name="Viev">Model for user viev</typeparam>
     public interface IBaseService<Add, Viev> where Add : class
     {

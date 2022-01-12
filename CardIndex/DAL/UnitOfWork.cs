@@ -11,39 +11,39 @@ namespace DAL
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ICardContext _cardDbContext;
-        private IRepository<Article> _ArticleRepo;
-        private IRepository<Theme> _ThemeRepo;
-        private IBaseRepository<ArticleRate> _ArticleRateRepo;
+        private IRepository<Card> _CardRepository;
+        private IRepository<Theme> _ThemeRepository;
+        private IBaseRepository<CardAssessment> _CardAssessmentRepository;
         public UnitOfWork(ICardContext cardDbContext)
         {
             _cardDbContext = cardDbContext;
         }
 
-        public IRepository<Article> ArticleRepo
+        public IRepository<Card> CardRepository
         {
             get
             {
-                if (_ArticleRepo == null)
-                    _ArticleRepo = new ArticleRepository(_cardDbContext);
-                return _ArticleRepo;
+                if (_CardRepository == null)
+                    _CardRepository = new CardRepository(_cardDbContext);
+                return _CardRepository;
             }
         }
-        public IRepository<Theme> ThemeRepo
+        public IRepository<Theme> ThemeRepository
         {
             get
             {
-                if (_ThemeRepo == null)
-                    _ThemeRepo = new ThemeRepository(_cardDbContext);
-                return _ThemeRepo;
+                if (_ThemeRepository == null)
+                    _ThemeRepository = new ThemeRepository(_cardDbContext);
+                return _ThemeRepository;
             }
         }
-        public IBaseRepository<ArticleRate> ArticleRateRepo
+        public IBaseRepository<CardAssessment> CardAssessmentRepository
         {
             get
             {
-                if (_ArticleRateRepo == null)
-                    _ArticleRateRepo = new ArticleRateRepository(_cardDbContext);
-                return _ArticleRateRepo;
+                if (_CardAssessmentRepository == null)
+                    _CardAssessmentRepository = new CardAssessmentRepository(_cardDbContext);
+                return _CardAssessmentRepository;
             }
         }
 

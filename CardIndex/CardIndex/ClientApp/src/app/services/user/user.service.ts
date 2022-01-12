@@ -20,7 +20,7 @@ export class UserService {
     return this.Http.post(this.base_Administartion_url + "/createRole", role, {headers: this.headers});
   }
 
-  getRoles(): Observable<Role[]>
+  getAllRoles(): Observable<Role[]>
   {
     return this.Http.get<Role[]>(this.base_Administartion_url + "/getRoles", {headers: this.headers});
   }

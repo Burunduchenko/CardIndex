@@ -25,12 +25,12 @@ namespace BLL.Services
         public async Task<ThemeVievModel> AddAsync(ThemeAddModel item)
         {
             char.ToUpper(item.Name[0]);
-            if (_unitOfWork.ThemeRepo.GetAll().Select(x => x.Name == item.Name).FirstOrDefault())
+            if (_unitOfWork.ThemeRepository.GetAll().Select(x => x.Name == item.Name).FirstOrDefault())
             {
                 throw new AlreadyExistException();
             }
 
-            await _unitOfWork.ThemeRepo.AddAsync(_mapper.Map<Theme>(item));
+            await _unitOfWork.ThemeRepository.AddAsync(_mapper.Map<Theme>(item));
             _unitOfWork.SaveChanges();
 
             return new ThemeVievModel() { Name = item.Name };
@@ -38,16 +38,16 @@ namespace BLL.Services
 
         public async Task DeleteAsync(int id)
         {
-            if (await _unitOfWork.ThemeRepo.GetByIdAsync(id) == null)
+            if (await _unitOfWork.ThemeRepository.GetByIdAsync(id) == null)
             {
                 throw new NotFoundException();
             }
-            _unitOfWork.ThemeRepo.DeleteById(id);
+            _unitOfWork.ThemeRepository.DeleteById(id);
         }
 
         public async Task<IEnumerable<ThemeVievModel>> GetAllWithDetailsAsync()
         {
-            var dbthemes = await _unitOfWork.ThemeRepo.GetAllWithDetailsAsync();
+            var dbthemes = await _unitOfWork.ThemeRepository.GetAllWithDetailsAsync();
             List<ThemeVievModel> result = new List<ThemeVievModel>();
             foreach (var item in dbthemes)
             {

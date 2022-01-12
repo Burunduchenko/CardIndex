@@ -53,10 +53,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\src\app\services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\models\Article.ts" />
   </ItemGroup>
 

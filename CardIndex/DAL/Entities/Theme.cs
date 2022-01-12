@@ -12,6 +12,6 @@ namespace DAL.Entities
         public string Name { get; set; }
 
 
-        public virtual ICollection<Article> Articles { get; set; }
+        public virtual ICollection<Card> Articles { get; set; }
     }
 }

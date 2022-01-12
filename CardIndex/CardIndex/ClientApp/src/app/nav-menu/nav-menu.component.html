@@ -1,7 +1,7 @@
 
   <header>
     <nav
-      class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
+      class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 fix-navbar"
 
     >
       <div class="container">
@@ -32,13 +32,13 @@
                 >
               </li>
             <li *ngIf = "is_authorize" class="nav-item" [routerLinkActive]="['link-active']">
-              <a class="nav-link text-dark" [routerLink]="['/article-assessment']"
-                >Article assessment</a
+              <a class="nav-link text-dark" [routerLink]="['/card-assessments']"
+                >Cards assessments</a
               >
             </li>
             <li *ngIf = "is_authorize" class="nav-item" [routerLinkActive]="['link-active']">
-              <a class="nav-link text-dark" [routerLink]="['/articles']"
-                >Articles</a
+              <a class="nav-link text-dark" [routerLink]="['/cards']"
+                >Cards</a
               >
             </li>
           </ul>

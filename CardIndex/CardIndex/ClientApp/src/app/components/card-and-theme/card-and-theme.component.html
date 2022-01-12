@@ -1,0 +1,122 @@
+
+
+<!-- Right Sidebar with the list of all themes-->
+<ul class="sidebar-nav">
+    <div *ngIf = "!addThemeMode else createTheme">  
+        <a>
+            <strong>The list of themes</strong>
+            <button *ngIf = "is_admin || is_author" class="btn btn-success" (click) = "addTheme()"><strong><i class="bi bi-plus-lg"></i></strong> Add</button>
+        </a>
+        <hr>
+        <div *ngFor="let theme of _allThemes">
+            <a> 
+                <button *ngIf = "is_admin || is_author" class="btn  btn-danger" (click) = "deleteTheme(theme)"><i class="bi bi-trash"></i></button>
+                {{theme.name}}   
+            </a>
+        </div>
+    </div>
+</ul>
+
+ <div *ngIf = "!addMode else createCard">
+    <!--Left navbar for serching articles-->
+    <div id="mySidenav" class="sidenav">
+        <a>
+            <div>
+                <h2>Search Bar</h2>
+            </div>
+        </a>
+        <div>
+            <input class="form-group" [(ngModel)] = "searchTheme" type="text" placeholder="Theme">
+            <button class = "btn btn-outline-light leftbutton btn-size" (click) = "searchByTheme()"><i class="bi bi-search"></i> by theme</button>
+        </div>
+        <div>
+            <input class="form-group" [(ngModel)] = "searchTitle" type="text" placeholder="Title">
+            <button class = "btn btn-outline-light leftbutton btn-size" (click) = "searchByTitle()"><i class="bi bi-search"></i> by title</button>
+        </div>
+        <div>
+            <input class="form-group" [(ngModel)] = "lenght" type="number" placeholder="Lenght(>50)">
+            <button class = "btn btn-outline-light leftbutton btn-size" (click) = "searchByLenght()"><i class="bi bi-search"></i> by lenght</button>
+        </div>
+        <div>
+            <input class = "number" [(ngModel)] = "minRate" type="number" placeholder="min rate">
+            <input class = "number"  [(ngModel)] = "maxRate" type="number" placeholder="max rate">
+            <button class = "btn btn-outline-light leftbutton btn-size" (click) = "searchByRate()"><i class="bi bi-search"></i> by rate</button>
+        </div>
+    </div>
+
+    <br>
+
+
+    <br>
+    <br>
+    <br>
+    <button *ngIf = 'is_author' class="btn btn-outline-primary" (click)="add()"><strong><i class="bi bi-plus-lg"></i></strong> Add</button>
+    <hr> 
+    <!--Rendering the list of articles-->
+    <div *ngFor="let card of _allCards">
+        <ng-template [ngIf]="buffCard?.id != card.id" [ngIfElse]="updateCard">
+            <details> 
+                <summary><h1>{{card.title}}</h1></summary>
+                <h3 class="artilce-body">{{card.body}}</h3>
+            
+                <p class="article-desc"> <strong>Was posted</strong>  - {{card.created}}</p>
+                <p class="article-desc"> <strong>Author </strong> - {{card.authorFullName}}</p>
+                <p class="article-desc"> <strong>Rate</strong> - {{card.avgRate}}</p>
+                <p class="article-desc"> <strong>Theme</strong> - {{card.themeName}}</p>
+            <button *ngIf = 'is_author || is_admin' class="btn  btn-primary"(click) = "update(card)" ><i class="bi bi-vector-pen"></i></button>
+            <button *ngIf = 'is_admin' class="btn  btn-danger leftbutton" (click) = "delete(card)"><i class="bi bi-trash"></i></button>
+            </details>
+            <hr>
+        </ng-template>
+    </div>
+</div>
+
+
+<ng-template #createTheme>
+
+    <div class="form-group">
+        <input type="text" [(ngModel)]="buffTheme.name" class="form-control" placeholder="Name"/>
+    </div>
+    <div>
+        <button (click)="saveThemeAdd()" class="btn btn-success " ><i class="bi bi-bookmark-check"></i></button>
+        <button (click)="cancelTheme()" class="btn btn-warning leftbutton"><i class="bi bi-bookmark-x"></i></button>
+    </div>
+</ng-template>
+
+
+<!--Templates for update and create Article-->
+<ng-template #createCard>
+    <br>
+    <br>
+    <br>
+    <div class="form-group">
+        <label>Title</label>
+        <input type="text" [(ngModel)]="buffCard.title" class="form-control" placeholder="Title"/>
+    </div>
+    <div class="form-group">
+        <label>Body</label>
+        <input type="text" [(ngModel)]="buffCard.body" class="form-control" placeholder="Card"/>
+    </div>
+    <div class="form-group">
+        <label>Author full name</label>
+        <input type="text" [(ngModel)]="buffCard.authorFullName" class="form-control" placeholder="Enter your full name"/>
+    </div>
+    <div class="form-group">
+        <label>Theme </label>
+        <input type="text" [(ngModel)]="buffCard.themeName" class="form-control" placeholder="Take theme from list"/>
+    </div>
+    <div>
+        <button (click)="saveAdd()" class="btn btn-success"><i class="bi bi-bookmark-check"></i></button>
+        <button (click)="cancel()" class="btn btn-warning leftbutton"><i class="bi bi-bookmark-x"></i></button>
+    </div>
+</ng-template>
+
+
+<ng-template #updateCard>
+    <input type="text" [(ngModel)]="buffCard.title" class="form-control upd-article-inp"/>
+    <input type="text" [(ngModel)]="buffCard.body" class="form-control upd-article-inp"/>
+    <input type="text" [(ngModel)]="buffCard.authorFullName" class="form-control upd-article-inp"/>
+    <input type="text" [(ngModel)]="buffCard.themeName" class="form-control upd-article-inp"/>
+        <button (click)="saveUpdate()" class="btn btn-success"><i class="bi bi-bookmark-check"></i></button>
+        <button (click)="cancel()" class="btn btn-warning leftbutton"><i class="bi bi-bookmark-x"></i></button>
+</ng-template>

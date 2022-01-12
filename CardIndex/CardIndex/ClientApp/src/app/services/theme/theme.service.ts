@@ -11,7 +11,7 @@ export class ThemeService {
   private headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("AUTH_TOKEN")}`) 
   constructor(private Http: HttpClient) { }
 
-  getAll(): Observable<Theme[]>
+  getAllThemes(): Observable<Theme[]>
   {
     return this.Http.get<Theme[]>(this.base_theme_url, {headers: this.headers});
   }

@@ -16,9 +16,9 @@ namespace DAL
         {
         }
 
-        public virtual DbSet<Article> articles { get; set; }
-        public virtual DbSet<ArticleRate> articleRate { get; set; }
-        public virtual DbSet<Theme> theme { get; set; }
+        public virtual DbSet<Card> cards { get; set; }
+        public virtual DbSet<CardAssessment> cardAssessments { get; set; }
+        public virtual DbSet<Theme> themes { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

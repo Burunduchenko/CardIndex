@@ -55,14 +55,24 @@
   <div *ngIf = "takeAwayMode">
     <br>
     <div class="form-group">
-        <input type="text" [(ngModel)]="asignUserToRole.email" class="form-control" placeholder="user email"/>
+        <input type="email" id="email" [(ngModel)]="asignUserToRole.email" class="form-control" name="email" placeholder="user email"
+        #email="ngModel" required/>
+        <div *ngIf="email.invalid && (email.touched || email.dirty)" class="alert alert-danger">
+          <div *ngIf="email.touched && !email.dirty">
+              Email is required.
+          </div>
+      </div>
     </div>
     <div class="form-group">
-        <input type="text" [(ngModel)]="asignUserToRole.role" class="form-control" placeholder="role"/>
+      <select [(ngModel)]="asignUserToRole.role" class="form-control">
+        <option *ngFor="let x of _allRoles" [value]="x.name">{{x.name}}</option>
+      </select>
     </div> 
     <div>
+      <span *ngIf ="(email.valid && email.dirty)">
         <button (click)="saveTakeAway()" class="btn btn-success " ><i class="bi bi-bookmark-check"></i></button>
-        <button (click)="cancelTakeAway()" class="btn btn-warning leftbutton"><i class="bi bi-bookmark-x"></i></button>
+      </span>
+      <button (click)="cancelTakeAway()" class="btn btn-warning leftbutton"><i class="bi bi-bookmark-x"></i></button>
     </div>
   </div>
   <br>
@@ -71,14 +81,24 @@
   <br>
   <div *ngIf = "provideMode">
     <div class="form-group">
-        <input type="text" [(ngModel)]="asignUserToRole.email" class="form-control" placeholder="user email"/>
+        <input type="email" id="email" [(ngModel)]="asignUserToRole.email" class="form-control" name="email" placeholder="user email"
+        #email="ngModel" required />
+        <div *ngIf="email.invalid && (email.touched || email.dirty)" class="alert alert-danger">
+          <div *ngIf="email.touched && !email.dirty">
+              Email is required.
+          </div>
+      </div>
     </div>
     <div class="form-group">
-        <input type="text" [(ngModel)]="asignUserToRole.role" class="form-control" placeholder="role"/>
+      <select [(ngModel)]="asignUserToRole.role" class="form-control">
+        <option *ngFor="let x of _allRoles" [value]="x.name">{{x.name}}</option>
+      </select>
     </div> 
     <div>
+      <span *ngIf ="(email.valid && email.dirty)">
         <button (click)="saveProvide()" class="btn btn-success " ><i class="bi bi-bookmark-check"></i></button>
-        <button (click)="cancelProvide()" class="btn btn-warning leftbutton"><i class="bi bi-bookmark-x"></i></button>
+      </span>
+      <button (click)="cancelProvide()" class="btn btn-warning leftbutton"><i class="bi bi-bookmark-x"></i></button>
     </div>
   </div>
   <div *ngIf = "!addRoleMode else createRole">
@@ -98,11 +118,22 @@
 
 <ng-template #createRole>
   <div class="form-group">
-      <input type="text" [(ngModel)]="createdRole.name" class="form-control" placeholder="Name"/>
+      <input type="text" id="roleName" [(ngModel)]="createdRole.name" class="form-control" name="roleName" placeholder="Name"
+      #roleName="ngModel" required minlength="2" maxlength="20"/>
+      <div *ngIf="roleName.invalid && (roleName.touched || roleName.dirty)" class="alert alert-danger">
+        <div *ngIf="roleName.touched && !roleName.dirty">
+          Role name can't be empty.
+        </div>
+        <div *ngIf="!(roleName.length > 2)">
+          Role name must  be at least 2 characters long.
+        </div>
+      </div>
   </div>
   <div>
+    <span *ngIf ="(roleName.valid && roleName.dirty)">
       <button (click)="saveAddRole()" class="btn btn-success " ><i class="bi bi-bookmark-check"></i></button>
-      <button (click)="cancel()" class="btn btn-warning leftbutton"><i class="bi bi-bookmark-x"></i></button>
+    </span>
+    <button (click)="cancel()" class="btn btn-warning leftbutton"><i class="bi bi-bookmark-x"></i></button>
   </div>
 </ng-template>
 

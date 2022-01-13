@@ -17,19 +17,54 @@
 <div *ngIf = "addMode">
     <br>
     <div class="form-group">
-        <input type="number" [(ngModel)]="addAssessmentModel.rate" class="form-control" placeholder="Assessment"/>
+        <input type="number" id="rate" [(ngModel)]="addAssessmentModel.rate" class="form-control" name="rate" placeholder="Assessment"
+        #rate="ngModel" required/>
+        <div *ngIf="rate.invalid && (rate.touched || rate.dirty)" class="alert alert-danger">
+            <div *ngIf="rate.touched && !rate.dirty">
+                 The rate field is required.
+            </div>
+        </div>
     </div>
     <div class="form-group">
-        <input type="text" [(ngModel)]="addAssessmentModel.comment" class="form-control" placeholder="Your comment"/>
+        <input type="text" id="comment" [(ngModel)]="addAssessmentModel.comment" class="form-control" name="comment" placeholder="Your comment"
+        #comment="ngModel" required minlength="10" maxlength="100"/>
+        <div *ngIf="comment.invalid && (comment.touched || comment.dirty)" class="alert alert-danger">
+            <div *ngIf="comment.touched && !comment.dirty">
+                Comment is required.
+            </div>
+            <div *ngIf="!(comment.length > 10)">
+                Comment must be at least 10 characters long.
+            </div>
+            <div *ngIf="comment.length > 100">
+                Comment must be up to 100 characters long.
+            </div>
+        </div>
     </div>
     <div class="form-group">
-        <input type="text" [(ngModel)]="addAssessmentModel.cardTitle" class="form-control" placeholder="Card title"/>
+        <select [(ngModel)]="addAssessmentModel.cardTitle" class="form-control">
+            <option *ngFor="let x of _allCards" [value]="x.title">{{x.title}}</option>
+          </select>
     </div>
     <div class="form-group">
-        <input type="text" [(ngModel)]="addAssessmentModel.userLogin" class="form-control" placeholder="Your login"/>
+        <input type="text" id="userLogin" [(ngModel)]="addAssessmentModel.userLogin" class="form-control" name="userLogin" placeholder="Your login"
+        #userLogin="ngModel" required minlength="4" maxlength="20"/>
+        <div *ngIf="userLogin.invalid && (userLogin.touched || userLogin.dirty)" class="alert alert-danger">
+            <div *ngIf="userLogin.touched && !userLogin.dirty">
+                User login is required.
+            </div>
+            <div *ngIf="!(userLogin.length > 4)">
+                User login must be at least 4 characters long.
+            </div>
+            <div *ngIf="userLogin.length > 20">
+                User login  must be up to 20 characters long.
+            </div>
+        </div>
     </div>
     <div>
-        <button (click)="saveAssessmentAdd()" class="btn btn-success"><i class="bi bi-bookmark-check"></i></button>
+        <span *ngIf ="(rate.valid && rate.dirty) && (comment.valid && comment.dirty) 
+           && (userLogin.valid && userLogin.dirty)">
+            <button (click)="saveAssessmentAdd()" class="btn btn-success"><i class="bi bi-bookmark-check"></i></button>
+        </span>
         <button (click)="cancel()" class="btn btn-warning leftbutton"><i class="bi bi-bookmark-x"></i></button>
     </div>
 </div>

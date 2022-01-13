@@ -73,12 +73,23 @@
 
 
 <ng-template #createTheme>
-
     <div class="form-group">
-        <input type="text" [(ngModel)]="buffTheme.name" class="form-control" placeholder="Name"/>
-    </div>
+        <input type="text" id="name" [(ngModel)]="buffTheme.name" class="form-control" name="name" placeholder="Name"
+        #name="ngModel" required minlength="2" maxlength="20"/>
+        <div *ngIf="name.invalid && (name.touched || name.dirty)" class="alert alert-danger">
+            <div *ngIf="name.touched && !name.dirty">
+                 Theme should be named.
+            </div>
+            <div *ngIf="!(name.length > 2)">
+                Theme name must be at least 2 characters long.
+            </div>
+        </div>
+    </div>  
     <div>
-        <button (click)="saveThemeAdd()" class="btn btn-success " ><i class="bi bi-bookmark-check"></i></button>
+        <span *ngIf="name.valid && name.dirty">
+            <button (click)="saveThemeAdd()" class="btn btn-success " ><i class="bi bi-bookmark-check"></i></button>
+        </span>
+
         <button (click)="cancelTheme()" class="btn btn-warning leftbutton"><i class="bi bi-bookmark-x"></i></button>
     </div>
 </ng-template>
@@ -91,32 +102,104 @@
     <br>
     <div class="form-group">
         <label>Title</label>
-        <input type="text" [(ngModel)]="buffCard.title" class="form-control" placeholder="Title"/>
+        <input type="text" id="title" [(ngModel)]="buffCard.title" name= "title" class="form-control" placeholder="Title" 
+        #title="ngModel" required minlength="5" maxlength="70"/>
+        <div *ngIf="title.invalid && (title.touched || title.dirty)" class="alert alert-danger">
+            <div *ngIf="title.touched && !title.dirty">
+                 Title is required.
+            </div>
+            <div *ngIf="!(title.length > 5)">
+                The title must be at least 5 characters long.
+            </div>
+        </div>
     </div>
     <div class="form-group">
         <label>Body</label>
-        <input type="text" [(ngModel)]="buffCard.body" class="form-control" placeholder="Card"/>
+        <input type="text" id="body" [(ngModel)]="buffCard.body" name="body" class="form-control" placeholder="Card"  #body="ngModel"
+        required minlength="50" maxlength="5000"/>
+        <div *ngIf="body.invalid && (body.touched || body.dirty)" class="alert alert-danger">
+            <div *ngIf="body.touched && !body.dirty">
+                 Card can not be empty is.
+            </div>
+            <div *ngIf="!(body.length > 50)">
+                The Card must be at least 50 characters long.
+            </div>
+        </div>
     </div>
     <div class="form-group">
         <label>Author full name</label>
-        <input type="text" [(ngModel)]="buffCard.authorFullName" class="form-control" placeholder="Enter your full name"/>
+        <input type="text" id="fullName" [(ngModel)]="buffCard.authorFullName" name="fullName" class="form-control" placeholder="Enter your full name" 
+        #fullName="ngModel" required maxlength="100"/>
+        <div *ngIf="fullName.invalid && (fullName.touched || fullName.dirty)" class="alert alert-danger">
+            <div *ngIf="fullName.touched && !fullName.dirty">
+                 Author full name is required.
+            </div>
+        </div>
     </div>
     <div class="form-group">
         <label>Theme </label>
-        <input type="text" [(ngModel)]="buffCard.themeName" class="form-control" placeholder="Take theme from list"/>
+        <select [(ngModel)]="buffCard.themeName" class="form-control">
+            <option *ngFor="let x of _allThemes" [value]="x.name">{{x.name}}</option>
+          </select>
     </div>
-    <div>
-        <button (click)="saveAdd()" class="btn btn-success"><i class="bi bi-bookmark-check"></i></button>
+    <div >
+        <span *ngIf ="(title.valid && title.dirty) && (body.valid && body.dirty) 
+        && (fullName.valid && fullName.dirty)">
+            <button  (click)="saveAdd()" class="btn btn-success" formnovalidate><i class="bi bi-bookmark-check"></i></button>
+        </span>
+        
         <button (click)="cancel()" class="btn btn-warning leftbutton"><i class="bi bi-bookmark-x"></i></button>
     </div>
 </ng-template>
 
 
 <ng-template #updateCard>
-    <input type="text" [(ngModel)]="buffCard.title" class="form-control upd-article-inp"/>
-    <input type="text" [(ngModel)]="buffCard.body" class="form-control upd-article-inp"/>
-    <input type="text" [(ngModel)]="buffCard.authorFullName" class="form-control upd-article-inp"/>
-    <input type="text" [(ngModel)]="buffCard.themeName" class="form-control upd-article-inp"/>
+
+    <div class="form-group">
+        <input type="text" id="title" [(ngModel)]="buffCard.title" name= "title" class="form-control" placeholder="Title" 
+        #title="ngModel" required minlength="5" maxlength="70"/>
+        <div *ngIf="title.invalid && (title.touched || title.dirty)" class="alert alert-danger">
+            <div *ngIf="title.touched && !title.dirty">
+                 Title is required.
+            </div>
+            <div *ngIf="!(title.length > 5)">
+                The title must be at least 5 characters long.
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="text" id="body" [(ngModel)]="buffCard.body" name="body" class="form-control" placeholder="Card"  #body="ngModel"
+        required minlength="50" maxlength="5000"/>
+        <div *ngIf="body.invalid && (body.touched || body.dirty)" class="alert alert-danger">
+            <div *ngIf="body.touched && !body.dirty">
+                 Card can not be empty is.
+            </div>
+            <div *ngIf="!(body.length > 50)">
+                The Card must be at least 50 characters long.
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="text" id="fullName" [(ngModel)]="buffCard.authorFullName" name="fullName" class="form-control" placeholder="Enter your full name" 
+        #fullName="ngModel" required maxlength="100"/>
+        <div *ngIf="fullName.invalid && (fullName.touched || fullName.dirty)" class="alert alert-danger">
+            <div *ngIf="fullName.touched && !fullName.dirty">
+                 Author full name is required.
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="text" id="theme" [(ngModel)]="buffCard.themeName" class="form-control" placeholder="Take theme from list" name="theme"
+        #theme="ngModel" required minlength="2" maxlength="20"/>
+        <div *ngIf="theme.invalid && (theme.touched || theme.dirty)" class="alert alert-danger">
+            <div *ngIf="theme.touched && !theme.dirty">
+                 Theme name is required.
+            </div>
+            <div *ngIf="!(theme.length > 2)">
+                Theme name must be at least 2 characters long.
+            </div>
+        </div>
+    </div>
         <button (click)="saveUpdate()" class="btn btn-success"><i class="bi bi-bookmark-check"></i></button>
         <button (click)="cancel()" class="btn btn-warning leftbutton"><i class="bi bi-bookmark-x"></i></button>
 </ng-template>

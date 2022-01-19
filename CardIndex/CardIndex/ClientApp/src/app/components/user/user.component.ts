@@ -108,7 +108,7 @@ export class UserComponent implements OnInit {
       user.firstName,
       user.lastName,
       user.phoneNumber, 
-      user.email,
+      user.login,
       );
   }
 

@@ -25,11 +25,15 @@ export class LoginComponent implements OnInit {
 
   login()
   {
-    this._userSErvice.login(this.email, this.password).subscribe(token => this.token = token);
+    this._userSErvice.login(this.email, this.password).subscribe(token => {
+      this.token = token;
+      this.saveData();
+    });
+    
   }
-  Submit()
+
+  saveData()
   {
-    this.login();
     localStorage.setItem("AUTH_TOKEN", this.token);
     this.router.navigate(['']);
 
@@ -46,6 +50,4 @@ export class LoginComponent implements OnInit {
       window.location.reload();
     });
   }
-
-
 }

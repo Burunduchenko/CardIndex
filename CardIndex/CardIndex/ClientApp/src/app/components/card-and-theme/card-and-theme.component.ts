@@ -47,6 +47,16 @@ export class CardAndThemesComponent implements OnInit {
     this.is_author = this._userService.isInRole(['author']);
   }
 
+  cleanSerchBar()
+  {
+    this.searchTheme = null;
+    this.searchTitle = null;
+    this.lenght = null;
+    this.maxRate = null;
+    this.minRate = null;
+    this.getAllCards();
+  }
+
 
   getAllThemes()
   {

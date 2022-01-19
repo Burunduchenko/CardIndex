@@ -89,17 +89,17 @@ namespace CardIndex
         {
             public static void ServicesDI(IServiceCollection services)
             {
-                services.AddScoped<IRepository<Theme>, ThemeRepository>();
-                services.AddScoped<IRepository<Card>, CardRepository>();
-                services.AddScoped<IBaseRepository<CardAssessment>, CardAssessmentRepository>();
-            }
-
-            public static void RepositoryDI(IServiceCollection services)
-            {
                 services.AddScoped<ICardService, CardService>();
                 services.AddScoped<IBaseService<ThemeAddModel, ThemeVievModel>, ThemeService>();
                 services.AddScoped<IBaseService<CardAssessmentAddModel, CardAssementVievModel>, CardAssessmentService>();
                 services.AddScoped<IUserService, UserService>();
+            }
+
+            public static void RepositoryDI(IServiceCollection services)
+            {
+                services.AddScoped<IRepository<Theme>, ThemeRepository>();
+                services.AddScoped<IRepository<Card>, CardRepository>();
+                services.AddScoped<IBaseRepository<CardAssessment>, CardAssessmentRepository>();
             }
 
             public static void AdministrationDI(IServiceCollection services, IConfiguration Configuration)

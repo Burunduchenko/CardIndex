@@ -1,6 +1,6 @@
 export class UpdateUser{
     id: string;
-    email: string;
+    login: string;
     firstName: string;
     lastName: string;
     phoneNumber: string;
@@ -10,13 +10,13 @@ export class UpdateUser{
         firstName?: string,
         lastName?: string,
         phoneNumber?: string,
-        email?: string,
+        login?: string,
     )
     {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
-        this.email = email;
+        this.login = login;
     }
 }

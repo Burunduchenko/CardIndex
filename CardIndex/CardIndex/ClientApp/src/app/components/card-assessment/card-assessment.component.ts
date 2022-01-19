@@ -31,6 +31,7 @@ export class CardAssessmentComponent implements OnInit {
   }
 
 
+
   getAllAssessment()
   {
     return this._cardAssessmentService.getAllAssessment().subscribe(assessments => this._allAssessments = assessments);

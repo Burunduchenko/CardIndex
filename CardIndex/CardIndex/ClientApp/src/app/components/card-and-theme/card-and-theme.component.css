@@ -106,4 +106,9 @@ details > summary::-webkit-details-marker {
     font-size: 18px;
     line-height: 60px;
   }
+
+  .searchFieldSize{
+    width: 55.5%;
+    height: 30px;
+  }
   

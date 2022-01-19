@@ -34,9 +34,6 @@ namespace BLL.Services
             return rates.Average(); 
         }
 
-
-
-
         public CardService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
@@ -114,20 +111,6 @@ namespace BLL.Services
                 result.Add(articelVievModel);
             }
             return result;
-        }
-
-        public async Task<CardVievModel> GetByIdWithDetailsAsync(int id)
-        {
-            var dbArticle = await _unitOfWork.CardRepository.GetByIdWithDetaileAsync(id);
-            if (dbArticle == null)
-            {
-                throw new NotFoundException();
-            }
-            CardVievModel articelVievModel = _mapper.Map<CardVievModel>(dbArticle);
-            articelVievModel.ThemeName = await GetThemeNameAsync(dbArticle.ThemeId);
-            articelVievModel.AvgRate = await GetArticleAvgRateAsync(dbArticle.Id);
-
-            return articelVievModel;
         }
 
         public async Task<IEnumerable<CardVievModel>> GetByLengthAsync(int length)
@@ -231,11 +214,10 @@ namespace BLL.Services
             item.AuthorFullName.Trim();
             item.Title.Trim();
             item.Body.Trim();
-            item.ThemeName.Trim();
-            Char.ToUpper(item.ThemeName[0]);
-            Char.ToUpper(item.Body[0]);
-            Char.ToUpper(item.Title[0]);
-            Char.ToUpper(item.AuthorFullName[0]);
+
+            //Char.ToUpper(item.Body[0]);
+            //Char.ToUpper(item.Title[0]);
+            //Char.ToUpper(item.AuthorFullName[0]);
 
             var theme = _unitOfWork.ThemeRepository
               .GetAll()
@@ -251,6 +233,7 @@ namespace BLL.Services
 
             if (_unitOfWork.CardRepository
                 .GetAll()
+                .Where(x => x.Id==item.Id)
                 .Select(x => x.Id)
                 .FirstOrDefault() != item.Id
                 )

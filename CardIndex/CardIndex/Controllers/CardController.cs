@@ -37,31 +37,6 @@ namespace CardIndex.Controlers
             return Ok(await _cardService.GetAllWithDetailsAsync());
         }
 
-        [HttpGet("GetById")]
-        [Authorize(Roles = "admin")]
-        public async Task<IActionResult> GetByIdAsync([FromQuery] int id)
-        {
-            _logger.LogInformation("Was called GetByIdAsync method from Card Controller");
-            try
-            {
-                var articleModel = await _cardService.GetByIdWithDetailsAsync(id);
-                _logger.LogInformation("Method GetByIdAsync from Card Controller was SUCCESSFULL finished");
-                return Ok(articleModel);
-            }
-            catch (NotFoundException ex)
-            {
-                _logger.LogWarning("Method GetByIdAsync from Card Controller was FAILED: " +
-                " There is no article in database with entered id");
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Was throwed unexpected Exception from GetByIdAsync method, Card Controller: " +
-                    $"{ex.Message}");
-                return StatusCode(500);
-            }
-        }
-
         [HttpGet("getByTheme")]
         [Authorize]
         public async Task<IActionResult> GetByThemeAsync([FromQuery] string theme)

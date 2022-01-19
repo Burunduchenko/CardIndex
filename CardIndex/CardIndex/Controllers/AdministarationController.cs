@@ -204,30 +204,30 @@ namespace CardIndex.Controlers
             }
         }
 
-        [HttpGet("GetUser")]
-        [Authorize(Roles = "admin")]
-        public async Task<IActionResult> GetUserAsync([FromQuery]string email, [FromQuery]string password)
-        {
-            _logger.LogInformation("Was called GetUserAsync method from Administration Controller");
-            try
-            {
-                var res = await _userService.GetUserByEmailAndPasswordAsync(email, password);
-                _logger.LogInformation("Method GetUserAsync from Administration Controller was SUCCESSFULL finished");
-                return Ok(res);
-            }
-            catch (NotFoundException ex)
-            {
-                _logger.LogWarning("Method GetUserAsync from Administration Controller was FAILED: " +
-                " There is no user in database with entered data");
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Was throwed unexpected Exception from GetUserAsync method, Administration Controller: " +
-                    $"{ex.Message}");
-                return StatusCode(500);
-            }
-        }
+        //[HttpGet("GetUser")]
+        //[Authorize(Roles = "admin")]
+        //public async Task<IActionResult> GetUserAsync([FromQuery]string email, [FromQuery]string password)
+        //{
+        //    _logger.LogInformation("Was called GetUserAsync method from Administration Controller");
+        //    try
+        //    {
+        //        var res = await _userService.GetUserByEmailAndPasswordAsync(email, password);
+        //        _logger.LogInformation("Method GetUserAsync from Administration Controller was SUCCESSFULL finished");
+        //        return Ok(res);
+        //    }
+        //    catch (NotFoundException ex)
+        //    {
+        //        _logger.LogWarning("Method GetUserAsync from Administration Controller was FAILED: " +
+        //        " There is no user in database with entered data");
+        //        return NotFound(ex.Message);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError($"Was throwed unexpected Exception from GetUserAsync method, Administration Controller: " +
+        //            $"{ex.Message}");
+        //        return StatusCode(500);
+        //    }
+        //}
 
         [HttpGet("GetAllUsers")]
         [Authorize(Roles = "admin")]

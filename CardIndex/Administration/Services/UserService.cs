@@ -154,30 +154,30 @@ namespace Administration.Services
 
         }
 
-        public async Task<UserViev> GetUserByEmailAndPasswordAsync(string email, string password)
-        {
-            var user = _userManager.Users.SingleOrDefault(u => u.Email == email);
-            var validuser = await _userManager.CheckPasswordAsync(user, password);
+        //public async Task<UserViev> GetUserByEmailAndPasswordAsync(string email, string password)
+        //{
+        //    var user = _userManager.Users.SingleOrDefault(u => u.Email == email);
+        //    var validuser = await _userManager.CheckPasswordAsync(user, password);
 
-            if (!validuser)
-            {
-                throw new NotFoundException();
-            }
+        //    if (!validuser)
+        //    {
+        //        throw new NotFoundException();
+        //    }
 
-            UserViev userViev = new UserViev()
-            {
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                PhoneNumber = user.PhoneNumber,
-                Login = user.UserName,
-                Id = user.Id
-            };
+        //    UserViev userViev = new UserViev()
+        //    {
+        //        Email = user.Email,
+        //        FirstName = user.FirstName,
+        //        LastName = user.LastName,
+        //        PhoneNumber = user.PhoneNumber,
+        //        Login = user.UserName,
+        //        Id = user.Id
+        //    };
 
-            var roles = await _userManager.GetRolesAsync(user);
-            userViev.Roles = roles.ToList();
-            return userViev;
-        }
+        //    var roles = await _userManager.GetRolesAsync(user);
+        //    userViev.Roles = roles.ToList();
+        //    return userViev;
+        //}
 
         public async Task<IEnumerable<UserViev>> GetAllUsersAsync()
         {
@@ -212,7 +212,7 @@ namespace Administration.Services
             updateUser.FirstName = userApp.FirstName;
             updateUser.LastName = userApp.LastName;
             updateUser.PhoneNumber = userApp.PhoneNumber;
-            updateUser.Email = userApp.Email;
+            updateUser.UserName = userApp.Login;
             await _userManager.UpdateAsync(updateUser);
             
             return dbuser;

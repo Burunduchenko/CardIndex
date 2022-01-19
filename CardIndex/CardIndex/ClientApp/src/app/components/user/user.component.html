@@ -38,9 +38,9 @@
 <ng-template #UpdateUser>
         <td><input type="text" [(ngModel)]="update_User.firstName" class="form-control" /></td>
         <td><input type="text" [(ngModel)]="update_User.lastName" class="form-control" /></td>
+        <td><input type="text" [(ngModel)]="update_User.login" class="form-control" /></td>
         <td></td>
         <td><input type="text" [(ngModel)]="update_User.phoneNumber" class="form-control" /></td>
-        <td><input type="text" [(ngModel)]="update_User.email" class="form-control" /></td>
         <td></td>
         <td>
             <button (click)="saveUpdate()" class="btn btn-success"><i class="bi bi-bookmark-check"></i></button>

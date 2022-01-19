@@ -14,7 +14,7 @@ namespace Administration.Interfaces
     {
         Task RegisterAsync(RegisterModel user);
         Task<IdentityResult> DeleteUserByIdAsync(string id);
-        Task<UserViev> GetUserByEmailAndPasswordAsync(string email, string password);
+        //Task<UserViev> GetUserByEmailAndPasswordAsync(string email, string password);
         Task<IEnumerable<UserViev>> GetAllUsersAsync();
         Task<User> UpdateUserAsync(UpdateUser userApp);
         Task<string> LogonAsync(LogonModel logon);

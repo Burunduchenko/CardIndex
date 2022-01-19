@@ -1,6 +1,7 @@
 
 
 <!-- Right Sidebar with the list of all themes-->
+<div *ngIf = "!addMode">
 <ul class="sidebar-nav">
     <div *ngIf = "!addThemeMode else createTheme">  
         <a>
@@ -16,6 +17,7 @@
         </div>
     </div>
 </ul>
+</div>
 
  <div *ngIf = "!addMode else createCard">
     <!--Left navbar for serching articles-->
@@ -26,11 +28,15 @@
             </div>
         </a>
         <div>
-            <input class="form-group" [(ngModel)] = "searchTheme" type="text" placeholder="Theme">
+            <select [(ngModel)]="searchTheme" class="form-group searchFieldSize">
+                <option *ngFor="let x of _allThemes" [value]="x.name">{{x.name}}</option>
+              </select>
             <button class = "btn btn-outline-light leftbutton btn-size" (click) = "searchByTheme()"><i class="bi bi-search"></i> by theme</button>
         </div>
         <div>
-            <input class="form-group" [(ngModel)] = "searchTitle" type="text" placeholder="Title">
+            <select [(ngModel)]="searchTitle" class="form-group searchFieldSize">
+                <option *ngFor="let x of _allCards" [value]="x.title">{{x.title}}</option>
+            </select>
             <button class = "btn btn-outline-light leftbutton btn-size" (click) = "searchByTitle()"><i class="bi bi-search"></i> by title</button>
         </div>
         <div>
@@ -41,6 +47,9 @@
             <input class = "number" [(ngModel)] = "minRate" type="number" placeholder="min rate">
             <input class = "number"  [(ngModel)] = "maxRate" type="number" placeholder="max rate">
             <button class = "btn btn-outline-light leftbutton btn-size" (click) = "searchByRate()"><i class="bi bi-search"></i> by rate</button>
+        </div>
+        <div>
+            <button class = "btn btn-outline-light leftbutton btn-size" (click) = "cleanSerchBar()">Clean</button>
         </div>
     </div>
 
@@ -179,7 +188,7 @@
             </div>
         </div>
     </div>
-    <div class="form-group">
+   <!--  <div class="form-group">
         <input type="text" id="fullName" [(ngModel)]="buffCard.authorFullName" name="fullName" class="form-control" placeholder="Enter your full name" 
         #fullName="ngModel" required maxlength="100"/>
         <div *ngIf="fullName.invalid && (fullName.touched || fullName.dirty)" class="alert alert-danger">
@@ -187,18 +196,11 @@
                  Author full name is required.
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="form-group">
-        <input type="text" id="theme" [(ngModel)]="buffCard.themeName" class="form-control" placeholder="Take theme from list" name="theme"
-        #theme="ngModel" required minlength="2" maxlength="20"/>
-        <div *ngIf="theme.invalid && (theme.touched || theme.dirty)" class="alert alert-danger">
-            <div *ngIf="theme.touched && !theme.dirty">
-                 Theme name is required.
-            </div>
-            <div *ngIf="!(theme.length > 2)">
-                Theme name must be at least 2 characters long.
-            </div>
-        </div>
+        <select [(ngModel)]="buffCard.themeName" class="form-control">
+            <option *ngFor="let x of _allThemes" [value]="x.name">{{x.name}}</option>
+          </select>
     </div>
         <button (click)="saveUpdate()" class="btn btn-success"><i class="bi bi-bookmark-check"></i></button>
         <button (click)="cancel()" class="btn btn-warning leftbutton"><i class="bi bi-bookmark-x"></i></button>
